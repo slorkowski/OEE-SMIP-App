@@ -1,0 +1,10 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+    },
+    // Enable ESlint flat config support
+    "eslint.experimental.useFlatConfig": true,
+    "eslint.workingDirectories": [
+        "frontend"
+    ]
+}
