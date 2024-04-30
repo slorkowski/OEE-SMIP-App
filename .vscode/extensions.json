@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "editorconfig.editorconfig",
+        "dbaeumer.vscode-eslint",
+        "sleistner.vscode-fileutils",
+        "vue.volar",
+        "vivaxy.vscode-conventional-commits"
+    ]
+}
