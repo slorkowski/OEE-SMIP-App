@@ -1,4 +1,14 @@
 {
+    "conventionalCommits.scopes": [
+        "frontend",
+        "vscode",
+        "devops",
+        "docker",
+        "graphql"
+    ],
+    "conventionalCommits.gitmoji": false,
+    "conventionalCommits.promptFooter": false,
+    "conventionalCommits.promptCI": false,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
     },

@@ -3,6 +3,7 @@
         "editorconfig.editorconfig",
         "dbaeumer.vscode-eslint",
         "sleistner.vscode-fileutils",
-        "vue.volar"
+        "vue.volar",
+        "vivaxy.vscode-conventional-commits"
     ]
 }
