@@ -1,0 +1,51 @@
+fragment BaseEquipmentType on EquipmentType {
+    id, displayName
+}
+
+fragment EquipmentTypeWithEquipmentIds on EquipmentType {
+    ...BaseEquipmentType
+    equipments {
+        id
+        partOfId
+    }
+}
+
+
+
+query GetOEEEquipmentTypes {
+    equipmentTypes(filter: {
+        fqn: {
+            contains: ["oee_interface"]
+        }
+    }) {
+        ...BaseEquipmentType
+    }
+}
+
+query GetOEEEquipmentTypesWithEquipmentIds {
+    equipmentTypes(filter: {
+        fqn: {
+            contains: ["oee_interface"]
+        }
+    }) {
+        ...EquipmentTypeWithEquipmentIds
+    }
+}
+
+
+
+fragment EquipmentWithOEE on Equipment {
+    id
+    displayName
+    description
+    childEquipment(filter: { typeName: { includesInsensitive: "oee" } }) {
+        id
+        displayName
+        relativeName
+    }
+}
+query GetEquipments($filter: EquipmentFilter) {
+    equipments(filter: $filter) {
+        ...EquipmentWithOEE
+    }
+}
