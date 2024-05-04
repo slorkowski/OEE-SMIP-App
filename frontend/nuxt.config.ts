@@ -15,7 +15,20 @@ export default defineNuxtConfig({
             });
         },
         "@nuxt/eslint",
+        "@nuxtjs/apollo",
     ],
+    apollo: {
+        autoImports: true,
+        clients: {
+            default: {
+                httpEndpoint: "https://east.cesmii.net/graphql",
+                authHeader: "Authorization",
+                authType: "Bearer",
+                tokenStorage: "cookie",
+                tokenName: "graphql-token",
+            },
+        },
+    },
     eslint: {
         config: {
             stylistic: true,

@@ -9,16 +9,24 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "codegen": "graphql-codegen"
   },
   "dependencies": {
+    "@apollo/client": "^3.10.2",
     "@mdi/font": "^7.4.47",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
     "nuxt": "^3.11.2",
+    "remeda": "^1.61.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typed-document-node": "^5.0.6",
     "@nuxt/eslint": "^0.3.10",
+    "@nuxtjs/apollo": "^5.0.0-alpha.14",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "eslint": "^9.1.1",
     "eslint-plugin-import": "^2.29.1",
