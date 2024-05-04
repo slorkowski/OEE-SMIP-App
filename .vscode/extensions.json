@@ -4,6 +4,7 @@
         "dbaeumer.vscode-eslint",
         "sleistner.vscode-fileutils",
         "vue.volar",
-        "vivaxy.vscode-conventional-commits"
+        "vivaxy.vscode-conventional-commits",
+        "graphql.vscode-graphql"
     ]
 }
