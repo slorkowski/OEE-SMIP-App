@@ -77,6 +77,11 @@ export default createConfigForNuxt()
                 "@stylistic/no-multi-spaces": [ "off" ],
             },
         },
+        {
+            ignores: [
+                "generated/graphql",
+            ],
+        },
     ])
     .override("nuxt/typescript/rules", tsConfig)
     .override("nuxt/vue/rules", vueConfig)
