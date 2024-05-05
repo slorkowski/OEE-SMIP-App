@@ -10,7 +10,8 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "check": "tsc -p . --pretty"
   },
   "dependencies": {
     "@apollo/client": "^3.10.2",
@@ -30,6 +31,7 @@
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "eslint": "^9.1.1",
     "eslint-plugin-import": "^2.29.1",
+    "typescript": "^5.4.5",
     "vite-plugin-vuetify": "^2.0.3",
     "vuetify": "^3.5.17"
   }
