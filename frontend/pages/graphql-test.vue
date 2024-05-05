@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeMount } from "vue";
 
-import { useEquipmentWithOEE } from "~/lib/graphql/equipment";
+import { useEquipmentWithOEE } from "~/lib/equipment";
 
 
 
