@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { loginWithAuthenticator } from "~/lib/auth";
+
+
+
 const authenticator = ref<string>();
 const role = ref<string>();
 const username = ref<string>();
@@ -6,6 +10,7 @@ const password = ref<string>();
 
 const formValid = ref<boolean>();
 const loading = ref(false);
+const errorMsg = ref<string>();
 
 
 
@@ -13,19 +18,29 @@ function required(value: string): string | boolean {
   return !!value || "This field is required";
 }
 
-function onSubmit() {
+async function onSubmit() {
   if(!formValid.value) {
     return;
   }
 
-  // TODO: set `loading` while login is processing, then redirect to home page
-
-  console.log({
-    authenticator,
-    role,
-    username,
-    password,
-  });
+  errorMsg.value = undefined;
+  loading.value = true;
+  try {
+    await loginWithAuthenticator({
+      authenticator: authenticator.value!,
+      role: role.value!,
+      username: username.value!,
+      password: password.value!,
+    });
+    navigateTo("/");
+  } catch(err) {
+    console.error(err);
+    errorMsg.value = err instanceof Error
+      ? err.message
+      : "An error occurred logging in. Please check your credentials and try again.";
+  } finally {
+    loading.value = false;
+  }
 }
 </script>
 <template>
@@ -55,6 +70,12 @@ function onSubmit() {
               label="Password"
               type="password"
               :rules="[required]"
+            />
+            <v-alert
+              v-if="errorMsg"
+              type="error"
+              :title="errorMsg"
+              closable
             />
           </v-card-text>
           <v-card-actions>
