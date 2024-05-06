@@ -9,6 +9,25 @@ export interface EquipmentWithOEEHook {
   data: EquipmentWithOeeFragment[] | null | undefined;
 }
 
+/*
+ * Two possible structures for OEE equipment to descend from an "actual" piece of equipment:
+ *
+ * 1) Currently supported.
+ *    - Physical Equipment
+ *      - OEE Summary (type OEE Summary)
+ *      - OEE Availability (type OEE Availability)
+ *      - OEE Performance (type OEE Performance)
+ *      - OEE Quality (type OEE Quality)
+ *
+ * 2) TODO: support this structure.
+ *    - Physical Equipment (type OEE Summary)
+ *      - OEE Availability (type OEE Availability)
+ *      - OEE Performance (type OEE Performance)
+ *      - OEE Quality (type OEE Quality)
+ *
+ * Can differentiate based on `type` and presence of children.
+ */
+
 export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
   const { result: typeRes } = useQuery(
     GetOeeEquipmentTypesWithEquipmentIdsDocument,
