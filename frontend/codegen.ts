@@ -16,6 +16,7 @@ const config: CodegenConfig = {
         "typed-document-node",
       ],
       config: {
+        useTypeImports: true,
         strictScalars: true,
         scalars: {
           BigInt: "string",
