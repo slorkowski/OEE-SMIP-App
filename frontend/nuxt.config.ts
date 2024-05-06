@@ -27,6 +27,9 @@ export default defineNuxtConfig({
         tokenStorage: "cookie",
         tokenName: "graphql-token",
       },
+      noauth: {
+        httpEndpoint: "https://east.cesmii.net/graphql",
+      },
     },
   },
   eslint: {
