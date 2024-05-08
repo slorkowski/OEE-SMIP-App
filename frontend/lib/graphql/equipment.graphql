@@ -34,18 +34,90 @@ query GetOEEEquipmentTypesWithEquipmentIds {
 
 
 
-fragment EquipmentWithOEE on Equipment {
+fragment IntervalValue on Interval {
+  years months days hours minutes seconds
+}
+fragment EquipmentOverview on Equipment {
+  id
+  displayName
+  description
+
+  attributes {
     id
     displayName
-    description
+    fqn
+    updatedTimestamp
+    attributeType { dataType }
+
+    # Values
+    # Requesting all, but will only use the one specified by `typeName`
+    intValue
+    boolValue
+    floatValue
+    stringValue
+    objectValue
+    datetimeValue
+    enumerationValue
+    enumerationValues
+    minValue
+    maxValue
+    geopointValue
+    intervalValue { ...IntervalValue }
+  }
+
+  type {
+    id
+    displayName
+    fqn
+  }
+}
+fragment EquipmentWithOEE on Equipment {
+    ...EquipmentOverview
     childEquipment(filter: { typeName: { includesInsensitive: "oee" } }) {
-        id
-        displayName
-        relativeName
+        ...EquipmentOverview
     }
 }
 query GetEquipments($filter: EquipmentFilter) {
     equipments(filter: $filter) {
         ...EquipmentWithOEE
     }
+}
+
+
+
+fragment TimeSeriesValue on AttributesGetTimeSeriesRecord {
+  id
+  ts
+  status
+
+  intvalue
+  boolvalue
+  floatvalue
+  stringvalue
+  datetimevalue
+  objectvalue
+  intervalvalue { ...IntervalValue }
+}
+
+query GetAttributeTimeSeries(
+  $attributeId: BigInt!,
+  $startTime: Datetime,
+  $endTime: Datetime,
+) {
+  attribute(id: $attributeId) {
+    getTimeSeries(startTime: $startTime, endTime: $endTime) {
+      ...TimeSeriesValue
+    }
+  }
+}
+query GetAttributesTimeSeries(
+  $filter: AttributeFilter!,
+  $startTime: Datetime,
+  $endTime: Datetime,
+) {
+  attributes(filter: $filter) {
+    getTimeSeries(startTime: $startTime, endTime: $endTime) {
+      ...TimeSeriesValue
+    }
+  }
 }
