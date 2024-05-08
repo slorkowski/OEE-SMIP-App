@@ -34,14 +34,44 @@ query GetOEEEquipmentTypesWithEquipmentIds {
 
 
 
-fragment EquipmentWithOEE on Equipment {
+fragment EquipmentOverview on Equipment {
+  id
+  displayName
+  description
+
+  attributes {
     id
     displayName
-    description
+    fqn
+    updatedTimestamp
+    attributeType { dataType }
+
+    # Values
+    # Requesting all, but will only use the one specified by `typeName`
+    intValue
+    boolValue
+    floatValue
+    stringValue
+    objectValue
+    datetimeValue
+    enumerationValue
+    enumerationValues
+    minValue
+    maxValue
+    geopointValue
+    intervalValue { years months days hours minutes seconds }
+  }
+
+  type {
+    id
+    displayName
+    fqn
+  }
+}
+fragment EquipmentWithOEE on Equipment {
+    ...EquipmentOverview
     childEquipment(filter: { typeName: { includesInsensitive: "oee" } }) {
-        id
-        displayName
-        relativeName
+        ...EquipmentOverview
     }
 }
 query GetEquipments($filter: EquipmentFilter) {
