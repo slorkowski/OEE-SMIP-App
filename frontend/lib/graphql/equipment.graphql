@@ -34,6 +34,9 @@ query GetOEEEquipmentTypesWithEquipmentIds {
 
 
 
+fragment IntervalValue on Interval {
+  years months days hours minutes seconds
+}
 fragment EquipmentOverview on Equipment {
   id
   displayName
@@ -59,7 +62,7 @@ fragment EquipmentOverview on Equipment {
     minValue
     maxValue
     geopointValue
-    intervalValue { years months days hours minutes seconds }
+    intervalValue { ...IntervalValue }
   }
 
   type {
@@ -78,4 +81,43 @@ query GetEquipments($filter: EquipmentFilter) {
     equipments(filter: $filter) {
         ...EquipmentWithOEE
     }
+}
+
+
+
+fragment TimeSeriesValue on AttributesGetTimeSeriesRecord {
+  id
+  ts
+  status
+
+  intvalue
+  boolvalue
+  floatvalue
+  stringvalue
+  datetimevalue
+  objectvalue
+  intervalvalue { ...IntervalValue }
+}
+
+query GetAttributeTimeSeries(
+  $attributeId: BigInt!,
+  $startTime: Datetime,
+  $endTime: Datetime,
+) {
+  attribute(id: $attributeId) {
+    getTimeSeries(startTime: $startTime, endTime: $endTime) {
+      ...TimeSeriesValue
+    }
+  }
+}
+query GetAttributesTimeSeries(
+  $filter: AttributeFilter!,
+  $startTime: Datetime,
+  $endTime: Datetime,
+) {
+  attributes(filter: $filter) {
+    getTimeSeries(startTime: $startTime, endTime: $endTime) {
+      ...TimeSeriesValue
+    }
+  }
 }
