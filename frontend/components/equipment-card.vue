@@ -1,27 +1,27 @@
 <template>
   <v-card border="md" @click="console.log()">
-    <v-row class="ma-0">
-      <v-col cols="7" class="pa-0 border-e-md">
-        <v-card-title class="text-h6 text-center">
+    <v-row class="ma-0 fill-height">
+      <v-col cols="7" class="border-e-md d-flex flex-column justify-space-between align-center">
+        <h2 class="text-h6 text-center">
           {{ equipment.name }}
-        </v-card-title>
-        <v-card-text class="d-flex flex-row">
-          <v-progress-circular :model-value="equipment.oee" size="150" width="20" :color="getColorState(equipment.oee, equipment.isPaused)" class="mx-auto text-h6">
-            {{equipment.oee}}%
-          </v-progress-circular>
-        </v-card-text>
+        </h2>
+        <v-progress-circular :model-value="equipment.oee" size="150" width="20" :color="getColorState(equipment.oee, equipment.isPaused)" class="text-h6">
+          {{equipment.oee}}%
+        </v-progress-circular>
       </v-col>
-
-
 
       <v-col cols="5" class="pa-0">
         <div class="fill-height justify-space-around d-flex flex-column px-2">
-          <div v-for="metric in metrics" :key="metric.label" class="text-center">
-            <h3>{{metric.label}}</h3>
-            <v-progress-circular :model-value="metric.value" size="75" width="10" :color="getColorState(metric.value, false)">
-              {{equipment.oee}}%
-            </v-progress-circular>
-          </div>
+          <v-card
+            v-for="metric in metrics"
+            :key="metric.label"
+            class="border-b-md pa-0" :style="{background: progressGradient(getColorState(equipment.quality, equipment.isPaused), equipment.performance)}"
+          >
+            <v-card-title class="text-subtitle-1 d-flex justify-space-between" >
+              <span class="mr-4">{{ metric.label }}</span>
+              <span>{{metric.value}}%</span>
+            </v-card-title>
+          </v-card>
         </div>
       </v-col>
     </v-row>
