@@ -17,14 +17,14 @@
       <v-col cols="5" class="pa-0">
         <v-card-text class="fill-height justify-space-between d-flex flex-column px-0">
           <v-card
-            class="border-b-md pa-0" :style="{background: progressGradient(getColorState(equipment.quality, equipment.isPaused), equipment.availability)}">
+            class="border-b-md pa-0" :style="{background: progressGradient(getColorState(equipment.quality, equipment.isPaused), equipment.performance)}">
             <v-card-title class="text-subtitle-1 d-flex flex-row" >
               Quality
               <v-spacer/>
               {{equipment.quality}}%
             </v-card-title>
           </v-card>
-          <v-card flat class="pa-0" :style="{background: progressGradient(getColorState(equipment.performance, equipment.isPaused), equipment.availability)}">
+          <v-card flat class="pa-0" :style="{background: progressGradient(getColorState(equipment.performance, equipment.isPaused), equipment.performance)}">
             <v-card-title class="text-subtitle-1 d-flex flex-row">
               Performance
               <v-spacer/>
@@ -69,6 +69,11 @@ interface Props {
 const { equipment } = defineProps<Props>();
 
 function progressGradient(colorState: ColorState, percentage: number): string {
+  const _enabled: boolean = true;
+  if(_enabled === false) {
+    return "";
+  };
+
   return `linear-gradient(90deg, hsl(${hslToString(hexToHSL(theme.current.value.colors[colorState]))}) 0%, hsl(${hslToString(hexToHSL(theme.current.value.colors[colorState]))}) ${percentage}%, hsl(${hslToString(hexToHSL(theme.current.value.colors["surface"]))}) ${percentage}%)`;
 };
 
