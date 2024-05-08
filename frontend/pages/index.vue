@@ -12,12 +12,12 @@
         </v-toolbar-items>
       </v-toolbar>
 
-      <v-col cols="12" class="px-6">
-        <v-row>
-          <v-col v-for="equipment in equipments" :key="equipment.id" cols="4">
-            <EquipmentCard :equipment="equipment" />
-          </v-col>
-        </v-row>
+      <v-col cols="12" class="dashboard-grid">
+        <EquipmentCard
+          v-for="equipment in equipments"
+          :key="equipment.id"
+          :equipment="equipment"
+        />
       </v-col>
     </v-row>
 
@@ -130,3 +130,11 @@ const equipments: MockEquipment[] = [
 
 // const themeColors: CarbonyTheme = ref(genThemeColor("#161b22"));
 </script>
+
+<style>
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+</style>
