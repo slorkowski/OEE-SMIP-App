@@ -15,31 +15,14 @@
 
 
       <v-col cols="5" class="pa-0">
-        <v-card-text class="fill-height justify-space-between d-flex flex-column px-0">
-          <v-card
-            class="border-b-md pa-0" :style="{background: progressGradient(getColorState(equipment.quality, equipment.isPaused), equipment.performance)}">
-            <v-card-title class="text-subtitle-1 d-flex flex-row" >
-              Quality
-              <v-spacer/>
-              {{equipment.quality}}%
-            </v-card-title>
-          </v-card>
-          <v-card flat class="pa-0" :style="{background: progressGradient(getColorState(equipment.performance, equipment.isPaused), equipment.performance)}">
-            <v-card-title class="text-subtitle-1 d-flex flex-row">
-              Performance
-              <v-spacer/>
-              {{equipment.performance}}%
-            </v-card-title>
-          </v-card>
-          <v-card
-            flat class="border-t-md pa-0" :style="{background: progressGradient(getColorState(equipment.availability, equipment.isPaused), equipment.availability)}">
-            <v-card-title class="text-subtitle-1 d-flex flex-row">
-              Quality
-              <v-spacer/>
-              {{equipment.availability}}%
-            </v-card-title>
-          </v-card>
-        </v-card-text>
+        <div class="fill-height justify-space-around d-flex flex-column px-2">
+          <div v-for="metric in metrics" :key="metric.label" class="text-center">
+            <h3>{{metric.label}}</h3>
+            <v-progress-circular :model-value="metric.value" size="75" width="10" :color="getColorState(metric.value, false)">
+              {{equipment.oee}}%
+            </v-progress-circular>
+          </div>
+        </div>
       </v-col>
     </v-row>
   </v-card>
@@ -67,6 +50,11 @@ interface Props {
 }
 
 const { equipment } = defineProps<Props>();
+const metrics = computed(() => [
+  { label: "Availabilty", value: equipment.availability },
+  { label: "Performance", value: equipment.performance },
+  { label: "Quality", value: equipment.quality },
+]);
 
 function progressGradient(colorState: ColorState, percentage: number): string {
   const _enabled: boolean = true;
