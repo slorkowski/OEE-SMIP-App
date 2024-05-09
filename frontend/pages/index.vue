@@ -13,9 +13,11 @@
 </template>
 
 <script setup lang="ts">
+import { range } from "remeda";
+
 import type { MockEquipment } from "~/components/equipment-card.vue";
 
-// import type { EquipmentOverviewFragment } from "~/generated/graphql/operations";
+
 
 function createMockEquipment(id: number, color: ColorState): MockEquipment {
   const equipment: MockEquipment = {
@@ -56,21 +58,21 @@ function createMockData(success: number, warn: number, error: number): MockEquip
 
   const indexBounds = { min: 1, max: success + 1 };
 
-  _range(indexBounds.min, indexBounds.max).forEach((i) => {
+  range(indexBounds.min, indexBounds.max).forEach((i) => {
     mockData.push(createMockEquipment(i, "success"));
   });
 
   indexBounds.min = indexBounds.min + success;
   indexBounds.max = indexBounds.max + warn;
 
-  _range(indexBounds.min, indexBounds.max).forEach((i) => {
+  range(indexBounds.min, indexBounds.max).forEach((i) => {
     mockData.push(createMockEquipment(i, "warn"));
   });
 
   indexBounds.min = indexBounds.min + warn;
   indexBounds.max = indexBounds.max + error;
 
-  _range(indexBounds.min, indexBounds.max).forEach((i) => {
+  range(indexBounds.min, indexBounds.max).forEach((i) => {
     mockData.push(createMockEquipment(i, "error"));
   });
 

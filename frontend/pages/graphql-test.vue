@@ -3,12 +3,15 @@ import { useEquipmentWithOEE } from "~/lib/equipment";
 
 
 
+definePageMeta({
+  title: "Graph QL Test Page",
+});
+
 const eqRef = useEquipmentWithOEE();
 </script>
 
 <template>
   <section class="ma-4">
-    <h1>GraphQL Test Page</h1>
     <p>
       In order for this page to work, you'll have to <a href="/login">login</a>.
     </p>

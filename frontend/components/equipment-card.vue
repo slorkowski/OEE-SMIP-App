@@ -1,5 +1,5 @@
 <template>
-  <v-card border="md" class="d-flex flex-row" @click="console.log()">
+  <v-card border="md" class="d-flex flex-row">
     <v-card-text class="border-e-md d-flex flex-column justify-space-between align-center">
       <h2 class="text-h6 text-center">
         {{ equipment.name }}
@@ -24,7 +24,7 @@
         :key="metric.label"
         class="pa-0 d-flex flex-column justify-center"
         :class="metricIndex +1 === metrics.length ? '' : 'border-b-md'"
-        height="33%"
+        height="33.33%"
         flat
         tile
       >

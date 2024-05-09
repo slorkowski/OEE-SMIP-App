@@ -3,6 +3,10 @@ import { loginWithAuthenticator } from "~/lib/auth";
 
 
 
+definePageMeta({
+  title: "Login",
+});
+
 const authenticator = ref<string>();
 const role = ref<string>();
 const username = ref<string>();
@@ -48,7 +52,6 @@ async function onSubmit() {
     <v-col cols="12" sm="8" lg="6">
       <v-form v-model="formValid" @submit.prevent="onSubmit">
         <v-card :loading="loading">
-          <v-card-title>Login</v-card-title>
           <v-card-text>
             <v-text-field
               v-model="authenticator"
