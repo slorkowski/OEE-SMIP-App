@@ -48,49 +48,51 @@ async function onSubmit() {
 }
 </script>
 <template>
-  <v-row justify="center">
-    <v-col cols="12" sm="8" lg="6">
-      <v-form v-model="formValid" @submit.prevent="onSubmit">
-        <v-card :loading="loading">
-          <v-card-text>
-            <v-text-field
-              v-model="authenticator"
-              label="Authenticator"
-              :rules="[required]"
-            />
-            <!--
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12" sm="8" lg="6">
+        <v-form v-model="formValid" @submit.prevent="onSubmit">
+          <v-card :loading="loading">
+            <v-card-text>
+              <v-text-field
+                v-model="authenticator"
+                label="Authenticator"
+                :rules="[required]"
+              />
+              <!--
               This _could_ be a dropdown with specific roles, but GraphQL doesn't expose these roles.
               The roles are ostensibly "constructable" using the instance's ThinkIQ domain name,
               but we'll just have the user manually type it in here.
             -->
-            <v-text-field
-              v-model="role"
-              label="Role"
-              :rules="[required]"
-            />
-            <v-text-field
-              v-model="username"
-              label="Username"
-              :rules="[required]"
-            />
-            <v-text-field
-              v-model="password"
-              label="Password"
-              type="password"
-              :rules="[required]"
-            />
-            <v-alert
-              v-if="errorMsg"
-              type="error"
-              :title="errorMsg"
-              closable
-            />
-          </v-card-text>
-          <v-card-actions>
-            <v-btn type="submit" block :loading="loading">Submit</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-form>
-    </v-col>
-  </v-row>
+              <v-text-field
+                v-model="role"
+                label="Role"
+                :rules="[required]"
+              />
+              <v-text-field
+                v-model="username"
+                label="Username"
+                :rules="[required]"
+              />
+              <v-text-field
+                v-model="password"
+                label="Password"
+                type="password"
+                :rules="[required]"
+              />
+              <v-alert
+                v-if="errorMsg"
+                type="error"
+                :title="errorMsg"
+                closable
+              />
+            </v-card-text>
+            <v-card-actions>
+              <v-btn type="submit" block :loading="loading">Submit</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
