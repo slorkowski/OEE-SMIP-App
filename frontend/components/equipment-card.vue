@@ -23,7 +23,7 @@
         :key="metric.label"
         class="pa-0 d-flex flex-column justify-center"
         :class="metricIndex +1 === metrics.length ? '' : 'border-b-md'"
-        height="33.33%"
+        height="calc(100% / 3)"
         flat
         tile
       >
