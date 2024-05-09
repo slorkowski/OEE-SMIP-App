@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     },
     "@nuxt/eslint",
     "@nuxtjs/apollo",
+    "nuxt-lodash",
   ],
   apollo: {
     autoImports: true,
@@ -43,5 +44,16 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+  },
+  lodash: {
+    prefix: "_",
+    prefixSkip: [ "string" ],
+    upperAfterPrefix: false,
+    exclude: [ "map" ],
+    alias: [
+      [ "camelCase", "stringToCamelCase" ], // => stringToCamelCase
+      [ "kebabCase", "stringToKebab" ], // => stringToKebab
+      [ "isDate", "isLodashDate" ], // => _isLodashDate
+    ],
   },
 });

@@ -5,27 +5,7 @@ import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import { VBtn, VCard } from "vuetify/components";
 
-// import { genThemeColor } from "#imports";
-// const themeColors: CarbonyTheme = genThemeColor("#161b22");
 
-// const purpley = {
-//   background: "#1c1a27",
-//   surface: "#312f3f",
-//   success: "#4ba346",
-//   info: "#5871f5",
-//   warn: "#d8872b",
-//   error: "#d14053",
-// };
-
-// const githubyDark = {
-//   background: "#010409",
-//   surface: "#0d1117",
-//   primary: "#161b22",
-//   success: "#4ba346",
-//   info: "#5871f5",
-//   warn: "#d8872b",
-//   error: "#d14053",
-// };
 
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
@@ -57,9 +37,11 @@ export default defineNuxtPlugin((app) => {
       VToolbar: {
         color: "surface",
       },
+      VCardTitle: {
+        style: [ "text-wrap: wrap;" ],
+      },
       VCardActions: {
         class: [ "justify-end" ],
-        VBtn: { variant: "elevated" },
       },
     },
   });

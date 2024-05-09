@@ -1,17 +1,6 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row>
-      <v-col cols="12">
-        <h1 class="text-h4 ml-4"> Dashboard </h1>
-      </v-col>
-
-
-      <v-toolbar>
-        <v-toolbar-items class="pl-8 align-center">
-          <v-chip/>
-        </v-toolbar-items>
-      </v-toolbar>
-
       <v-col cols="12" class="dashboard-grid">
         <EquipmentCard
           v-for="equipment in equipments"
@@ -20,8 +9,6 @@
         />
       </v-col>
     </v-row>
-
-
   </v-container>
 </template>
 
@@ -30,105 +17,72 @@ import type { MockEquipment } from "~/components/equipment-card.vue";
 
 // import type { EquipmentOverviewFragment } from "~/generated/graphql/operations";
 
+function createMockEquipment(id: number, color: ColorState): MockEquipment {
+  const equipment: MockEquipment = {
+    name: `Equipment ${id}`,
+    id,
+    availability: 1,
+    quality: 1,
+    performance: 1,
+    get oee() {
+      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
+    },
+  };
 
-// const equipments: EquipmentOverviewFragment[] = [];
-const equipments: MockEquipment[] = [
-  {
-    name: "Rohirrim Answering Service",
-    id: 1,
-    availability: 40,
-    quality: 90,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: false,
-  },
-  {
-    name: "Augustus Gloop Memorial River",
+  const  varyValue = id;
 
-    id: 1,
-    availability: 40,
-    quality: 90,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: false,
-  },
-  {
-    name: "Hobbit Surveillance",
-    id: 1,
-    availability: 80,
-    quality: 90,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: true,
-  },
-  {
-    name: "Oompa Loompa HR",
-    id: 1,
-    availability: 80,
-    quality: 90,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: true,
-  },
-  {
-    name: "Nut Sorting Room",
-    id: 1,
-    availability: 80,
-    quality: 80,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: false,
-  },
-  {
-    name: "Nazgul Robe Pre-Shredder",
-    id: 1,
-    availability: 80,
-    quality: 80,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: false,
-  },
-  {
-    name: "Un-blueberrifier",
-    id: 1,
-    availability: 100,
-    quality: 90,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: false,
-  },
+  switch (color) {
+    case "success":
+      equipment.availability = 90 + varyValue;
+      equipment.quality = 93 + varyValue;
+      equipment.performance = 93 + varyValue;
+      break;
+    case "warn":
+      equipment.availability = 75 + varyValue;
+      equipment.quality = 90 + varyValue;
+      equipment.performance = 70 + varyValue;
+      break;
+    case "error":
+      equipment.availability = 40 + varyValue;
+      equipment.quality = 50 + varyValue;
+      equipment.performance = 80 + varyValue;
+  }
 
-  {
-    name: "Mt. Doom Rock Polisher",
-    id: 1,
-    availability: 100,
-    quality: 90,
-    performance: 90,
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-    isPaused: false,
-  },
+  return equipment;
+}
 
+function createMockData(success: number, warn: number, error: number): MockEquipment[] {
+  const mockData: MockEquipment[] = [];
 
+  const indexBounds = { min: 1, max: success + 1 };
 
-];
+  _range(indexBounds.min, indexBounds.max).forEach((i) => {
+    mockData.push(createMockEquipment(i, "success"));
+  });
 
-// const themeColors: CarbonyTheme = ref(genThemeColor("#161b22"));
+  indexBounds.min = indexBounds.min + success;
+  indexBounds.max = indexBounds.max + warn;
+
+  _range(indexBounds.min, indexBounds.max).forEach((i) => {
+    mockData.push(createMockEquipment(i, "warn"));
+  });
+
+  indexBounds.min = indexBounds.min + warn;
+  indexBounds.max = indexBounds.max + error;
+
+  _range(indexBounds.min, indexBounds.max).forEach((i) => {
+    mockData.push(createMockEquipment(i, "error"));
+  });
+
+  return mockData;
+}
+
+const equipments: MockEquipment[] = createMockData(3, 3, 3);
+
+definePageMeta({
+  title: "Dashboard",
+});
+
 </script>
 
 <style>
