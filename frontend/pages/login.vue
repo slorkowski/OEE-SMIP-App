@@ -88,7 +88,7 @@ async function onSubmit() {
               />
             </v-card-text>
             <v-card-actions>
-              <v-btn type="submit" block :loading="loading">Submit</v-btn>
+              <v-btn type="submit" block :loading="loading" variant="tonal">Submit</v-btn>
             </v-card-actions>
           </v-card>
         </v-form>
