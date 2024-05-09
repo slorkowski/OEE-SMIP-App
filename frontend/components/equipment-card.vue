@@ -11,8 +11,7 @@
         :color="getColorState(equipment.oee)"
         class="text-h6 mt-2">
         <span>
-          <span :style="{fontSize: '1rem'}" class="font-weight-medium">OEE</span>
-          <br>
+          <span :style="{fontSize: '1rem'}" class="font-weight-medium d-block">OEE</span>
           {{Math.round(equipment.oee)}}%
         </span>
       </v-progress-circular>
@@ -28,7 +27,7 @@
         flat
         tile
       >
-        <v-sheet :color="getColorState(metric.value)" :style="{position: 'absolute', width: `${metric.value}%`, height: '100%', zIndex: -1, opacity: 0.5}"/>
+        <v-sheet class="percent-bg" :color="getColorState(metric.value)" :style="{width: `${metric.value}%`}"/>
 
         <v-card-title class="text-subtitle-1 d-flex flex-row justify-space-between" >
           <span class="mr-4">{{ metric.label }}</span>
@@ -61,3 +60,13 @@ const metrics = computed(() => [
 ]);
 
 </script>
+
+<style>
+.percent-bg {
+  position: absolute;
+
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+}
+</style>
