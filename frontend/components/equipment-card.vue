@@ -17,13 +17,12 @@
       </v-progress-circular>
     </v-card-text>
 
-    <v-card-text class="pa-0">
+    <v-card-text class="pa-0 d-flex flex-column">
       <v-card
         v-for="(metric, metricIndex) in metrics"
         :key="metric.label"
-        class="pa-0 d-flex flex-column justify-center"
+        class="pa-0 d-flex flex-column justify-center flex-grow-1"
         :class="metricIndex +1 === metrics.length ? '' : 'border-b-md'"
-        height="calc(100% / 3)"
         flat
         tile
       >
