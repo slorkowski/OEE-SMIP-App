@@ -5,9 +5,13 @@
         {{route.meta.title}}
       </v-app-bar-title>
 
-      <v-btn icon @click="toggleTheme()">
-        <v-icon icon="mdi-theme-light-dark"/>
-      </v-btn>
+      <v-toolbar-items class="mr-4">
+        <v-switch v-model="theme.global.name.value" icon false-value="light" true-value="dark">
+          <template #append>
+            <v-icon icon="mdi-weather-night"/>
+          </template>
+        </v-switch>
+      </v-toolbar-items>
     </v-app-bar>
     <v-main>
       <slot />
@@ -23,7 +27,4 @@ import { useTheme } from "vuetify";
 const route = useRoute();
 const theme = useTheme();
 
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? "light" : "dark";
-}
 </script>
