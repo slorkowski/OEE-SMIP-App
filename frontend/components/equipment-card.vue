@@ -29,8 +29,8 @@
         <v-sheet class="percent-bg" :color="getColorState(metric.value)" :style="{width: `${metric.displayValue}%`}"/>
 
         <v-card-title class="text-subtitle-1 d-flex flex-row justify-space-between align-center h-100" >
-          <span class="mr-4">{{ metric.label }}</span>
-          <span>{{metric.value.toFixed(1)}}%</span>
+          <ContrastLabel class="mr-4" :label="metric.label"/>
+          <ContrastLabel>{{metric.value.toFixed(1)}}%</ContrastLabel>
         </v-card-title>
       </v-card>
     </v-card-text>
@@ -39,6 +39,8 @@
 
 <script setup lang="ts">
 import { clamp } from "remeda";
+
+import ContrastLabel from "./contrast-label.vue";
 
 
 
