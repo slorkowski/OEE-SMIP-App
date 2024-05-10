@@ -46,7 +46,9 @@ fragment EquipmentOverview on Equipment {
     id
     displayName
     fqn
+    relativeName
     updatedTimestamp
+    dataType
     attributeType { dataType }
 
     # Values
@@ -69,6 +71,7 @@ fragment EquipmentOverview on Equipment {
     id
     displayName
     fqn
+    relativeName
   }
 }
 fragment EquipmentWithOEE on Equipment {

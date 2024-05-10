@@ -8,6 +8,13 @@ definePageMeta({
 });
 
 const eqRef = useEquipmentWithOEE();
+
+effect(() => {
+  console.log({
+    equipment: eqRef.value.data,
+  });
+});
+
 </script>
 
 <template>
@@ -29,9 +36,9 @@ const eqRef = useEquipmentWithOEE();
       >
         <v-list-item-subtitle>
           <v-chip
-            v-for="oee_metric in et.childEquipment"
-            :key="oee_metric.id"
-            :text="oee_metric.displayName || 'unknown metric'"
+            v-for="[oeeKey, oeeEq] in Object.entries(et.oee)"
+            :key="oeeKey"
+            :text="oeeKey"
           />
         </v-list-item-subtitle>
       </v-list-item>

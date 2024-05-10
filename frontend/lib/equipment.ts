@@ -1,13 +1,19 @@
 import { isNonNullish, unique } from "remeda";
 
-import type { EquipmentWithOeeFragment } from "~/generated/graphql/operations";
+import type { EquipmentOverviewFragment, EquipmentWithOeeFragment } from "~/generated/graphql/operations";
 import { GetEquipmentsDocument, GetOeeEquipmentTypesWithEquipmentIdsDocument  } from "~/generated/graphql/operations";
 
 
 
 export interface EquipmentWithOEEHook {
-  data: EquipmentWithOeeFragment[] | null | undefined;
+  data: StandardEquipmentWithOEE[] | undefined;
 }
+const OEERelativeNames = {
+  AVAILABILITY: "oee_availability_interface",
+  PERFORMANCE: "oee_performance_interface",
+  QUALITY: "oee_quality_interface",
+  SUMMARY: "oee_summary_interface",
+};
 
 /*
  * Two possible structures for OEE equipment to descend from an "actual" piece of equipment:
@@ -28,6 +34,10 @@ export interface EquipmentWithOEEHook {
  * Can differentiate based on `type` and presence of children.
  */
 
+/**
+ * A hook to retrieve all equipment with OEE metrics.
+ * Makes a couple GraphQL calls then transforms the returned equipment into a standard shape.
+ */
 export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
   const { result: typeRes } = useQuery(
     GetOeeEquipmentTypesWithEquipmentIdsDocument,
@@ -80,6 +90,46 @@ export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
   });
 
   return computed<EquipmentWithOEEHook>(() => ({
-    data: eqRes.value?.equipments,
+    data: eqRes.value?.equipments?.map(getStandardizedEquipment),
   }));
+}
+
+
+
+export interface StandardEquipmentWithOEE extends EquipmentOverviewFragment {
+  oee: {
+    availability?: EquipmentOverviewFragment;
+    performance?: EquipmentOverviewFragment;
+    quality?: EquipmentOverviewFragment;
+    summary?: EquipmentOverviewFragment;
+  };
+}
+/**
+ * @param equipment Equipment object returned from GraphQL in either expected OEE structure.
+ * @returns A standard Equipment object.
+ */
+export function getStandardizedEquipment(equipment: EquipmentWithOeeFragment): StandardEquipmentWithOEE {
+  const { childEquipment, ...rest } = equipment;
+
+  let summary: EquipmentOverviewFragment | undefined;
+  if(rest.type?.relativeName === OEERelativeNames.SUMMARY) {
+    // Structure #2
+    // Set summary to a copy of the root equipment.
+    summary = { ...rest };
+    // Clear attributes since those are just OEE data points
+    rest.attributes = [];
+  } else {
+    // Structure #1
+    summary = childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.SUMMARY);
+  }
+
+  return {
+    ...rest,
+    oee: {
+      availability: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.AVAILABILITY),
+      performance: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.PERFORMANCE),
+      quality: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.QUALITY),
+      summary,
+    },
+  };
 }
