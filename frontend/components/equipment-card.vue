@@ -21,13 +21,13 @@
       <v-card
         v-for="metric in metrics"
         :key="metric.label"
-        class="pa-0 d-flex flex-column justify-center flex-grow-1 metric-card"
+        class="pa-0 flex-grow-1 metric-card"
         flat
         tile
       >
         <v-sheet class="percent-bg" :color="getColorState(metric.value)" :style="{width: `${metric.value}%`}"/>
 
-        <v-card-title class="text-subtitle-1 d-flex flex-row justify-space-between" >
+        <v-card-title class="text-subtitle-1 d-flex flex-row justify-space-between align-center h-100" >
           <span class="mr-4">{{ metric.label }}</span>
           <span>{{metric.value}}%</span>
         </v-card-title>
