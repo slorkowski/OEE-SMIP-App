@@ -7,6 +7,9 @@
 
       <v-toolbar-items class="mr-4">
         <v-switch v-model="theme.global.name.value" icon false-value="light" true-value="dark">
+          <template #prepend>
+            <v-icon icon="mdi-weather-sunny"/>
+          </template>
           <template #append>
             <v-icon icon="mdi-weather-night"/>
           </template>
