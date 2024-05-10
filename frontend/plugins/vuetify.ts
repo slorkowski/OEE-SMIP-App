@@ -10,10 +10,19 @@ import { VBtn, VCard } from "vuetify/components";
 export default defineNuxtPlugin((app) => {
   const vuetify = createVuetify({
     theme: {
-      defaultTheme: "carbony",
+      defaultTheme: "dark",
       themes: {
-        carbony: {
+        dark: {
           dark: true,
+          colors: {
+            success: "#4ba346",
+            info: "#5871f5",
+            warn: "#d8872b",
+            error: "#d14053",
+          },
+        },
+        light: {
+          dark: false,
           colors: {
             success: "#4ba346",
             info: "#5871f5",
