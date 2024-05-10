@@ -13,70 +13,55 @@
 </template>
 
 <script setup lang="ts">
-import { range } from "remeda";
+import { range, mapValues } from "remeda";
 
 import type { MockEquipment } from "~/components/equipment-card.vue";
 
 
 
-function createMockEquipment(id: number, color: ColorState): MockEquipment {
-  const equipment: MockEquipment = {
+type MachineState = "success" | "warn" | "error";
+
+/** Seeds used to generate mock data. A variance is added to these beginning metrics. */
+const METRIC_SEEDS = {
+  success: {
+    availability: 90,
+    quality: 93,
+    performance: 93,
+  },
+  warn: {
+    availability: 75,
+    quality: 90,
+    performance: 70,
+  },
+  error: {
+    availability: 40,
+    quality: 50,
+    performance: 80,
+  },
+};
+
+function createMockEquipment(id: number, state: MachineState): MockEquipment {
+  const  varyValue = id;
+
+  return {
     name: `Equipment ${id}`,
     id,
-    availability: 1,
-    quality: 1,
-    performance: 1,
+    ...mapValues(METRIC_SEEDS[state], (seed) => seed + varyValue),
     get oee() {
       return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
     },
   };
-
-  const  varyValue = id;
-
-  switch (color) {
-    case "success":
-      equipment.availability = 90 + varyValue;
-      equipment.quality = 93 + varyValue;
-      equipment.performance = 93 + varyValue;
-      break;
-    case "warn":
-      equipment.availability = 75 + varyValue;
-      equipment.quality = 90 + varyValue;
-      equipment.performance = 70 + varyValue;
-      break;
-    case "error":
-      equipment.availability = 40 + varyValue;
-      equipment.quality = 50 + varyValue;
-      equipment.performance = 80 + varyValue;
-  }
-
-  return equipment;
 }
 
 function createMockData(success: number, warn: number, error: number): MockEquipment[] {
-  const mockData: MockEquipment[] = [];
-
-  const indexBounds = { min: 1, max: success + 1 };
-
-  range(indexBounds.min, indexBounds.max).forEach((i) => {
-    mockData.push(createMockEquipment(i, "success"));
-  });
-
-  indexBounds.min = indexBounds.min + success;
-  indexBounds.max = indexBounds.max + warn;
-
-  range(indexBounds.min, indexBounds.max).forEach((i) => {
-    mockData.push(createMockEquipment(i, "warn"));
-  });
-
-  indexBounds.min = indexBounds.min + warn;
-  indexBounds.max = indexBounds.max + error;
-
-  range(indexBounds.min, indexBounds.max).forEach((i) => {
-    mockData.push(createMockEquipment(i, "error"));
-  });
-
-  return mockData;
+  return [
+    ...range(0, success)
+      .map((i) => createMockEquipment(i + 1, "success")),
+    ...range(success, success + warn)
+      .map((i) => createMockEquipment(i + 1, "warn")),
+    ...range(success + warn, success + warn + error)
+      .map((i) => createMockEquipment(i + 1, "error")),
+  ];
 }
 
 const equipments: MockEquipment[] = createMockData(3, 3, 3);
