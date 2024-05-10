@@ -19,10 +19,9 @@
 
     <v-card-text class="pa-0 d-flex flex-column">
       <v-card
-        v-for="(metric, metricIndex) in metrics"
+        v-for="metric in metrics"
         :key="metric.label"
-        class="pa-0 d-flex flex-column justify-center flex-grow-1"
-        :class="metricIndex +1 === metrics.length ? '' : 'border-b-md'"
+        class="pa-0 d-flex flex-column justify-center flex-grow-1 metric-card"
         flat
         tile
       >
@@ -60,7 +59,13 @@ const metrics = computed(() => [
 
 </script>
 
-<style>
+<style lang="scss">
+@use "~/node_modules/vuetify/_styles.scss";
+
+.metric-card:not(:last-child) {
+  @extend .border-b-md;
+}
+
 .percent-bg {
   position: absolute;
 
