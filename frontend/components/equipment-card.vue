@@ -9,11 +9,12 @@
         size="150"
         width="20"
         :color="getColorState(equipment.oee)"
-        class="text-h6 mt-2">
-        <span>
-          <span :style="{fontSize: '1rem'}" class="font-weight-medium d-block">OEE</span>
-          {{Math.round(equipment.oee)}}%
-        </span>
+        class="text-h6 text-center mt-2"
+      >
+        <div>
+          <h3 class="text-subtitle-1 font-weight-medium">OEE</h3>
+          <span>{{Math.round(equipment.oee)}}%</span>
+        </div>
       </v-progress-circular>
     </v-card-text>
 
