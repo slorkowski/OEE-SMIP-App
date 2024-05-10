@@ -1,5 +1,7 @@
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
+import { GRAPHL_TOKEN_KEY } from "./lib/consts";
+
 
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
@@ -31,7 +33,7 @@ export default defineNuxtConfig({
         authHeader: "Authorization",
         authType: "Bearer",
         tokenStorage: "cookie",
-        tokenName: "graphql-token",
+        tokenName: GRAPHL_TOKEN_KEY,
       },
       noauth: {
         httpEndpoint: "https://east.cesmii.net/graphql",
