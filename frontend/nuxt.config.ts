@@ -8,6 +8,12 @@ export default defineNuxtConfig({
   build: {
     transpile: [ "vuetify" ],
   },
+  app: {
+    head: {
+      charset: "utf-8",
+      title: "CESMII OEE Dashboard",
+    },
+  },
   modules: [
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
