@@ -1,3 +1,7 @@
+import { jwtDecode } from "jwt-decode";
+import { z } from "zod";
+
+import { GRAPHL_TOKEN_KEY } from "./consts";
 import { AuthenticationRequestDocument, AuthenticationVerificationDocument } from "~/generated/graphql/operations";
 
 
@@ -71,4 +75,31 @@ export async function loginWithAuthenticator(
   }
 
   return onLogin(jwt);
+}
+
+
+
+const GraphQLUserSchema = z.object({
+  authenticator: z.string(),
+  role: z.string(),
+  user_name: z.string(),
+});
+export type GraphQLUser = z.infer<typeof GraphQLUserSchema>;
+
+export function useGraphQLUser(): ComputedRef<GraphQLUser | undefined> {
+  const graphqlToken = useCookie(GRAPHL_TOKEN_KEY);
+
+  return computed(() => {
+    if(!graphqlToken.value) {
+      return undefined;
+    }
+
+    const jwtObj = jwtDecode(graphqlToken.value);
+    try {
+      return GraphQLUserSchema.parse(jwtObj);
+    } catch(err) {
+      console.error("Error parsing GraphQL JWT:", err);
+      return undefined;
+    }
+  });
 }

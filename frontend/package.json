@@ -18,10 +18,12 @@
     "@mdi/font": "^7.4.47",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
+    "jwt-decode": "^4.0.0",
     "nuxt": "^3.11.2",
     "remeda": "^1.61.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",

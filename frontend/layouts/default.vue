@@ -6,7 +6,13 @@
       </v-app-bar-title>
 
       <v-toolbar-items class="mr-4">
-        <v-switch v-model="theme.global.name.value" icon false-value="light" true-value="dark">
+        <v-switch
+          v-model="theme.global.name.value"
+          icon
+          false-value="light"
+          true-value="dark"
+          class="mr-8"
+        >
           <template #prepend>
             <v-icon icon="mdi-weather-sunny"/>
           </template>
@@ -14,8 +20,22 @@
             <v-icon icon="mdi-weather-night"/>
           </template>
         </v-switch>
+
+        <div v-if="user" class="d-flex align-center ga-4">
+          <span>
+            <v-icon icon="mdi-account-outline"/>
+            {{ user.user_name }}
+          </span>
+          <v-btn class="h-100" @click="logout">
+            Log Out
+          </v-btn>
+        </div>
+        <v-btn v-else to="/login">
+          Log In
+        </v-btn>
       </v-toolbar-items>
     </v-app-bar>
+
     <v-main>
       <slot />
     </v-main>
@@ -25,9 +45,20 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
 
+import { useGraphQLUser } from "~/lib/auth";
+
 
 
 const route = useRoute();
 const theme = useTheme();
+const user = useGraphQLUser();
+const { onLogout } = useApollo();
 
+
+
+function logout() {
+  onLogout().then(() => {
+    navigateTo("/login");
+  });
+}
 </script>
