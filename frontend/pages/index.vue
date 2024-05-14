@@ -1,12 +1,10 @@
 <template>
   <v-container>
     <v-row class="ma-0">
-      <v-col
-        v-for="equipment in equipments"
-        :key="equipment.id"
-        cols="4"
-      >
+      <v-col cols="12" class="dashboard-grid">
         <EquipmentCard
+          v-for="equipment in equipments"
+          :key="equipment.id"
           :equipment="equipment"
           @click="navigateTo(`/equipment/${equipment.id}`)"
         />
@@ -27,3 +25,11 @@ definePageMeta({
 });
 
 </script>
+
+<style>
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+</style>
