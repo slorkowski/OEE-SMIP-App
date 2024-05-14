@@ -8,22 +8,22 @@
       </v-col>
 
       <v-col cols="12" class="d-flex flex-row justify-space-around align-center">
-        <MetricSelectCard :active="activeMetric === 'oee'" :metric="equipment.oee" @click="activeMetric = 'oee'"/>
+        <MetricSelectCard :active="activeMetric.label === oeeSummary.label" :metric="oeeSummary" @click="() => setActiveMetric(oeeSummary)"/>
         <v-icon icon="mdi-equal" size="50"/>
-        <MetricSelectCard :active="activeMetric === 'availability'" :metric="equipment.availability" @click="activeMetric = 'availability'"/>
+        <MetricSelectCard :active="activeMetric.label === availability.label" :metric="availability" @click="() => setActiveMetric(availability)"/>
         <v-icon icon="mdi-close" size="50"/>
-        <MetricSelectCard :active="activeMetric === 'quality'" :metric="equipment.quality" @click="activeMetric = 'quality'"/>
+        <MetricSelectCard :active="activeMetric.label === quality.label" :metric="quality" @click="() => setActiveMetric(quality)"/>
         <v-icon icon="mdi-close" size="50"/>
-        <MetricSelectCard :active="activeMetric === 'performance'" :metric="equipment.performance" @click="activeMetric = 'performance'"/>
+        <MetricSelectCard :active="activeMetric.label === performance.label" :metric="performance" @click="() => setActiveMetric(performance)"/>
       </v-col>
 
       <v-col cols="12">
         <v-expansion-panels v-model="subcomponents" multiple>
           <!-- Math.round(activeMetric.length / 2) is just used for variation -->
           <v-expansion-panel
-            v-for="n in (Math.round(activeMetric.length / 2))" :key="n" :value="n">
+            v-for="n in (Math.round(activeMetric.label.length / 2))" :key="n" :value="n">
             <v-expansion-panel-title class="text-h6 pl-8">
-              {{equipment[activeMetric].label}} Subcomponent {{n}}
+              {{activeMetric.label}} Subcomponent {{n}}
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               Graphics here
@@ -36,19 +36,29 @@
 </template>
 
 <script setup lang="ts">
-import type { MetricKey } from "~/utils/equipment";
+import { useMockEquipmentById } from "~/mocks/equipment";
 
 
 
 const route = useRoute();
+const equipmentId = route.params.equipmentID as string;
 
 // This will be replaced with query to db
-const equipment = ref(
-  createDefaultMockData()[Number.parseInt((route.params.equipmentID as string)) - 1],
-);
+const equipment = useMockEquipmentById(equipmentId);
 
-const activeMetric: Ref<MetricKey> = ref("oee");
+const oeeSummary = computed(() => makeMetric("OEE", equipment.value.oee));
+const availability = computed(() => makeMetric("Availability", equipment.value.availability));
+const performance = computed(() => makeMetric("Performance", equipment.value.performance));
+const quality = computed(() => makeMetric("Quality", equipment.value.quality));
+
+const activeMetric = ref<Metric>(oeeSummary.value);
 
 const subcomponents = ref();
+
+
+
+function setActiveMetric(metric: Metric) {
+  activeMetric.value = metric;
+}
 </script>
 

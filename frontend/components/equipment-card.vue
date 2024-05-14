@@ -4,12 +4,12 @@
       <h2 class="text-h6 text-center">
         {{ equipment.name }}
       </h2>
-      <metric-progress-circular :metric="equipment.oee"/>
+      <metric-progress-circular :metric="oeeSummary"/>
     </v-card-text>
 
     <v-card-text class="border-s-md pa-0 d-flex flex-column">
       <v-card
-        v-for="metric in [equipment.availability, equipment.quality, equipment.performance]"
+        v-for="metric in metrics"
         :key="metric.label"
         class="pa-0 flex-grow-1 metric-card"
         flat
@@ -28,16 +28,23 @@
 
 <script setup lang="ts">
 import ContrastLabel from "./contrast-label.vue";
-import type { MockEquipment } from "~/utils/equipment";
+import type { IMockEquipment } from "~/utils/equipment";
 
 
 
 interface Props {
-  equipment: MockEquipment;
+  equipment: IMockEquipment;
 }
 
 
 const { equipment } = defineProps<Props>();
+
+const oeeSummary = computed(() => makeMetric("OEE", equipment.oee));
+const metrics = computed(() => [
+  makeMetric("Availability", equipment.availability),
+  makeMetric("Performance", equipment.performance),
+  makeMetric("Quality", equipment.quality),
+]);
 
 </script>
 

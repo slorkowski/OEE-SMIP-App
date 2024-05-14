@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import type { MockEquipment } from "~/utils/equipment";
+import { useMockEquipment } from "~/mocks/equipment";
 
 
 
-const equipments: MockEquipment[] = createDefaultMockData();
+const equipments = useMockEquipment();
 
 definePageMeta({
   title: "Dashboard",
