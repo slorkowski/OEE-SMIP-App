@@ -1,24 +1,13 @@
 <template>
   <v-card border="md" class="d-flex flex-row">
-    <v-card-text class="border-e-md d-flex flex-column justify-space-between align-center">
+    <v-card-text class="d-flex flex-column justify-space-between align-center">
       <h2 class="text-h6 text-center">
         {{ equipment.name }}
       </h2>
-      <v-progress-circular
-        :model-value="oeeSummary.displayValue"
-        size="150"
-        width="20"
-        :color="getColorState(oeeSummary.value)"
-        class="text-h6 text-center mt-2"
-      >
-        <div>
-          <h3 class="text-subtitle-1 font-weight-medium">{{ oeeSummary.label }}</h3>
-          <span>{{oeeSummary.value.toFixed(1)}}%</span>
-        </div>
-      </v-progress-circular>
+      <metric-progress-circular :metric="oeeSummary"/>
     </v-card-text>
 
-    <v-card-text class="pa-0 d-flex flex-column">
+    <v-card-text class="border-s-md pa-0 d-flex flex-column">
       <v-card
         v-for="metric in metrics"
         :key="metric.label"
@@ -38,37 +27,15 @@
 </template>
 
 <script setup lang="ts">
-import { clamp } from "remeda";
-
 import ContrastLabel from "./contrast-label.vue";
+import type { IMockEquipment } from "~/utils/equipment";
 
 
-
-export interface MockEquipment {
-  name: string;
-  id: number;
-  availability: number;
-  quality: number;
-  performance: number;
-  oee: number;
-};
 
 interface Props {
-  equipment: MockEquipment;
+  equipment: IMockEquipment;
 }
 
-interface Metric {
-  label: string;
-  value: number;
-  displayValue: number;
-}
-function makeMetric(label: string, value: number): Metric {
-  return {
-    label,
-    value,
-    get displayValue() { return clamp(this.value, { min: 0, max: 100 }); },
-  };
-}
 
 const { equipment } = defineProps<Props>();
 
