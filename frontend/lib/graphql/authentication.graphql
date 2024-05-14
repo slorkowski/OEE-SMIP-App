@@ -1,0 +1,19 @@
+
+
+
+mutation AuthenticationRequest($input: AuthenticationRequestInput!) {
+    authenticationRequest(input: $input) {
+        clientMutationId
+        jwtRequest {
+            challenge
+            message
+        }
+    }
+}
+
+mutation AuthenticationVerification($input: AuthenticationValidationInput!) {
+    authenticationValidation(input: $input) {
+        clientMutationId
+        jwtClaim
+    }
+}
