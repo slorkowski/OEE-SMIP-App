@@ -12,5 +12,5 @@ interface Props {
   metric: Metric;
 }
 
-const { metric } = defineProps<Props>();
+const { metric, active } = defineProps<Props>();
 </script>
