@@ -4,10 +4,10 @@
       <h2 class="text-h6 text-center">
         {{ equipment.name }}
       </h2>
-      <metric-progress-circular :equipment="equipment" :metric="'oee'"/>
+      <metric-progress-circular :metric="equipment.oee"/>
     </v-card-text>
 
-    <v-card-text v-if="showStats" class="border-s-md pa-0 d-flex flex-column">
+    <v-card-text class="border-s-md pa-0 d-flex flex-column">
       <v-card
         v-for="metric in [equipment.availability, equipment.quality, equipment.performance]"
         :key="metric.label"
@@ -34,7 +34,6 @@ import type { MockEquipment } from "~/utils/equipment";
 
 interface Props {
   equipment: MockEquipment;
-  showStats: boolean;
 }
 
 

@@ -1,4 +1,4 @@
-export type ColorState = "success" | "warn" | "error" | "info";
+export type ColorState = "success" | "warn" | "error";
 
 export default (oee: number): ColorState => {
   if(oee > 80) {

@@ -1,29 +1,16 @@
 <template>
-  <v-card :border="activeMetric === metric ? 'highlight lg opacity-100' : 'md'" @click="emit('select', metric)">
+  <v-card :border="active ? 'highlight lg opacity-100' : 'md'">
     <v-card-text>
-      <metric-progress-circular :equipment="equipment" :metric="metric"/>
+      <metric-progress-circular :metric="metric"/>
     </v-card-text>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import type { MetricKey, MockEquipment } from "~/utils/equipment";
-
-
-
 interface Props {
-  equipment: MockEquipment;
-  activeMetric: MetricKey;
-  metric: MetricKey;
+  active: boolean;
+  metric: Metric;
 }
 
-// Unwrapped in template
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<Props>();
-
-interface Emits {
-  (e: "select", value: MetricKey): void;
-}
-
-const emit = defineEmits<Emits>();
+const { metric } = defineProps<Props>();
 </script>

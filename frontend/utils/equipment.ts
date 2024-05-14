@@ -1,4 +1,4 @@
-import { clamp } from "remeda";
+import { clamp, range, mapValues } from "remeda";
 
 
 
@@ -42,3 +42,53 @@ export class MockEquipment {
   get oee(): Metric { return this.makeMetric("OEE", this.data.oee); }
 };
 
+type MachineState = "success" | "warn" | "error";
+
+/** Seeds used to generate mock data. A variance is added to these beginning metrics. */
+const METRIC_SEEDS = {
+  success: {
+    availability: 90,
+    quality: 93,
+    performance: 93,
+  },
+  warn: {
+    availability: 75,
+    quality: 90,
+    performance: 70,
+  },
+  error: {
+    availability: 40,
+    quality: 50,
+    performance: 80,
+  },
+};
+
+function createMockEquipment(id: number, state: MachineState): MockEquipment {
+  const  varyValue = id;
+
+  return new MockEquipment({
+    name: `Equipment ${id}`,
+    id,
+    ...mapValues(METRIC_SEEDS[state], (seed) => seed + varyValue),
+    get oee() {
+      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
+    },
+  });
+}
+
+function createMockData(success: number, warn: number, error: number): MockEquipment[] {
+  return [
+    ...range(0, success)
+      .map((i) => createMockEquipment(i + 1, "success")),
+    ...range(success, success + warn)
+      .map((i) => createMockEquipment(i + 1, "warn")),
+    ...range(success + warn, success + warn + error)
+      .map((i) => createMockEquipment(i + 1, "error")),
+  ];
+}
+
+// Only for dev, setting values here makes sure equipment has matching equipment detail page
+// Did this to avoid a 3+ parameter path when it'll eventually just switch to querying db
+export function createDefaultMockData() {
+  return createMockData(3, 3, 3);
+}

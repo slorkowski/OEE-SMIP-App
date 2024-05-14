@@ -1,29 +1,26 @@
 <template>
   <v-progress-circular
-    :model-value="equipment[metric].displayValue"
+    :model-value="metric.displayValue"
     size="150"
     width="20"
-    :color="getColorState(equipment[metric].value)"
+    :color="getColorState(metric.value)"
     class="text-h6 text-center mt-2"
   >
     <div>
-      <h3 class="text-subtitle-1 font-weight-medium">{{ equipment[metric].label }}</h3>
-      <span>{{equipment[metric].value.toFixed(1)}}%</span>
+      <h3 class="text-subtitle-1 font-weight-medium">{{ metric.label }}</h3>
+      <span>{{metric.value.toFixed(1)}}%</span>
     </div>
   </v-progress-circular>
 </template>
 
 <script setup lang="ts">
-import type { MetricKey, MockEquipment } from "~/utils/equipment";
+import type { Metric } from "~/utils/equipment";
 
 
 
 interface Props {
-  equipment: MockEquipment;
-  metric: MetricKey;
+  metric: Metric;
 }
 
-// Unwrapped in template
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const props = defineProps<Props>();
+const { metric } = defineProps<Props>();
 </script>
