@@ -1,8 +1,17 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
-        <h2 class="text-h5">
+      <v-col cols="12" class="d-flex align-center">
+        <!-- Back Button -->
+        <v-btn
+          to="/"
+          icon="mdi-chevron-left"
+          variant="text"
+          density="compact"
+          size="large"
+          class="text-h5"
+        />
+        <h2 class="text-h5 d-inline ml-2">
           {{equipment.name}} Details
         </h2>
       </v-col>
@@ -39,6 +48,10 @@
 import { useMockEquipmentById } from "~/mocks/equipment";
 
 
+
+definePageMeta({
+  title: "Equipment Details",
+});
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
