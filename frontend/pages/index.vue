@@ -3,7 +3,7 @@
     <v-row class="ma-0">
       <v-col cols="12" class="dashboard-grid">
         <EquipmentCard
-          v-for="equipment in equipments"
+          v-for="equipment in equipments.data"
           :key="equipment.id"
           :equipment="equipment"
           @click="navigateTo(`/equipment/${equipment.id}`)"
@@ -15,15 +15,14 @@
 
 <script setup lang="ts">
 import { useGraphQLUser } from "~/lib/auth";
-import { useMockEquipment } from "~/mocks/equipment";
+import { useEquipmentWithOEE } from "~/lib/equipment";
 
 
 
 const user = useGraphQLUser();
-const equipments = useMockEquipment();
+const equipments = useEquipmentWithOEE();
 
 effect(() => {
-  console.log({ user: user.value });
   if(!user.value) {
     // Redirect if not logged in.
     navigateTo("/login");
