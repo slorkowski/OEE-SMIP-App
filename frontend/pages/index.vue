@@ -16,8 +16,19 @@
 import { range, mapValues } from "remeda";
 
 import type { MockEquipment } from "~/components/equipment-card.vue";
+import { useGraphQLUser } from "~/lib/auth";
 
 
+
+const user = useGraphQLUser();
+
+effect(() => {
+  console.log({ user: user.value });
+  if(!user.value) {
+    // Redirect if not logged in.
+    navigateTo("/login");
+  }
+});
 
 type MachineState = "success" | "warn" | "error";
 
