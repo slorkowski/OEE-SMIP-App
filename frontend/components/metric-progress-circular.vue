@@ -1,26 +1,29 @@
 <template>
   <v-progress-circular
-    :model-value="metric.displayValue"
+    :model-value="progressValue"
     size="150"
     width="20"
-    :color="getColorState(metric.value)"
+    :color="value === undefined ? 'black' : getColorState(value)"
     class="text-h6 text-center mt-2"
   >
     <div>
-      <h3 class="text-subtitle-1 font-weight-medium">{{ metric.label }}</h3>
-      <span>{{metric.value.toFixed(1)}}%</span>
+      <h3 class="text-subtitle-1 font-weight-medium">{{ label }}</h3>
+      <span v-if="typeof value === 'number'">{{value.toFixed(1)}}%</span>
+      <span v-else>??</span>
     </div>
   </v-progress-circular>
 </template>
 
 <script setup lang="ts">
-import type { Metric } from "~/utils/equipment";
+import { clamp } from "remeda";
 
 
 
 interface Props {
-  metric: Metric;
+  label: string;
+  value?: number;
 }
+const { label, value } = defineProps<Props>();
 
-const { metric } = defineProps<Props>();
+const progressValue = computed(() => typeof value === "number" ? clamp(value, { min: 0, max: 100 }) : 0);
 </script>
