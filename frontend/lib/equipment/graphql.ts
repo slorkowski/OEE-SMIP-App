@@ -1,19 +1,14 @@
-import { isNonNullish, unique } from "remeda";
+import { unique, isNonNullish } from "remeda";
 
-import type { EquipmentOverviewFragment, EquipmentWithOeeFragment } from "~/generated/graphql/operations";
-import { GetEquipmentsDocument, GetOeeEquipmentTypesWithEquipmentIdsDocument  } from "~/generated/graphql/operations";
+import type { IEquipmentWithOEE } from "./types";
+import { parseEquipmentWithOEE } from "./utils";
+import { GetOeeEquipmentTypesWithEquipmentIdsDocument, GetEquipmentsDocument } from "~/generated/graphql/operations";
 
 
 
 export interface EquipmentWithOEEHook {
-  data: StandardEquipmentWithOEE[] | undefined;
+  data: IEquipmentWithOEE[] | undefined;
 }
-const OEERelativeNames = {
-  AVAILABILITY: "oee_availability_interface",
-  PERFORMANCE: "oee_performance_interface",
-  QUALITY: "oee_quality_interface",
-  SUMMARY: "oee_summary_interface",
-};
 
 /*
  * Two possible structures for OEE equipment to descend from an "actual" piece of equipment:
@@ -84,52 +79,13 @@ export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
     filter: {
       id: { in: equipmentIds.value ?? [] },
     },
+    now: new Date().toISOString(),
   }, {
     enabled: equipmentIds.value && equipmentIds.value.length > 0,
     errorPolicy: "ignore",
   });
 
   return computed<EquipmentWithOEEHook>(() => ({
-    data: eqRes.value?.equipments?.map(getStandardizedEquipment),
+    data: eqRes.value?.equipments?.map(parseEquipmentWithOEE),
   }));
-}
-
-
-
-export interface StandardEquipmentWithOEE extends EquipmentOverviewFragment {
-  oee: {
-    availability?: EquipmentOverviewFragment;
-    performance?: EquipmentOverviewFragment;
-    quality?: EquipmentOverviewFragment;
-    summary?: EquipmentOverviewFragment;
-  };
-}
-/**
- * @param equipment Equipment object returned from GraphQL in either expected OEE structure.
- * @returns A standard Equipment object.
- */
-export function getStandardizedEquipment(equipment: EquipmentWithOeeFragment): StandardEquipmentWithOEE {
-  const { childEquipment, ...rest } = equipment;
-
-  let summary: EquipmentOverviewFragment | undefined;
-  if(rest.type?.relativeName === OEERelativeNames.SUMMARY) {
-    // Structure #2
-    // Set summary to a copy of the root equipment.
-    summary = { ...rest };
-    // Clear attributes since those are just OEE data points
-    rest.attributes = [];
-  } else {
-    // Structure #1
-    summary = childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.SUMMARY);
-  }
-
-  return {
-    ...rest,
-    oee: {
-      availability: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.AVAILABILITY),
-      performance: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.PERFORMANCE),
-      quality: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.QUALITY),
-      summary,
-    },
-  };
 }
