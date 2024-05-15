@@ -37,6 +37,16 @@ query GetOEEEquipmentTypesWithEquipmentIds {
 fragment IntervalValue on Interval {
   years months days hours minutes seconds
 }
+fragment Limit on AttributeLimit {
+  id
+  displayName
+  description
+  fqn
+  relativeName
+
+  direction
+  floatValue
+}
 fragment EquipmentOverview on Equipment {
   id
   displayName
@@ -50,6 +60,7 @@ fragment EquipmentOverview on Equipment {
     updatedTimestamp
     dataType
     attributeType { dataType }
+    limits { ...Limit }
 
     # Values
     # Requesting all, but will only use the one specified by `typeName`
