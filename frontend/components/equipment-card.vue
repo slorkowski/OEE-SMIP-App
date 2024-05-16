@@ -2,9 +2,9 @@
   <v-card border="md" class="d-flex flex-row">
     <v-card-text class="d-flex flex-column justify-space-between align-center">
       <h2 class="text-h6 text-center">
-        {{ equipment.name }}
+        {{ equipment.displayName }}
       </h2>
-      <metric-progress-circular :metric="oeeSummary"/>
+      <metric-progress-circular label="OEE" :value="equipment.oee.summary?.metric?.value"/>
     </v-card-text>
 
     <v-card-text class="border-s-md pa-0 d-flex flex-column">
@@ -15,11 +15,11 @@
         flat
         tile
       >
-        <v-sheet class="percent-bg" :color="getColorState(metric.value)" :style="{width: `${metric.displayValue}%`}"/>
+        <v-sheet class="percent-bg" :color="getColorState(metric.value)" :style="{width: `${metric.progressValue}%`}"/>
 
         <v-card-title class="text-subtitle-1 d-flex flex-row justify-space-between align-center h-100" >
           <ContrastLabel class="mr-4" :label="metric.label"/>
-          <ContrastLabel>{{metric.value.toFixed(1)}}%</ContrastLabel>
+          <ContrastLabel>{{metric.displayValue}}</ContrastLabel>
         </v-card-title>
       </v-card>
     </v-card-text>
@@ -28,24 +28,21 @@
 
 <script setup lang="ts">
 import ContrastLabel from "./contrast-label.vue";
-import type { IMockEquipment } from "~/utils/equipment";
+import type { IEquipmentWithOEE } from "~/lib/equipment";
 
 
 
 interface Props {
-  equipment: IMockEquipment;
+  equipment: IEquipmentWithOEE;
 }
-
-
 const { equipment } = defineProps<Props>();
+console.log({ equipment });
 
-const oeeSummary = computed(() => makeMetric("OEE", equipment.oee));
 const metrics = computed(() => [
-  makeMetric("Availability", equipment.availability),
-  makeMetric("Performance", equipment.performance),
-  makeMetric("Quality", equipment.quality),
+  makePercentMetric("Availability", equipment.oee.availability?.metric?.value),
+  makePercentMetric("Performance", equipment.oee.performance?.metric?.value),
+  makePercentMetric("Quality", equipment.oee.quality?.metric?.value),
 ]);
-
 </script>
 
 <style lang="scss">
