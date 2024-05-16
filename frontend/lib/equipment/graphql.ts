@@ -2,7 +2,7 @@ import { unique, isNonNullish } from "remeda";
 
 import type { IEquipmentWithOEE } from "./types";
 import { parseEquipmentWithOEE } from "./utils";
-import { GetOeeEquipmentTypesWithEquipmentIdsDocument, GetEquipmentsDocument } from "~/generated/graphql/operations";
+import { GetOeeEquipmentTypesWithEquipmentIdsDocument, GetEquipmentsDocument, GetEquipmentDetailDocument } from "~/generated/graphql/operations";
 
 
 
@@ -87,5 +87,24 @@ export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
 
   return computed<EquipmentWithOEEHook>(() => ({
     data: eqRes.value?.equipments?.map(parseEquipmentWithOEE),
+  }));
+}
+
+
+
+export interface EquipmentDetailWithOEEHook {
+  data: IEquipmentWithOEE | undefined;
+}
+
+export function useEquipmentDetailWithOEE(id: string): Ref<EquipmentDetailWithOEEHook> {
+  const { result } = useQuery(GetEquipmentDetailDocument, {
+    id,
+    now: new Date().toISOString(),
+  }, {
+    errorPolicy: "ignore",
+  });
+
+  return computed(() => ({
+    data: result.value?.equipment ? parseEquipmentWithOEE(result.value.equipment) : undefined,
   }));
 }

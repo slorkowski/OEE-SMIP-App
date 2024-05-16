@@ -105,6 +105,14 @@ query GetEquipments($filter: EquipmentFilter, $now: Datetime!) {
 
 
 
+query GetEquipmentDetail($id: BigInt!, $now: Datetime!) {
+    equipment(id: $id) {
+        ...EquipmentWithOEE
+    }
+}
+
+
+
 fragment TimeSeriesValue on AttributesGetTimeSeriesRecord {
   id
   ts
