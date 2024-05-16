@@ -12,27 +12,47 @@
           class="text-h5"
         />
         <h2 class="text-h5 d-inline ml-2">
-          {{equipment.name}} Details
+          {{equipment.data?.displayName}} Details
         </h2>
       </v-col>
 
       <v-col cols="12" class="d-flex flex-row justify-space-around align-center">
-        <MetricSelectCard :active="activeMetric.label === oeeSummary.label" :metric="oeeSummary" @click="() => setActiveMetric(oeeSummary)"/>
+        <MetricSelectCard
+          label="OEE"
+          :active="activeMetricKey === 'summary'"
+          :value="equipment.data?.oee.summary?.metric?.value"
+          @click="() => setActiveMetric('summary')"
+        />
         <v-icon icon="mdi-equal" size="50"/>
-        <MetricSelectCard :active="activeMetric.label === availability.label" :metric="availability" @click="() => setActiveMetric(availability)"/>
+        <MetricSelectCard
+          label="Availability"
+          :active="activeMetricKey === 'availability'"
+          :value="equipment.data?.oee.availability?.metric?.value"
+          @click="() => setActiveMetric('availability')"
+        />
         <v-icon icon="mdi-close" size="50"/>
-        <MetricSelectCard :active="activeMetric.label === quality.label" :metric="quality" @click="() => setActiveMetric(quality)"/>
+        <MetricSelectCard
+          label="Quality"
+          :active="activeMetricKey === 'quality'"
+          :value="equipment.data?.oee.quality?.metric?.value"
+          @click="() => setActiveMetric('quality')"
+        />
         <v-icon icon="mdi-close" size="50"/>
-        <MetricSelectCard :active="activeMetric.label === performance.label" :metric="performance" @click="() => setActiveMetric(performance)"/>
+        <MetricSelectCard
+          label="Performance"
+          :active="activeMetricKey === 'performance'"
+          :value="equipment.data?.oee.performance?.metric?.value"
+          @click="() => setActiveMetric('performance')"
+        />
       </v-col>
 
       <v-col cols="12">
         <v-expansion-panels v-model="subcomponents" multiple>
           <!-- Math.round(activeMetric.length / 2) is just used for variation -->
           <v-expansion-panel
-            v-for="n in (Math.round(activeMetric.label.length / 2))" :key="n" :value="n">
+            v-for="n in (Math.round(activeMetricKey.length / 2))" :key="n" :value="n">
             <v-expansion-panel-title class="text-h6 pl-8">
-              {{activeMetric.label}} Subcomponent {{n}}
+              {{activeMetricKey}} Subcomponent {{n}}
             </v-expansion-panel-title>
             <v-expansion-panel-text>
               Graphics here
@@ -45,7 +65,8 @@
 </template>
 
 <script setup lang="ts">
-import { useMockEquipmentById } from "~/mocks/equipment";
+import type { OEEMetricKey } from "~/lib/equipment";
+import { useEquipmentDetailWithOEE  } from "~/lib/equipment";
 
 
 
@@ -57,21 +78,16 @@ const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
 
 // This will be replaced with query to db
-const equipment = useMockEquipmentById(equipmentId);
+const equipment = useEquipmentDetailWithOEE(equipmentId);
 
-const oeeSummary = computed(() => makeMetric("OEE", equipment.value.oee));
-const availability = computed(() => makeMetric("Availability", equipment.value.availability));
-const performance = computed(() => makeMetric("Performance", equipment.value.performance));
-const quality = computed(() => makeMetric("Quality", equipment.value.quality));
-
-const activeMetric = ref<Metric>(oeeSummary.value);
+const activeMetricKey = ref<OEEMetricKey>("summary");
 
 const subcomponents = ref();
 
 
 
-function setActiveMetric(metric: Metric) {
-  activeMetric.value = metric;
+function setActiveMetric(key: OEEMetricKey) {
+  activeMetricKey.value = key;
 }
 </script>
 
