@@ -36,7 +36,6 @@ interface Props {
   equipment: IEquipmentWithOEE;
 }
 const { equipment } = defineProps<Props>();
-console.log({ equipment });
 
 const metrics = computed(() => [
   makePercentMetric("Availability", equipment.oee.availability?.metric?.value),
