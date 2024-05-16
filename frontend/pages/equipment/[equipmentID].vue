@@ -61,7 +61,7 @@
     </v-row>
 
     <v-row class="ma-0">
-      <v-col cols="5">
+      <v-col cols="12">
         <v-card class="rounded-ts-0 fill-height">
           <v-card-text>
             <v-table>
@@ -85,7 +85,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="7" class="pl-6">
+      <!-- <v-col cols="7" class="pl-6">
         <v-card
           class="d-flex flex-grow-1 fill-height">
           <v-card-text>
@@ -98,7 +98,7 @@
               :style="{position: 'absolute'}"
             />
           </v-card-text>
-        </v-card>
+        </v-card> -->
       </v-col>
     </v-row>
   </v-container>
