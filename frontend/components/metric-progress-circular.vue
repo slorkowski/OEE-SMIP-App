@@ -3,7 +3,7 @@
     :model-value="progressValue"
     size="150"
     width="20"
-    :color="value === undefined ? 'black' : getColorState(value)"
+    :color="typeof value === 'number' ? getColorState(value) : 'grey'"
     class="text-h6 text-center mt-2"
   >
     <div>
@@ -21,7 +21,7 @@ import { clamp } from "remeda";
 
 interface Props {
   label: string;
-  value?: number;
+  value?: unknown;
 }
 const { label, value } = defineProps<Props>();
 
