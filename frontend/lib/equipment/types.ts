@@ -2,7 +2,7 @@ import type { ScalarTypeEnum } from "~/generated/graphql/operations";
 
 
 
-interface ScalarTypeMap {
+export interface ScalarTypeMap {
   [ScalarTypeEnum.Float]: number;
   [ScalarTypeEnum.Int]: number;
   [ScalarTypeEnum.Bool]: boolean;
