@@ -61,7 +61,7 @@
     </v-row>
 
     <v-row class="ma-0">
-      <v-col cols="12">
+      <v-col cols="6">
         <v-card class="rounded-ts-0 fill-height">
           <v-card-text>
             <v-table>
@@ -75,9 +75,9 @@
               </thead>
 
               <tbody>
-                <tr v-for="subcomponent in activeTab.subcomponents" :key="subcomponent.name">
-                  <td> {{subcomponent.name}} </td>
-                  <td> {{subcomponent.value}} </td>
+                <tr v-for="attribute in mockAttributes" :key="attribute.label">
+                  <td>{{attribute.label}}</td>
+                  <td>{{attribute.value}}</td>
                 </tr>
               </tbody>
             </v-table>
@@ -147,6 +147,14 @@ function labelColors(label: string) {
   if(label === "Performance") return "teal";
   if(label === "Quality") return "yellow";
 }
+
+const mockAttributes = computed<{ label: string; value: string }[]>(() => [
+  { label: "Attribute #1", value: "16 hours" },
+  { label: "Attribute #2", value: "73.0%" },
+  { label: "Attribute #3", value: "2024-05-15" },
+  { label: "Attribute #4", value: "08:00" },
+  { label: "Attribute #5", value: "18:00" },
+]);
 
 const oeeSummary = computed(() => makeMetric("OEE", equipment.value.oee));
 const metrics = computed(() => [
