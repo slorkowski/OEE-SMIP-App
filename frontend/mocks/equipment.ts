@@ -33,7 +33,7 @@ const METRIC_SEEDS = {
   },
 };
 
-type MachineState = "success" | "warn" | "error";
+export type MachineState = "success" | "warn" | "error";
 
 function createMockEquipment(id: number, state: MachineState): IMockEquipment {
   const  varyValue = id;
@@ -66,7 +66,8 @@ const WARNING_COUNT = 3;
 const ERROR_COUNT = 3;
 
 // Only for dev, setting values here makes sure equipment has matching equipment detail page
-export function useMockEquipment() {
+// TODO: Doesn't matter for right now but returning ref here may break reactivity, I'm not sure. Info probably in here: https://nuxt.com/docs/guide/concepts/auto-imports
+export function useMockEquipment(): Ref<IMockEquipment[]> {
   return ref(createMockData(SUCCESSFUL_COUNT, WARNING_COUNT, ERROR_COUNT));
 }
 export function useMockEquipmentById(id: string) {

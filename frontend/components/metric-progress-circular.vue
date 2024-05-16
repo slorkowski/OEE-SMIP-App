@@ -1,8 +1,8 @@
 <template>
   <v-progress-circular
     :model-value="metric.displayValue"
-    size="150"
-    width="20"
+    :size="size"
+    :width="width"
     :color="getColorState(metric.value)"
     class="text-h6 text-center mt-2"
   >
@@ -14,13 +14,20 @@
 </template>
 
 <script setup lang="ts">
+import type { VProgressCircular } from "vuetify/components";
+
 import type { Metric } from "~/utils/equipment";
 
 
 
 interface Props {
   metric: Metric;
+  size?: VProgressCircular["size"];
+  width?: VProgressCircular["width"];
 }
 
-const { metric } = defineProps<Props>();
+const { metric, size, width } = withDefaults(defineProps<Props>(), {
+  size: 150,
+  width: 20,
+});
 </script>

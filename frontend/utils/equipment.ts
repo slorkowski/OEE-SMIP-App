@@ -17,9 +17,6 @@ export interface Metric {
   displayValue: number;
 }
 
-export type MetricKey = "availability" | "quality" | "performance" | "oee";
-
-
 export function makeMetric(label: string, value: number): Metric {
   return {
     label,

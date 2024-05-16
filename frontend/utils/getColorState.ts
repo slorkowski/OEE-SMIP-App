@@ -1,6 +1,8 @@
-export type ColorState = "success" | "warn" | "error";
+import type { MachineState } from "~/mocks/equipment";
 
-export default (oee: number): ColorState => {
+
+
+export default (oee: number): MachineState => {
   if(oee > 80) {
     return "success";
   } else if(oee > 50) {
@@ -9,8 +11,3 @@ export default (oee: number): ColorState => {
     return "error";
   }
 };
-
-
-export function hslToString(hsl: { hue: number; saturation: number; luminance: number }): string {
-  return `${hsl.hue} ${hsl.saturation} ${hsl.luminance}`;
-}
