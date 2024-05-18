@@ -3,7 +3,7 @@
     <v-row class="ma-0">
       <v-col cols="12" class="dashboard-grid">
         <EquipmentCard
-          v-for="equipment in equipments"
+          v-for="equipment in equipments.data"
           :key="equipment.id"
           :equipment="equipment"
           @click="navigateTo(`/equipment/${equipment.id}`)"
@@ -14,11 +14,20 @@
 </template>
 
 <script setup lang="ts">
-import { useMockEquipment } from "~/mocks/equipment";
+import { useGraphQLUser } from "~/lib/auth";
+import { useEquipmentWithOEE } from "~/lib/equipment";
 
 
 
-const equipments = useMockEquipment();
+const user = useGraphQLUser();
+const equipments = useEquipmentWithOEE();
+
+effect(() => {
+  if(!user.value) {
+    // Redirect if not logged in.
+    navigateTo("/login");
+  }
+});
 
 definePageMeta({
   title: "Dashboard",

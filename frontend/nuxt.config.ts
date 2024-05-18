@@ -34,6 +34,10 @@ export default defineNuxtConfig({
         authType: "Bearer",
         tokenStorage: "cookie",
         tokenName: GRAPHL_TOKEN_KEY,
+        cookieAttributes: {
+          sameSite: "strict",
+          httpOnly: false,
+        },
       },
       noauth: {
         httpEndpoint: "https://east.cesmii.net/graphql",

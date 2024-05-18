@@ -14,31 +14,42 @@
         </v-btn>
 
         <h2 class="text-h5 d-inline ml-4">
-          {{equipment.name}} Details
+          {{equipment.data?.displayName || "Equipment"}} Details
         </h2>
       </v-col>
 
       <v-col cols="4">
-        <MetricProgressCircular :metric="oeeSummary" :size="250" :style="{marginLeft: '78px'}" />
+        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250" :style="{marginLeft: '78px'}" />
       </v-col>
 
       <v-col cols="auto" class="pr-0">
-        <v-tabs v-model="activeTab" direction="vertical" class="border-md border-e-0">
-          <v-tab v-for="metric in metrics" :key="metric.label" :value="metric" class="metric-card" :class="activeTab.label === metric.label ? `bg-${labelColors(metric.label)}` : 'bg-surface'">
-            <ContrastLabel :label="metric.label"/>
+        <v-tabs v-model="activeTabLabel" direction="vertical" class="border-md border-e-0">
+          <v-tab
+            v-for="tab in metricTabs"
+            :key="tab.label"
+
+            :value="tab.label"
+            class="metric-card"
+            :class="activeTabLabel === tab.label ? `bg-${tab.color}` : 'bg-surface'"
+          >
+            <ContrastLabel :label="tab.label"/>
           </v-tab>
         </v-tabs>
       </v-col>
 
       <v-col cols="auto" class="pl-0 flex-grow-1">
-        <v-tabs-window v-model="activeTab">
-          <v-tabs-window-item v-for="metric in metrics" :key="metric.label" :value="metric">
-            <v-card :class="`rounded-ts-0 fill-height border-md`" :style="{borderColor: `$labelColors(metric.label)}} !important`}">
+        <v-tabs-window v-model="activeTabLabel">
+          <v-tabs-window-item
+            v-for="tab in metricTabs"
+            :key="tab.label"
+            :value="tab.label"
+          >
+            <v-card class="rounded-ts-0 fill-height border-md" :style="{ borderColor: `${tab.color} !important` }">
               <v-card-text>
                 <v-table>
                   <thead>
                     <th class="text-left">
-                      Name
+                      Attribute
                     </th>
                     <th class="text-left">
                       Value
@@ -46,9 +57,9 @@
                   </thead>
 
                   <tbody>
-                    <tr v-for="subcomponent in activeTab.subcomponents" :key="subcomponent.name">
-                      <td> {{subcomponent.name}} </td>
-                      <td> {{subcomponent.value}} </td>
+                    <tr v-for="attr in tab.equipment?.attributes" :key="attr.id">
+                      <td>{{attr.displayName}}</td>
+                      <td>{{attr.value}}</td>
                     </tr>
                   </tbody>
                 </v-table>
@@ -67,7 +78,7 @@
             <v-table>
               <thead>
                 <th class="text-left">
-                  Name
+                  Equipment Attribute
                 </th>
                 <th class="text-left">
                   Value
@@ -75,9 +86,9 @@
               </thead>
 
               <tbody>
-                <tr v-for="attribute in mockAttributes" :key="attribute.label">
-                  <td>{{attribute.label}}</td>
-                  <td>{{attribute.value}}</td>
+                <tr v-for="attr in equipment.data?.attributes" :key="attr.id">
+                  <td>{{attr.displayName}}</td>
+                  <td>{{attr.value}}</td>
                 </tr>
               </tbody>
             </v-table>
@@ -105,8 +116,7 @@
 </template>
 
 <script setup lang="ts">
-
-import { useMockEquipmentById } from "~/mocks/equipment";
+import { useEquipmentDetailWithOEE  } from "~/lib/equipment";
 
 
 
@@ -116,62 +126,33 @@ definePageMeta({
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
+const equipment = useEquipmentDetailWithOEE(equipmentId);
 
-// This will be replaced with query to db
-const equipment: Ref<IMockEquipment> = useMockEquipmentById(equipmentId);
+console.log(equipment.value.data?.attributes);
 
-function makeMetricSubcomponents(metricLabel: string, quantity: number): IMetricSubcomponent[] {
-  const subcomponents: IMetricSubcomponent[] = [];
 
-  for(let index = 0; index < quantity; index++) {
-    subcomponents.push({ name: `${metricLabel} Subcomponent ${index}`, value: index * 10 });
-  }
-  return subcomponents;
-}
 
-function makeMetricTimeline(value: number) {
-  return [
-    Math.random() * value,
-    Math.random() * value,
-    Math.random() * value,
-    Math.random() * value,
-    Math.random() * value,
-    Math.random() * value,
-    Math.random() * value,
-    value,
-  ];
-}
 
-function labelColors(label: string) {
-  if(label === "Availability") return "purple";
-  if(label === "Performance") return "teal";
-  if(label === "Quality") return "yellow";
-}
-
-const mockAttributes = computed<{ label: string; value: string }[]>(() => [
-  { label: "Attribute #1", value: "16 hours" },
-  { label: "Attribute #2", value: "73.0%" },
-  { label: "Attribute #3", value: "2024-05-15" },
-  { label: "Attribute #4", value: "08:00" },
-  { label: "Attribute #5", value: "18:00" },
+const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value.data?.oee.summary?.metric?.value));
+const metricTabs = computed(() => [
+  {
+    label: "Availability",
+    color: "purple",
+    equipment: equipment.value.data?.oee.availability,
+  },
+  {
+    label: "Quality",
+    color: "yellow",
+    equipment: equipment.value.data?.oee.quality,
+  },
+  {
+    label: "Performance",
+    color: "teal",
+    equipment: equipment.value.data?.oee.performance,
+  },
 ]);
 
-const oeeSummary = computed(() => makeMetric("OEE", equipment.value.oee));
-const metrics = computed(() => [
-  { ...makeMetric("Availability", equipment.value.availability), subcomponents: makeMetricSubcomponents("Availability", 6), timeline: makeMetricTimeline(equipment.value.availability) },
-  { ...makeMetric("Performance", equipment.value.performance), subcomponents: makeMetricSubcomponents("Performance", 6), timeline: makeMetricTimeline(equipment.value.performance) },
-  { ...makeMetric("Quality", equipment.value.quality), subcomponents: makeMetricSubcomponents("Quality", 6), timeline: makeMetricTimeline(equipment.value.quality) },
-]);
-
-interface IMetricSubcomponent {
-  name: string;
-  value: number;
-}
-
-
-
-
-const activeTab = ref(metrics.value[0]);
+const activeTabLabel = ref(metricTabs.value[0].label);
 </script>
 
 

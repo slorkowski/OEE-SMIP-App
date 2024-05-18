@@ -1,8 +1,9 @@
-import type { MachineState } from "~/mocks/equipment";
+
+export type MachineState = "success" | "warn" | "error";
 
 
 
-export default (oee: number): MachineState => {
+export default function getColorState(oee: number): MachineState {
   if(oee > 80) {
     return "success";
   } else if(oee > 50) {
@@ -10,4 +11,4 @@ export default (oee: number): MachineState => {
   } else {
     return "error";
   }
-};
+}

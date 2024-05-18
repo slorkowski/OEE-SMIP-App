@@ -37,35 +37,52 @@ query GetOEEEquipmentTypesWithEquipmentIds {
 fragment IntervalValue on Interval {
   years months days hours minutes seconds
 }
+fragment Limit on AttributeLimit {
+  id
+  displayName
+  description
+  fqn
+  relativeName
+
+  direction
+  floatValue
+}
+fragment AttributeOverview on Attribute {
+  id
+  displayName
+  fqn
+  relativeName
+  updatedTimestamp
+  dataType
+  attributeType { dataType }
+  limits { ...Limit }
+
+  # Values
+  # Requesting all, but will only use the one specified by `typeName`
+  intValue
+  boolValue
+  floatValue
+  stringValue
+  objectValue
+  datetimeValue
+  enumerationValue
+  enumerationValues
+  minValue
+  maxValue
+  geopointValue
+  intervalValue { ...IntervalValue }
+
+  # Also fetching latest Time Series value, in case "current" value isn't set
+  getTimeSeries(first: 1, endTime: $now) {
+    ...TimeSeriesValue
+  }
+}
 fragment EquipmentOverview on Equipment {
   id
   displayName
   description
 
-  attributes {
-    id
-    displayName
-    fqn
-    relativeName
-    updatedTimestamp
-    dataType
-    attributeType { dataType }
-
-    # Values
-    # Requesting all, but will only use the one specified by `typeName`
-    intValue
-    boolValue
-    floatValue
-    stringValue
-    objectValue
-    datetimeValue
-    enumerationValue
-    enumerationValues
-    minValue
-    maxValue
-    geopointValue
-    intervalValue { ...IntervalValue }
-  }
+  attributes { ...AttributeOverview }
 
   type {
     id
@@ -80,8 +97,16 @@ fragment EquipmentWithOEE on Equipment {
         ...EquipmentOverview
     }
 }
-query GetEquipments($filter: EquipmentFilter) {
+query GetEquipments($filter: EquipmentFilter, $now: Datetime!) {
     equipments(filter: $filter) {
+        ...EquipmentWithOEE
+    }
+}
+
+
+
+query GetEquipmentDetail($id: BigInt!, $now: Datetime!) {
+    equipment(id: $id) {
         ...EquipmentWithOEE
     }
 }

@@ -60,10 +60,10 @@ async function onSubmit() {
                 :rules="[required]"
               />
               <!--
-              This _could_ be a dropdown with specific roles, but GraphQL doesn't expose these roles.
-              The roles are ostensibly "constructable" using the instance's ThinkIQ domain name,
-              but we'll just have the user manually type it in here.
-            -->
+                This _could_ be a dropdown with specific roles, but GraphQL doesn't expose these roles.
+                The roles are ostensibly "constructable" using the instance's ThinkIQ domain name,
+                but we'll just have the user manually type it in here.
+              -->
               <v-text-field
                 v-model="role"
                 label="Role"

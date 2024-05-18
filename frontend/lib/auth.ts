@@ -95,6 +95,12 @@ export function useGraphQLUser(): ComputedRef<GraphQLUser | undefined> {
     }
 
     const jwtObj = jwtDecode(graphqlToken.value);
+    if(jwtObj.exp && jwtObj.exp < (Date.now() / 1000)) {
+      console.warn("GraphQL token has expired. Redirecting to login page...");
+      graphqlToken.value = null;
+      return undefined;
+    }
+
     try {
       return GraphQLUserSchema.parse(jwtObj);
     } catch(err) {
