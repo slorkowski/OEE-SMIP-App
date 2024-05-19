@@ -55,6 +55,7 @@ async function onSubmit() {
           <v-card :loading="loading">
             <v-card-text>
               <v-text-field
+                id="authenticator"
                 v-model="authenticator"
                 label="Authenticator"
                 :rules="[required]"
@@ -65,16 +66,19 @@ async function onSubmit() {
                 but we'll just have the user manually type it in here.
               -->
               <v-text-field
+                id="role"
                 v-model="role"
                 label="Role"
                 :rules="[required]"
               />
               <v-text-field
+                id="username"
                 v-model="username"
                 label="Username"
                 :rules="[required]"
               />
               <v-text-field
+                id="password"
                 v-model="password"
                 label="Password"
                 type="password"
