@@ -4,14 +4,14 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
+    "check": "tsc -p . --pretty",
+    "codegen": "graphql-codegen",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "codegen": "graphql-codegen",
-    "check": "tsc -p . --pretty"
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview"
   },
   "dependencies": {
     "@apollo/client": "^3.10.2",
@@ -36,6 +36,6 @@
     "sass": "^1.77.0",
     "typescript": "^5.4.5",
     "vite-plugin-vuetify": "^2.0.3",
-    "vuetify": "^3.5.17"
+    "vuetify": "^3.6.6"
   }
 }

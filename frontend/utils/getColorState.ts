@@ -1,6 +1,9 @@
-export type ColorState = "success" | "warn" | "error";
 
-export default (oee: number): ColorState => {
+export type MachineState = "success" | "warn" | "error";
+
+
+
+export default function getColorState(oee: number): MachineState {
   if(oee > 80) {
     return "success";
   } else if(oee > 50) {
@@ -8,9 +11,4 @@ export default (oee: number): ColorState => {
   } else {
     return "error";
   }
-};
-
-
-export function hslToString(hsl: { hue: number; saturation: number; luminance: number }): string {
-  return `${hsl.hue} ${hsl.saturation} ${hsl.luminance}`;
 }

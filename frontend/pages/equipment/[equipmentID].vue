@@ -1,71 +1,121 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12" class="d-flex align-center">
+    <v-row class="ma-0">
+      <v-col cols="12" class="d-flex flex-row">
         <!-- Back Button -->
         <v-btn
           to="/"
-          icon="mdi-chevron-left"
-          variant="text"
           density="compact"
           size="large"
           class="text-h5"
-        />
-        <h2 class="text-h5 d-inline ml-2">
-          {{equipment.data?.displayName}} Details
+          border="md"
+        >
+          <v-icon   icon="mdi-arrow-left-bold"/>
+        </v-btn>
+
+        <h2 class="text-h5 d-inline ml-4">
+          {{equipment.data?.displayName || "Equipment"}} Details
         </h2>
       </v-col>
 
-      <v-col cols="12" class="d-flex flex-row justify-space-around align-center">
-        <MetricSelectCard
-          label="OEE"
-          :active="activeMetricKey === 'summary'"
-          :value="equipment.data?.oee.summary?.metric?.value"
-          @click="() => setActiveMetric('summary')"
-        />
-        <v-icon icon="mdi-equal" size="50"/>
-        <MetricSelectCard
-          label="Availability"
-          :active="activeMetricKey === 'availability'"
-          :value="equipment.data?.oee.availability?.metric?.value"
-          @click="() => setActiveMetric('availability')"
-        />
-        <v-icon icon="mdi-close" size="50"/>
-        <MetricSelectCard
-          label="Quality"
-          :active="activeMetricKey === 'quality'"
-          :value="equipment.data?.oee.quality?.metric?.value"
-          @click="() => setActiveMetric('quality')"
-        />
-        <v-icon icon="mdi-close" size="50"/>
-        <MetricSelectCard
-          label="Performance"
-          :active="activeMetricKey === 'performance'"
-          :value="equipment.data?.oee.performance?.metric?.value"
-          @click="() => setActiveMetric('performance')"
-        />
+      <v-col cols="4">
+        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250" :style="{marginLeft: '78px'}" />
       </v-col>
 
-      <v-col cols="12">
-        <v-expansion-panels v-model="subcomponents" multiple>
-          <!-- Math.round(activeMetric.length / 2) is just used for variation -->
-          <v-expansion-panel
-            v-for="n in (Math.round(activeMetricKey.length / 2))" :key="n" :value="n">
-            <v-expansion-panel-title class="text-h6 pl-8">
-              {{activeMetricKey}} Subcomponent {{n}}
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              Graphics here
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
+      <v-col cols="auto" class="pr-0">
+        <v-tabs v-model="activeTabLabel" direction="vertical" class="border-md border-e-0">
+          <v-tab
+            v-for="tab in metricTabs"
+            :key="tab.label"
+
+            :value="tab.label"
+            class="metric-card"
+            :class="activeTabLabel === tab.label ? `bg-${tab.color}` : 'bg-surface'"
+          >
+            <ContrastLabel :label="tab.label"/>
+          </v-tab>
+        </v-tabs>
       </v-col>
+
+      <v-col cols="auto" class="pl-0 flex-grow-1">
+        <v-tabs-window v-model="activeTabLabel">
+          <v-tabs-window-item
+            v-for="tab in metricTabs"
+            :key="tab.label"
+            :value="tab.label"
+          >
+            <v-card class="rounded-ts-0 fill-height border-md" :style="{ borderColor: `${tab.color} !important` }">
+              <v-card-text>
+                <v-table>
+                  <thead>
+                    <th class="text-left">
+                      Attribute
+                    </th>
+                    <th class="text-left">
+                      Value
+                    </th>
+                  </thead>
+
+                  <tbody>
+                    <tr v-for="attr in tab.equipment?.attributes" :key="attr.id">
+                      <td>{{attr.displayName}}</td>
+                      <td>{{attr.value}}</td>
+                    </tr>
+                  </tbody>
+                </v-table>
+              </v-card-text>
+            </v-card>
+
+          </v-tabs-window-item>
+        </v-tabs-window>
+      </v-col>
+    </v-row>
+
+    <v-row class="ma-0">
+      <v-col cols="6">
+        <v-card class="rounded-ts-0 fill-height">
+          <v-card-text>
+            <v-table>
+              <thead>
+                <th class="text-left">
+                  Equipment Attribute
+                </th>
+                <th class="text-left">
+                  Value
+                </th>
+              </thead>
+
+              <tbody>
+                <tr v-for="attr in equipment.data?.attributes" :key="attr.id">
+                  <td>{{attr.displayName}}</td>
+                  <td>{{attr.value}}</td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <!-- <v-col cols="7" class="pl-6">
+        <v-card
+          class="d-flex flex-grow-1 fill-height">
+          <v-card-text>
+            <v-sparkline
+              v-for="metric in metrics" :key="metric.label"
+              :model-value="metric.timeline"
+              :color="labelColors(metric.label)"
+              line-width="1"
+              min="0"
+              :style="{position: 'absolute'}"
+            />
+          </v-card-text>
+        </v-card>
+      </v-col> -->
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import type { OEEMetricKey } from "~/lib/equipment";
 import { useEquipmentDetailWithOEE  } from "~/lib/equipment";
 
 
@@ -76,18 +126,48 @@ definePageMeta({
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
-
-// This will be replaced with query to db
 const equipment = useEquipmentDetailWithOEE(equipmentId);
 
-const activeMetricKey = ref<OEEMetricKey>("summary");
-
-const subcomponents = ref();
+console.log(equipment.value.data?.attributes);
 
 
 
-function setActiveMetric(key: OEEMetricKey) {
-  activeMetricKey.value = key;
-}
+
+const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value.data?.oee.summary?.metric?.value));
+const metricTabs = computed(() => [
+  {
+    label: "Availability",
+    color: "purple",
+    equipment: equipment.value.data?.oee.availability,
+  },
+  {
+    label: "Quality",
+    color: "yellow",
+    equipment: equipment.value.data?.oee.quality,
+  },
+  {
+    label: "Performance",
+    color: "teal",
+    equipment: equipment.value.data?.oee.performance,
+  },
+]);
+
+const activeTabLabel = ref(metricTabs.value[0].label);
 </script>
 
+
+<style lang="scss">
+@use "~/node_modules/vuetify/_styles.scss";
+
+.metric-card:not(:last-child) {
+  @extend .border-b-md;
+}
+
+.percent-bg {
+  position: absolute;
+
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+}
+</style>
