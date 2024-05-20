@@ -13,18 +13,20 @@ const importConfig = {
     "import/no-absolute-path": [ "error" ],
     "import/no-mutable-exports": [ "error" ],
     "import/no-useless-path-segments": [ "error" ],
-    "import/order": [ "error", {
-      "groups": [
-        "builtin",
-        "external",
-      ],
-      "newlines-between": "always",
-      "alphabetize": {
-        order: "asc",
-        orderImportKind: "asc",
-        caseInsensitive: true,
+    "import/order": [
+      "error", {
+        "groups": [
+          "builtin",
+          "external",
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          order: "asc",
+          orderImportKind: "asc",
+          caseInsensitive: true,
+        },
       },
-    } ],
+    ],
   },
 };
 
@@ -62,25 +64,45 @@ export default createConfigForNuxt()
       rules: {
         "@stylistic/array-bracket-spacing": [ "error", "always" ],
         "@stylistic/jsx-one-expression-per-line": "off",
-        "@stylistic/keyword-spacing": [ "error", {
-          overrides: {
-            catch: { after: false },
-            for: { after: false },
-            if: { after: false },
-            while: { after: false },
+        "@stylistic/keyword-spacing": [
+          "error", {
+            overrides: {
+              catch: { after: false },
+              for: { after: false },
+              if: { after: false },
+              while: { after: false },
+            },
           },
-        } ],
-        "@stylistic/key-spacing": [ "warn", {
-          mode: "minimum",
-        } ],
-        "@stylistic/no-multiple-empty-lines": [ "warn", { max: 5, maxEOF: 1 } ],
+        ],
+        "@stylistic/key-spacing": [
+          "warn", {
+            mode: "minimum",
+          },
+        ],
+        "@stylistic/no-multiple-empty-lines": [
+          "warn", { max: 5,
+            maxEOF: 1 },
+        ],
         "@stylistic/no-multi-spaces": [ "off" ],
+        "@stylistic/array-element-newline": [
+          "warn", {
+            ArrayExpression: "consistent",
+          },
+        ],
+        "@stylistic/newline-per-chained-call": [ "warn" ],
+        "@stylistic/padding-line-between-statements": [
+          "error",
+          { blankLine: "always",
+            prev: [ "var", "const", "let" ],
+            next: "return" },
+        ],
+        "@stylistic/object-property-newline": [ "warn" ],
+        "@stylistic/array-bracket-newline": [ "warn", { multiline: true } ],
+        "@stylistic/jsx-first-prop-new-line": [ "warn", "multiline-multiprop" ],
       },
     },
     {
-      ignores: [
-        "generated/graphql",
-      ],
+      ignores: [ "generated/graphql" ],
     },
   ])
   .override("nuxt/typescript/rules", tsConfig)

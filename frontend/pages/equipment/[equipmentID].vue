@@ -16,14 +16,40 @@
         <h2 class="text-h5 d-inline ml-4">
           {{equipment.data?.displayName || "Equipment"}} Details
         </h2>
+
+
       </v-col>
 
       <v-col cols="4">
-        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250" :style="{marginLeft: '78px'}" />
+        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250"  />
       </v-col>
 
-      <v-col cols="auto" class="pr-0">
-        <v-tabs v-model="activeTabLabel" direction="vertical" class="border-md border-e-0">
+      <v-col>
+        <v-card class="rounded-ts-0 fill-height">
+          <v-card-text>
+            <v-table>
+              <thead>
+                <th class="text-left">
+                  Equipment Attribute
+                </th>
+                <th class="text-left">
+                  Value
+                </th>
+              </thead>
+
+              <tbody>
+                <tr v-for="attr in equipment.data?.attributes" :key="attr.id">
+                  <td>{{attr.displayName}}</td>
+                  <td>{{attr.value}}</td>
+                </tr>
+              </tbody>
+            </v-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" class="pl-0 flex-grow-1">
+        <v-tabs v-model="activeTabLabel"  hide-slider>
           <v-tab
             v-for="tab in metricTabs"
             :key="tab.label"
@@ -35,16 +61,13 @@
             <ContrastLabel :label="tab.label"/>
           </v-tab>
         </v-tabs>
-      </v-col>
-
-      <v-col cols="auto" class="pl-0 flex-grow-1">
         <v-tabs-window v-model="activeTabLabel">
           <v-tabs-window-item
             v-for="tab in metricTabs"
             :key="tab.label"
             :value="tab.label"
           >
-            <v-card class="rounded-ts-0 fill-height border-md" :style="{ borderColor: `${tab.color} !important` }">
+            <v-card :class="`rounded-ts-0 fill-height border-md border-${tab.color} border-opacity-100`">
               <v-card-text>
                 <v-table>
                   <thead>
@@ -72,29 +95,7 @@
     </v-row>
 
     <v-row class="ma-0">
-      <v-col cols="6">
-        <v-card class="rounded-ts-0 fill-height">
-          <v-card-text>
-            <v-table>
-              <thead>
-                <th class="text-left">
-                  Equipment Attribute
-                </th>
-                <th class="text-left">
-                  Value
-                </th>
-              </thead>
-
-              <tbody>
-                <tr v-for="attr in equipment.data?.attributes" :key="attr.id">
-                  <td>{{attr.displayName}}</td>
-                  <td>{{attr.value}}</td>
-                </tr>
-              </tbody>
-            </v-table>
-          </v-card-text>
-        </v-card>
-      </v-col>
+      <v-col cols="6"/>
 
       <!-- <v-col cols="7" class="pl-6">
         <v-card
@@ -142,7 +143,7 @@ const metricTabs = computed(() => [
   },
   {
     label: "Quality",
-    color: "yellow",
+    color: "indigo",
     equipment: equipment.value.data?.oee.quality,
   },
   {
