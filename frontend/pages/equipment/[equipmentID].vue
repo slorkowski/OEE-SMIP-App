@@ -16,8 +16,6 @@
         <h2 class="text-h5 d-inline ml-4">
           {{equipment.data?.displayName || "Equipment"}} Details
         </h2>
-
-
       </v-col>
 
       <v-col cols="4">
@@ -93,26 +91,6 @@
         </v-tabs-window>
       </v-col>
     </v-row>
-
-    <v-row class="ma-0">
-      <v-col cols="6"/>
-
-      <!-- <v-col cols="7" class="pl-6">
-        <v-card
-          class="d-flex flex-grow-1 fill-height">
-          <v-card-text>
-            <v-sparkline
-              v-for="metric in metrics" :key="metric.label"
-              :model-value="metric.timeline"
-              :color="labelColors(metric.label)"
-              line-width="1"
-              min="0"
-              :style="{position: 'absolute'}"
-            />
-          </v-card-text>
-        </v-card>
-      </v-col> -->
-    </v-row>
   </v-container>
 </template>
 
@@ -127,7 +105,7 @@ definePageMeta({
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
-const equipment = useEquipmentDetailWithOEE(equipmentId);
+const equipment = await useEquipmentDetailWithOEE(equipmentId);
 
 console.log(equipment.value.data?.attributes);
 
