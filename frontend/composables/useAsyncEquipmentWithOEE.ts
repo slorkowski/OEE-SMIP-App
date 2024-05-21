@@ -14,7 +14,9 @@ export default function () {
   }, "default", {
     enabled: equipmentIds.value && equipmentIds.value.length > 0,
     errorPolicy: "ignore",
-  }, { transform: (eqRes) => {
-    return eqRes.equipments?.map(parseEquipmentWithOEE);
-  } });
+  }, {
+    transform: (eqRes) => {
+      return eqRes.equipments?.map(parseEquipmentWithOEE);
+    },
+  });
 }

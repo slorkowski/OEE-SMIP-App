@@ -36,7 +36,7 @@ const { label, value, size, width } = withDefaults(defineProps<Props>(), {
 });
 
 const progressValue = computed(() => typeof value === "number"
-  ? clamp(value, { min: 0,
-    max: 100 })
-  : 0);
+  ? clamp(value, { min: 0, max: 100 })
+  : 0,
+);
 </script>

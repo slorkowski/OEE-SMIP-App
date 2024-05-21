@@ -10,7 +10,9 @@ export default function (id: string) {
   },
   "default",
   { errorPolicy: "ignore" },
-  { transform:
-    (res) => { res.equipment ? parseEquipmentWithOEE(res.equipment) : undefined; },
+  {
+    transform: (res) => {
+      res.equipment ? parseEquipmentWithOEE(res.equipment) : undefined;
+    },
   });
 }

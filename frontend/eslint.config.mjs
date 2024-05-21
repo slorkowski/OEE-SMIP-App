@@ -80,23 +80,33 @@ export default createConfigForNuxt()
           },
         ],
         "@stylistic/no-multiple-empty-lines": [
-          "warn", { max: 5,
-            maxEOF: 1 },
+          "warn", {
+            max: 5,
+            maxEOF: 1,
+          },
         ],
         "@stylistic/no-multi-spaces": [ "off" ],
         "@stylistic/array-element-newline": [
-          "warn", {
-            ArrayExpression: "consistent",
-          },
+          "warn",
+          { ArrayExpression: "consistent" },
         ],
         "@stylistic/newline-per-chained-call": [ "warn" ],
         "@stylistic/padding-line-between-statements": [
           "error",
-          { blankLine: "always",
+          {
+            blankLine: "always",
             prev: [ "var", "const", "let" ],
-            next: "return" },
+            next: "return",
+          },
         ],
-        "@stylistic/object-property-newline": [ "warn" ],
+        "@stylistic/object-curly-newline": [
+          "warn",
+          { multiline: true, consistent: true },
+        ],
+        "@stylistic/object-property-newline": [
+          "warn",
+          { allowAllPropertiesOnSameLine: true },
+        ],
         "@stylistic/array-bracket-newline": [ "warn", { multiline: true } ],
         "@stylistic/jsx-first-prop-new-line": [ "warn", "multiline-multiprop" ],
       },
