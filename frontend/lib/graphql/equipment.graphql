@@ -73,7 +73,7 @@ fragment AttributeOverview on Attribute {
   intervalValue { ...IntervalValue }
 
   # Also fetching latest Time Series value, in case "current" value isn't set
-  getTimeSeries(first: 1, endTime: $now) {
+  getTimeSeries(first: 1, startTime: $now) {
     ...TimeSeriesValue
   }
 }
