@@ -19,7 +19,12 @@
       </v-col>
 
       <v-col cols="4" class="d-flex justify-center">
-        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250" />
+        <MetricProgressCircular
+          label="OEE"
+          label-class="text-h4"
+          :value="oeeSummary.value"
+          :size="250"
+        />
       </v-col>
 
       <v-col cols="8">
