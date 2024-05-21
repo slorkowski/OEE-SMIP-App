@@ -18,11 +18,11 @@
         </h2>
       </v-col>
 
-      <v-col cols="4">
-        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250"  />
+      <v-col cols="4" class="d-flex justify-center">
+        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250" />
       </v-col>
 
-      <v-col>
+      <v-col cols="8">
         <v-card class="rounded-ts-0 fill-height">
           <v-card-text>
             <v-table>
@@ -46,7 +46,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="12" class="pl-0 flex-grow-1">
+      <v-col cols="4" class="pl-0 flex-grow-1">
         <v-tabs v-model="activeTabLabel"  hide-slider>
           <v-tab
             v-for="tab in metricTabs"
