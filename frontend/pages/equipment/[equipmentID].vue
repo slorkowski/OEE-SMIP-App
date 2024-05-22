@@ -10,12 +10,24 @@
           class="text-h5"
           border="md"
         >
-          <v-icon   icon="mdi-arrow-left-bold"/>
+          <v-icon icon="mdi-arrow-left-bold"/>
         </v-btn>
 
         <h2 class="text-h5 d-inline ml-4">
-          {{equipment.data?.displayName || "Equipment"}} Details
+          {{equipment?.displayName || "Equipment"}} Details
         </h2>
+
+        <v-spacer/>
+
+        <v-btn
+          density="compact"
+          size="large"
+          class="text-h5"
+          border="md"
+          @click="refresh()"
+        >
+          <v-icon icon="mdi-refresh"/>
+        </v-btn>
       </v-col>
 
       <v-col cols="4" class="d-flex justify-center">
@@ -41,7 +53,7 @@
               </thead>
 
               <tbody>
-                <tr v-for="attr in equipment.data?.attributes" :key="attr.id">
+                <tr v-for="attr in equipment?.attributes" :key="attr.id">
                   <td>{{attr.displayName}}</td>
                   <td>{{attr.value}}</td>
                 </tr>
@@ -100,7 +112,6 @@
 </template>
 
 <script setup lang="ts">
-import { useEquipmentDetailWithOEE  } from "~/lib/equipment";
 
 
 
@@ -110,29 +121,28 @@ definePageMeta({
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
-const equipment = await useEquipmentDetailWithOEE(equipmentId);
-
-console.log(equipment.value.data?.attributes);
+const { data: equipment, refresh } = await useAsyncEquipmentDetailWithOEE(equipmentId);
 
 
 
 
-const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value.data?.oee.summary?.metric?.value));
+
+const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value?.oee.summary?.metric?.value));
 const metricTabs = computed(() => [
   {
     label: "Availability",
     color: "purple",
-    equipment: equipment.value.data?.oee.availability,
+    equipment: equipment.value?.oee.availability,
   },
   {
     label: "Quality",
     color: "indigo",
-    equipment: equipment.value.data?.oee.quality,
+    equipment: equipment.value?.oee.quality,
   },
   {
     label: "Performance",
     color: "teal",
-    equipment: equipment.value.data?.oee.performance,
+    equipment: equipment.value?.oee.performance,
   },
 ]);
 

@@ -57,15 +57,14 @@ export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
    * This represents a root equipment following structure #2 (see above).
    */
   const oeeEquipmentIdsWithOEEChildren = computed(() =>
-    oeeParentIds.value.filter((partOfId) => oeeEquipmentIds.value.has(partOfId)),
-  );
+    oeeParentIds.value.filter((partOfId) => oeeEquipmentIds.value.has(partOfId)));
+
   const oeeParentIdsWihoutOEEChildren = computed(() => unique(
     oeeEquipment.value.filter((eq) =>
       // Exclude the parent of equipment who are counted under structure #2.
       !oeeEquipmentIdsWithOEEChildren.value.includes(eq.id)
       // Exclude the equipment who are counted under structure #2.
-      && (!eq.partOfId || !oeeEquipmentIdsWithOEEChildren.value.includes(eq.partOfId)),
-    )
+      && (!eq.partOfId || !oeeEquipmentIdsWithOEEChildren.value.includes(eq.partOfId)))
       .map((eq) => eq.partOfId)
       .filter(isNonNullish),
   ));

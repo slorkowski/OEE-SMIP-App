@@ -1,9 +1,23 @@
 <template>
   <v-container>
     <v-row class="ma-0 justify-center">
-      <v-col v-if="equipments" cols="12"  class="dashboard-grid">
+      <v-col cols="12" class="d-flex flex-row">
+        <v-spacer/>
+        <v-btn
+          density="compact"
+          size="large"
+          class="text-h5"
+          border="md"
+          @click="refresh()"
+        >
+          <v-icon icon="mdi-refresh"/>
+        </v-btn>
+
+      </v-col>
+      <v-col v-if="equipments" cols="12" class="dashboard-grid">
         <EquipmentCard
           v-for="equipment in equipments"
+          :id="equipment.id"
           :key="equipment.id"
           :equipment="equipment"
           @click="navigateTo(`/equipment/${equipment.id}`)"

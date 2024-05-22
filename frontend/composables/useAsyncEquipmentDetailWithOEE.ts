@@ -12,7 +12,7 @@ export default function (id: string) {
   { errorPolicy: "ignore" },
   {
     transform: (res) => {
-      res.equipment ? parseEquipmentWithOEE(res.equipment) : undefined;
+      return res.equipment ? parseEquipmentWithOEE(res.equipment) : undefined;
     },
   });
 }
