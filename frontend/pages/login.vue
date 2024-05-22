@@ -84,7 +84,7 @@ async function onSubmit() {
                 id="password"
                 v-model="password"
                 label="Password"
-                name="Username"
+                name="Password"
                 type="password"
                 :rules="[required]"
               />
