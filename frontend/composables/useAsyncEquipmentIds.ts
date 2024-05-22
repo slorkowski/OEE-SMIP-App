@@ -4,7 +4,7 @@ import { GetOeeEquipmentTypesWithEquipmentIdsDocument } from "~/generated/graphq
 
 
 
-export default function () {
+export default function useAsyncEquipmentIds() {
   return useAsyncQuery(GetOeeEquipmentTypesWithEquipmentIdsDocument,
     {},
     "default",

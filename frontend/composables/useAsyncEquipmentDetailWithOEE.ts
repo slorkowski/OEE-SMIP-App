@@ -3,7 +3,7 @@ import { parseEquipmentWithOEE   } from "~/lib/equipment";
 
 
 
-export default function (id: string) {
+export default function useAsyncEquipmentDetailWithOEE(id: string) {
   return useAsyncQuery(GetEquipmentDetailDocument, {
     id,
     now: new Date().toISOString(),
