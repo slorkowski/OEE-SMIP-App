@@ -58,6 +58,7 @@ async function onSubmit() {
                 id="authenticator"
                 v-model="authenticator"
                 label="Authenticator"
+                name="Authenticator"
                 :rules="[required]"
               />
               <!--
@@ -69,18 +70,21 @@ async function onSubmit() {
                 id="role"
                 v-model="role"
                 label="Role"
+                name="Role"
                 :rules="[required]"
               />
               <v-text-field
                 id="username"
                 v-model="username"
                 label="Username"
+                name="Username"
                 :rules="[required]"
               />
               <v-text-field
                 id="password"
                 v-model="password"
                 label="Password"
+                name="Username"
                 type="password"
                 :rules="[required]"
               />
