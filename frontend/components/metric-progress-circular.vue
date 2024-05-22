@@ -37,8 +37,9 @@ const { label, labelClass, value, size, width } = withDefaults(defineProps<Props
   labelClass: "text-subtitle-1",
 });
 
-const progressValue = computed(() => typeof value === "number"
-  ? clamp(value, { min: 0, max: 100 })
-  : 0,
+const progressValue = computed(
+  () => typeof value === "number"
+    ? clamp(value, { min: 0, max: 100 })
+    : 0,
 );
 </script>
