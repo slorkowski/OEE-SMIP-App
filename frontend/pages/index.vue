@@ -29,7 +29,10 @@
           <v-col
             v-for="equipment in equipments"
             :key="equipment.id"
-            :cols="$vuetify.display.lgAndDown ? '12' : '4'"
+
+            cols="12"
+            md="6"
+            xl="4"
           >
             <EquipmentCard
               :id="equipment.id"
