@@ -30,7 +30,7 @@
         </v-btn>
       </v-col>
 
-      <v-col cols="4" class="d-flex justify-center">
+      <v-col :cols="$vuetify.display.mdAndDown ? '12' : '4'" class="d-flex justify-center">
         <MetricProgressCircular
           label="OEE"
           label-class="text-h4"
@@ -39,7 +39,7 @@
         />
       </v-col>
 
-      <v-col cols="8">
+      <v-col :cols="$vuetify.display.mdAndDown ? '12' : '8'">
         <v-card class="rounded-ts-0 fill-height">
           <v-card-text>
             <v-table>
@@ -63,7 +63,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="4" class="pl-0 flex-grow-1">
+      <v-col :cols="$vuetify.display.mdAndDown ? '12' : '4'" class="pl-0 flex-grow-1">
         <v-tabs v-model="activeTabLabel"  hide-slider>
           <v-tab
             v-for="tab in metricTabs"

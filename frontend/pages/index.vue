@@ -14,14 +14,20 @@
         </v-btn>
 
       </v-col>
-      <v-col v-if="equipments" cols="12" class="dashboard-grid">
-        <EquipmentCard
-          v-for="equipment in equipments"
-          :id="equipment.id"
-          :key="equipment.id"
-          :equipment="equipment"
-          @click="navigateTo(`/equipment/${equipment.id}`)"
-        />
+      <v-col v-if="equipments" cols="12">
+        <v-row>
+          <v-col
+            v-for="equipment in equipments"
+            :key="equipment.id"
+            :cols="$vuetify.display.lgAndDown ? '12' : '4'"
+          >
+            <EquipmentCard
+              :id="equipment.id"
+              :equipment="equipment"
+              @click="navigateTo(`/equipment/${equipment.id}`)"
+            />
+          </v-col>
+        </v-row>
       </v-col>
 
       <v-col v-else cols="auto">
@@ -48,11 +54,3 @@ definePageMeta({
 
 const { data: equipments, refresh } = await useAsyncEquipmentWithOEE();
 </script>
-
-<style>
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-</style>
