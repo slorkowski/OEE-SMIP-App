@@ -3,13 +3,13 @@ import { parseEquipmentWithOEE } from "~/lib/equipment";
 
 
 
-export default function () {
-  const { data: equipmentIds } = useAsyncEquipmentIds();
+export default function useAsyncEquipmentWithOEE() {
+  const { data: equipmentIds, refresh, status: idStatus } = useAsyncEquipmentIds();
 
   const now = new Date();
   now.setDate(now.getDate() - 1);
 
-  return useAsyncQuery(GetEquipmentsDocument, {
+  const res = useAsyncQuery(GetEquipmentsDocument, {
     filter: {
       id: { in: equipmentIds.value ?? [] },
     },
@@ -22,4 +22,13 @@ export default function () {
       return eqRes.equipments?.map(parseEquipmentWithOEE);
     },
   });
+
+  // Compound status involving both queries.
+  const status = computed(() => idStatus.value === "success" ? res.status.value : idStatus.value);
+
+  return {
+    ...res,
+    status,
+    refresh,
+  };
 }
