@@ -33,7 +33,7 @@
       <v-col
         cols="12"
         md="4"
-        class="d-flex justify-center"
+        class="d-flex justify-center align-center"
       >
         <MetricProgressCircular
           label="OEE"
@@ -46,28 +46,12 @@
       <v-col cols="12" md="8">
         <v-card class="rounded-ts-0 fill-height">
           <v-card-text>
-            <v-table>
-              <thead>
-                <th class="text-left">
-                  Equipment Attribute
-                </th>
-                <th class="text-left">
-                  Value
-                </th>
-              </thead>
-
-              <tbody>
-                <tr v-for="attr in equipment?.attributes" :key="attr.id">
-                  <td>{{attr.displayName}}</td>
-                  <td>{{attr.value}}</td>
-                </tr>
-              </tbody>
-            </v-table>
+            <attribute-table :attributes="equipment?.attributes" :loading="pending"/>
           </v-card-text>
         </v-card>
       </v-col>
 
-      <v-col cols="12" md="4" class="pl-0 flex-grow-1">
+      <v-col cols="12" md="6" class="pl-0 flex-grow-1">
         <v-tabs v-model="activeTabLabel"  hide-slider>
           <v-tab
             v-for="tab in metricTabs"
@@ -88,23 +72,7 @@
           >
             <v-card :class="`rounded-ts-0 fill-height border-md border-${tab.color} border-opacity-100`">
               <v-card-text>
-                <v-table>
-                  <thead>
-                    <th class="text-left">
-                      Attribute
-                    </th>
-                    <th class="text-left">
-                      Value
-                    </th>
-                  </thead>
-
-                  <tbody>
-                    <tr v-for="attr in tab.equipment?.attributes" :key="attr.id">
-                      <td>{{attr.displayName}}</td>
-                      <td>{{attr.value}}</td>
-                    </tr>
-                  </tbody>
-                </v-table>
+                <attribute-table :attributes="tab.equipment?.attributes" :loading="pending"/>
               </v-card-text>
             </v-card>
 
@@ -125,7 +93,7 @@ definePageMeta({
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
-const { data: equipment, refresh } = useAsyncEquipmentDetailWithOEE(equipmentId);
+const { data: equipment, refresh, pending } = useAsyncEquipmentDetailWithOEE(equipmentId);
 
 
 
