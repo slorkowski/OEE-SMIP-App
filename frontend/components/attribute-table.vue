@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading" class="flex flex-column ga-4">
+  <div v-if="loading" class="d-flex flex-column align-center ga-4">
     <span>Loading Attributes...</span>
     <v-progress-circular :size="75" color="primary" indeterminate/>
   </div>
