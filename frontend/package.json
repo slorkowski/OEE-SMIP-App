@@ -1,18 +1,4 @@
 {
-  "name": "nuxt-app",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "check": "tsc -p . --pretty",
-    "codegen": "graphql-codegen",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "postinstall": "nuxt prepare",
-    "preview": "nuxt preview"
-  },
   "dependencies": {
     "@apollo/client": "^3.10.2",
     "@mdi/font": "^7.4.47",
@@ -36,5 +22,19 @@
     "typescript": "^5.4.5",
     "vite-plugin-vuetify": "^2.0.3",
     "vuetify": "^3.6.6"
-  }
+  },
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "check": "tsc -p . --pretty",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "postinstall": "nuxt prepare",
+    "predev": "graphql-codegen",
+    "preview": "nuxt preview"
+  },
+  "type": "module"
 }
