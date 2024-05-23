@@ -61,5 +61,5 @@ definePageMeta({
   title: "Dashboard",
 });
 
-const { data: equipments, refresh, status } = await useAsyncEquipmentWithOEE();
+const { data: equipments, refresh, status } = useAsyncEquipmentWithOEE();
 </script>
