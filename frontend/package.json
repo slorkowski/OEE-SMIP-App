@@ -5,7 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "check": "tsc -p . --pretty",
-    "codegen": "graphql-codegen",
+    "predev": "graphql-codegen",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "lint": "eslint .",
