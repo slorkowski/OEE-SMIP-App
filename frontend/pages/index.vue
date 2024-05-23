@@ -8,7 +8,7 @@
           size="large"
           class="text-h5"
           border="md"
-          @click="refresh()"
+          @click="() => refresh()"
         >
           <v-icon icon="mdi-refresh"/>
         </v-btn>
