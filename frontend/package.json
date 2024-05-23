@@ -1,7 +1,11 @@
 {
-  "name": "nuxt-app",
+  "name": "smip-oee-dashboard",
   "private": true,
   "type": "module",
+  "contributors": [
+    "Scott Fasone <scott.fasone@bixford.digital>",
+    "Connor Guarino <connor.guarino@bixford.digital>"
+  ],
   "scripts": {
     "build": "nuxt build",
     "check": "tsc -p . --pretty",
