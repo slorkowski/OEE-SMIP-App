@@ -16,18 +16,6 @@
         <h2 class="text-h5 d-inline ml-4">
           {{equipment?.displayName || "Equipment"}} Details
         </h2>
-
-        <v-spacer/>
-
-        <v-btn
-          density="compact"
-          size="large"
-          class="text-h5"
-          border="md"
-          @click="() => refresh()"
-        >
-          <v-icon icon="mdi-refresh"/>
-        </v-btn>
       </v-col>
 
       <v-col
@@ -93,7 +81,7 @@ definePageMeta({
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
-const { data: equipment, refresh, pending } = useAsyncEquipmentDetailWithOEE(equipmentId);
+const { data: equipment, pending } = useAsyncEquipmentDetailWithOEE(equipmentId);
 
 
 

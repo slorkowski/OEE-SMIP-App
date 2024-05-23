@@ -1,18 +1,6 @@
 <template>
   <v-container>
     <v-row class="ma-0 justify-center">
-      <v-col cols="12" class="d-flex justify-end">
-        <v-btn
-          aria-label="Refresh Dashboard"
-          density="compact"
-          size="large"
-          class="text-h5"
-          border="md"
-          @click="() => refresh()"
-        >
-          <v-icon icon="mdi-refresh"/>
-        </v-btn>
-      </v-col>
       <v-col v-if="status === 'pending'" class="d-flex flex-column align-center ga-4">
         <span>Loading Equipment...</span>
         <v-progress-circular :size="75" color="primary" indeterminate/>
@@ -61,5 +49,5 @@ definePageMeta({
   title: "Dashboard",
 });
 
-const { data: equipments, refresh, status } = useAsyncEquipmentWithOEE();
+const { data: equipments, status } = useAsyncEquipmentWithOEE();
 </script>
