@@ -1,17 +1,22 @@
 {
-  "name": "nuxt-app",
+  "name": "smip-oee-dashboard",
   "private": true,
   "type": "module",
+  "contributors": [
+    "Scott Fasone <scott.fasone@bixford.digital>",
+    "Connor Guarino <connor.guarino@bixford.digital>"
+  ],
   "scripts": {
     "build": "nuxt build",
     "check": "tsc -p . --pretty",
-    "codegen": "graphql-codegen",
+    "predev": "graphql-codegen",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "postinstall": "nuxt prepare",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "start": "bun run .output/server/index.mjs"
   },
   "dependencies": {
     "@apollo/client": "^3.10.2",
@@ -31,8 +36,7 @@
     "@nuxt/eslint": "^0.3.10",
     "@nuxtjs/apollo": "^5.0.0-alpha.14",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "eslint": "^9.1.1",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint": "^8.57.0",
     "sass": "^1.77.0",
     "typescript": "^5.4.5",
     "vite-plugin-vuetify": "^2.0.3",

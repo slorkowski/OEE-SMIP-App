@@ -4,6 +4,7 @@ import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import { VBtn, VCard } from "vuetify/components";
+import colors from "vuetify/util/colors";
 
 
 
@@ -20,6 +21,13 @@ export default defineNuxtPlugin((app) => {
             warn: "#d8872b",
             error: "#d14053",
             highlight: "#FFEB3B",
+            amber: colors.amber.base,
+            purple: colors.purple.base,
+            teal: colors.teal.base,
+            pink: colors.pink.base,
+            lime: colors.lime.base,
+            blue: colors.blue.base,
+            indigo: colors.indigo.base,
           },
         },
         light: {
@@ -30,6 +38,13 @@ export default defineNuxtPlugin((app) => {
             warn: "#d8872b",
             error: "#d14053",
             highlight: "#FFEB3B",
+            amber: colors.amber.base,
+            purple: colors.purple.base,
+            teal: colors.teal.base,
+            pink: colors.pink.base,
+            lime: colors.lime.base,
+            blue: colors.blue.base,
+            indigo: colors.indigo.base,
           },
         },
       },

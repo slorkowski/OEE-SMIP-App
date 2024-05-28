@@ -73,7 +73,12 @@ fragment AttributeOverview on Attribute {
   intervalValue { ...IntervalValue }
 
   # Also fetching latest Time Series value, in case "current" value isn't set
-  getTimeSeries(first: 1, endTime: $now) {
+  getTimeSeries(
+    first: 1,
+    maxSamples: 1,
+    startTime: $startTime,
+    endTime: $endTime
+  ) {
     ...TimeSeriesValue
   }
 }
@@ -97,7 +102,7 @@ fragment EquipmentWithOEE on Equipment {
         ...EquipmentOverview
     }
 }
-query GetEquipments($filter: EquipmentFilter, $now: Datetime!) {
+query GetEquipments($filter: EquipmentFilter, $startTime: Datetime!, $endTime: Datetime!) {
     equipments(filter: $filter) {
         ...EquipmentWithOEE
     }
@@ -105,7 +110,7 @@ query GetEquipments($filter: EquipmentFilter, $now: Datetime!) {
 
 
 
-query GetEquipmentDetail($id: BigInt!, $now: Datetime!) {
+query GetEquipmentDetail($id: BigInt!, $startTime: Datetime!, $endTime: Datetime!) {
     equipment(id: $id) {
         ...EquipmentWithOEE
     }

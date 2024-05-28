@@ -10,20 +10,37 @@
           class="text-h5"
           border="md"
         >
-          <v-icon   icon="mdi-arrow-left-bold"/>
+          <v-icon icon="mdi-arrow-left-bold"/>
         </v-btn>
 
         <h2 class="text-h5 d-inline ml-4">
-          {{equipment.data?.displayName || "Equipment"}} Details
+          {{equipment?.displayName || "Equipment"}} Details
         </h2>
       </v-col>
 
-      <v-col cols="4">
-        <MetricProgressCircular label="OEE" :value="oeeSummary.value" :size="250" :style="{marginLeft: '78px'}" />
+      <v-col
+        cols="12"
+        md="4"
+        class="d-flex justify-center align-center"
+      >
+        <MetricProgressCircular
+          label="OEE"
+          label-class="text-h4"
+          :value="oeeSummary.value"
+          :size="250"
+        />
       </v-col>
 
-      <v-col cols="auto" class="pr-0">
-        <v-tabs v-model="activeTabLabel" direction="vertical" class="border-md border-e-0">
+      <v-col cols="12" md="8">
+        <v-card class="rounded-ts-0 fill-height">
+          <v-card-text>
+            <attribute-table :attributes="equipment?.attributes" :loading="pending"/>
+          </v-card-text>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="6" class="pl-0 flex-grow-1">
+        <v-tabs v-model="activeTabLabel"  hide-slider>
           <v-tab
             v-for="tab in metricTabs"
             :key="tab.label"
@@ -35,34 +52,15 @@
             <ContrastLabel :label="tab.label"/>
           </v-tab>
         </v-tabs>
-      </v-col>
-
-      <v-col cols="auto" class="pl-0 flex-grow-1">
         <v-tabs-window v-model="activeTabLabel">
           <v-tabs-window-item
             v-for="tab in metricTabs"
             :key="tab.label"
             :value="tab.label"
           >
-            <v-card class="rounded-ts-0 fill-height border-md" :style="{ borderColor: `${tab.color} !important` }">
+            <v-card :class="`rounded-ts-0 fill-height border-md border-${tab.color} border-opacity-100`">
               <v-card-text>
-                <v-table>
-                  <thead>
-                    <th class="text-left">
-                      Attribute
-                    </th>
-                    <th class="text-left">
-                      Value
-                    </th>
-                  </thead>
-
-                  <tbody>
-                    <tr v-for="attr in tab.equipment?.attributes" :key="attr.id">
-                      <td>{{attr.displayName}}</td>
-                      <td>{{attr.value}}</td>
-                    </tr>
-                  </tbody>
-                </v-table>
+                <attribute-table :attributes="tab.equipment?.attributes" :loading="pending"/>
               </v-card-text>
             </v-card>
 
@@ -70,53 +68,10 @@
         </v-tabs-window>
       </v-col>
     </v-row>
-
-    <v-row class="ma-0">
-      <v-col cols="6">
-        <v-card class="rounded-ts-0 fill-height">
-          <v-card-text>
-            <v-table>
-              <thead>
-                <th class="text-left">
-                  Equipment Attribute
-                </th>
-                <th class="text-left">
-                  Value
-                </th>
-              </thead>
-
-              <tbody>
-                <tr v-for="attr in equipment.data?.attributes" :key="attr.id">
-                  <td>{{attr.displayName}}</td>
-                  <td>{{attr.value}}</td>
-                </tr>
-              </tbody>
-            </v-table>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <!-- <v-col cols="7" class="pl-6">
-        <v-card
-          class="d-flex flex-grow-1 fill-height">
-          <v-card-text>
-            <v-sparkline
-              v-for="metric in metrics" :key="metric.label"
-              :model-value="metric.timeline"
-              :color="labelColors(metric.label)"
-              line-width="1"
-              min="0"
-              :style="{position: 'absolute'}"
-            />
-          </v-card-text>
-        </v-card>
-      </v-col> -->
-    </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { useEquipmentDetailWithOEE  } from "~/lib/equipment";
 
 
 
@@ -126,29 +81,26 @@ definePageMeta({
 
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
-const equipment = useEquipmentDetailWithOEE(equipmentId);
-
-console.log(equipment.value.data?.attributes);
+const { data: equipment, pending } = useAsyncEquipmentDetailWithOEE(equipmentId);
 
 
 
-
-const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value.data?.oee.summary?.metric?.value));
+const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value?.oee.summary?.metric?.value));
 const metricTabs = computed(() => [
   {
     label: "Availability",
     color: "purple",
-    equipment: equipment.value.data?.oee.availability,
+    equipment: equipment.value?.oee.availability,
   },
   {
     label: "Quality",
-    color: "yellow",
-    equipment: equipment.value.data?.oee.quality,
+    color: "indigo",
+    equipment: equipment.value?.oee.quality,
   },
   {
     label: "Performance",
     color: "teal",
-    equipment: equipment.value.data?.oee.performance,
+    equipment: equipment.value?.oee.performance,
   },
 ]);
 
