@@ -63,15 +63,25 @@
                 <attribute-table :attributes="tab.equipment?.attributes" :loading="pending"/>
               </v-card-text>
             </v-card>
-
           </v-tabs-window-item>
         </v-tabs-window>
+      </v-col>
+
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-text>
+            <apexchart-timeseries :series="series"/>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
+import { useTheme } from "vuetify";
+
+import type { IEquipmentWithMetric } from "~/lib/equipment";
 
 
 
@@ -79,6 +89,7 @@ definePageMeta({
   title: "Equipment Details",
 });
 
+const theme = useTheme();
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
 const { data: equipment, pending } = useAsyncEquipmentDetailWithOEE(equipmentId);
@@ -105,6 +116,48 @@ const metricTabs = computed(() => [
 ]);
 
 const activeTabLabel = ref(metricTabs.value[0].label);
+
+function mockTimeseries(metric: IEquipmentWithMetric["metric"]): { x: number; y: number }[] {
+  const mock: { x: number; y: number }[] = [];
+
+  const maxValues = 5;
+
+  for(let index = maxValues; index > 0; index--) {
+    const element = {
+      x: new Date((metric?.updatedTimestamp?.valueOf() || 0) - (index * 5 * 60 * 1000)).valueOf(),
+      y: Math.random() * (metric?.value || 0),
+    };
+
+    mock.push(element);
+  }
+
+  mock.push({ x: new Date(metric?.updatedTimestamp?.valueOf() || 0).valueOf(), y: metric?.value || 0 });
+
+  return mock;
+}
+
+const series = computed(() => [
+  {
+    name: "OEE",
+    data: mockTimeseries(equipment.value?.oee.summary?.metric),
+    color: theme.current.value.colors.success,
+  },
+  {
+    name: "Availability",
+    data: mockTimeseries(equipment.value?.oee.availability?.metric),
+    color: theme.current.value.colors.purple,
+  },
+  {
+    name: "Quality",
+    data: mockTimeseries(equipment.value?.oee.quality?.metric),
+    color: theme.current.value.colors.indigo,
+  },
+  {
+    name: "Performance",
+    data: mockTimeseries(equipment.value?.oee.performance?.metric),
+    color: theme.current.value.colors.teal,
+  },
+]);
 </script>
 
 

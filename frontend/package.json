@@ -21,6 +21,7 @@
   "dependencies": {
     "@apollo/client": "^3.10.2",
     "@mdi/font": "^7.4.47",
+    "apexcharts": "^3.49.1",
     "graphql": "^16.8.1",
     "graphql-tag": "^2.12.6",
     "jwt-decode": "^4.0.0",
@@ -28,6 +29,7 @@
     "remeda": "^1.61.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",
+    "vue3-apexcharts": "^1.5.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
