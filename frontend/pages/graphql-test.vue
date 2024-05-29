@@ -36,7 +36,7 @@ effect(() => {
       >
         <v-list-item-subtitle>
           <v-chip
-            v-for="[oeeKey, oeeEq] in Object.entries(et.oee)"
+            v-for="oeeKey in Object.keys(et.oee)"
             :key="oeeKey"
             :text="oeeKey"
           />

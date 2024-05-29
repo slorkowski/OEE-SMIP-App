@@ -1,19 +1,14 @@
-import { isNonNullish, unique } from "remeda";
+import { unique, isNonNullish } from "remeda";
 
-import type { EquipmentOverviewFragment, EquipmentWithOeeFragment } from "~/generated/graphql/operations";
-import { GetEquipmentsDocument, GetOeeEquipmentTypesWithEquipmentIdsDocument  } from "~/generated/graphql/operations";
+import type { IEquipmentWithOEE } from "./types";
+import { parseEquipmentWithOEE } from "./utils";
+import { GetOeeEquipmentTypesWithEquipmentIdsDocument, GetEquipmentsDocument, GetEquipmentDetailDocument } from "~/generated/graphql/operations";
 
 
 
 export interface EquipmentWithOEEHook {
-  data: StandardEquipmentWithOEE[] | undefined;
+  data: IEquipmentWithOEE[] | undefined;
 }
-const OEERelativeNames = {
-  AVAILABILITY: "oee_availability_interface",
-  PERFORMANCE: "oee_performance_interface",
-  QUALITY: "oee_quality_interface",
-  SUMMARY: "oee_summary_interface",
-};
 
 /*
  * Two possible structures for OEE equipment to descend from an "actual" piece of equipment:
@@ -62,15 +57,14 @@ export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
    * This represents a root equipment following structure #2 (see above).
    */
   const oeeEquipmentIdsWithOEEChildren = computed(() =>
-    oeeParentIds.value.filter((partOfId) => oeeEquipmentIds.value.has(partOfId)),
-  );
+    oeeParentIds.value.filter((partOfId) => oeeEquipmentIds.value.has(partOfId)));
+
   const oeeParentIdsWihoutOEEChildren = computed(() => unique(
     oeeEquipment.value.filter((eq) =>
       // Exclude the parent of equipment who are counted under structure #2.
       !oeeEquipmentIdsWithOEEChildren.value.includes(eq.id)
       // Exclude the equipment who are counted under structure #2.
-      && (!eq.partOfId || !oeeEquipmentIdsWithOEEChildren.value.includes(eq.partOfId)),
-    )
+      && (!eq.partOfId || !oeeEquipmentIdsWithOEEChildren.value.includes(eq.partOfId)))
       .map((eq) => eq.partOfId)
       .filter(isNonNullish),
   ));
@@ -84,52 +78,32 @@ export function useEquipmentWithOEE(): Ref<EquipmentWithOEEHook> {
     filter: {
       id: { in: equipmentIds.value ?? [] },
     },
+    now: new Date().toISOString(),
   }, {
     enabled: equipmentIds.value && equipmentIds.value.length > 0,
     errorPolicy: "ignore",
   });
 
   return computed<EquipmentWithOEEHook>(() => ({
-    data: eqRes.value?.equipments?.map(getStandardizedEquipment),
+    data: eqRes.value?.equipments?.map(parseEquipmentWithOEE),
   }));
 }
 
 
 
-export interface StandardEquipmentWithOEE extends EquipmentOverviewFragment {
-  oee: {
-    availability?: EquipmentOverviewFragment;
-    performance?: EquipmentOverviewFragment;
-    quality?: EquipmentOverviewFragment;
-    summary?: EquipmentOverviewFragment;
-  };
+export interface EquipmentDetailWithOEEHook {
+  data: IEquipmentWithOEE | undefined;
 }
-/**
- * @param equipment Equipment object returned from GraphQL in either expected OEE structure.
- * @returns A standard Equipment object.
- */
-export function getStandardizedEquipment(equipment: EquipmentWithOeeFragment): StandardEquipmentWithOEE {
-  const { childEquipment, ...rest } = equipment;
 
-  let summary: EquipmentOverviewFragment | undefined;
-  if(rest.type?.relativeName === OEERelativeNames.SUMMARY) {
-    // Structure #2
-    // Set summary to a copy of the root equipment.
-    summary = { ...rest };
-    // Clear attributes since those are just OEE data points
-    rest.attributes = [];
-  } else {
-    // Structure #1
-    summary = childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.SUMMARY);
-  }
+export function useEquipmentDetailWithOEE(id: string): Ref<EquipmentDetailWithOEEHook> {
+  const { result } = useQuery(GetEquipmentDetailDocument, {
+    id,
+    now: new Date().toISOString(),
+  }, {
+    errorPolicy: "ignore",
+  });
 
-  return {
-    ...rest,
-    oee: {
-      availability: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.AVAILABILITY),
-      performance: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.PERFORMANCE),
-      quality: childEquipment.find((ce) => ce.type?.relativeName === OEERelativeNames.QUALITY),
-      summary,
-    },
-  };
+  return computed(() => ({
+    data: result.value?.equipment ? parseEquipmentWithOEE(result.value.equipment) : undefined,
+  }));
 }
