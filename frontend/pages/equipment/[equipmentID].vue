@@ -63,15 +63,25 @@
                 <attribute-table :attributes="tab.equipment?.attributes" :loading="pending"/>
               </v-card-text>
             </v-card>
-
           </v-tabs-window-item>
         </v-tabs-window>
+      </v-col>
+
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-text>
+            <apexchart-timeseries :series="series"/>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
+import { useTheme } from "vuetify";
+
+import type { IEquipmentWithMetric, TimeSeriesItemValue } from "~/lib/equipment";
 
 
 
@@ -79,6 +89,7 @@ definePageMeta({
   title: "Equipment Details",
 });
 
+const theme = useTheme();
 const route = useRoute();
 const equipmentId = route.params.equipmentID as string;
 const { data: equipment, pending } = useAsyncEquipmentDetailWithOEE(equipmentId);
@@ -105,6 +116,33 @@ const metricTabs = computed(() => [
 ]);
 
 const activeTabLabel = ref(metricTabs.value[0].label);
+
+function timeseriesToChart(getTimeSeries?: TimeSeriesItemValue[]): { x: string; y: number }[] {
+  return getTimeSeries ? getTimeSeries.map((item) => ({ x: item.ts, y: item.floatvalue || 0 })) : [];
+}
+
+const series = computed(() => [
+  {
+    name: "OEE",
+    data: timeseriesToChart(equipment.value?.oee.summary?.metric?.getTimeSeries),
+    color: theme.current.value.colors.success,
+  },
+  {
+    name: "Availability",
+    data: timeseriesToChart(equipment.value?.oee.availability?.metric?.getTimeSeries),
+    color: theme.current.value.colors.purple,
+  },
+  {
+    name: "Quality",
+    data: timeseriesToChart(equipment.value?.oee.quality?.metric?.getTimeSeries),
+    color: theme.current.value.colors.indigo,
+  },
+  {
+    name: "Performance",
+    data: timeseriesToChart(equipment.value?.oee.performance?.metric?.getTimeSeries),
+    color: theme.current.value.colors.teal,
+  },
+]);
 </script>
 
 

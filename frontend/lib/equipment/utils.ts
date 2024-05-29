@@ -1,4 +1,4 @@
-import type { AttributeValue, IAttribute, IEquipment, IEquipmentWithMetric, IEquipmentWithOEE, ScalarTypeMap } from "./types";
+import type { AttributeValue, IAttribute, IEquipment, IEquipmentWithMetric, IEquipmentWithOEE, ScalarTypeMap, TimeSeriesItemValue } from "./types";
 import type { AttributeOverviewFragment, EquipmentOverviewFragment, EquipmentWithOeeFragment, TimeSeriesValueFragment } from "~/generated/graphql/operations";
 import { ScalarTypeEnum } from "~/generated/graphql/operations";
 
@@ -61,6 +61,7 @@ function parseAttribute<T extends ScalarTypeEnum = ScalarTypeEnum>(attribute: At
     value = parseTimeSeriesValue(attribute, attribute.getTimeSeries[0]);
   }
 
+
   return {
     id: attribute.id,
     displayName: attribute.displayName ?? undefined,
@@ -68,6 +69,9 @@ function parseAttribute<T extends ScalarTypeEnum = ScalarTypeEnum>(attribute: At
     dataType: attribute.dataType as T ?? undefined,
     updatedTimestamp: attribute.updatedTimestamp ? new Date(attribute.updatedTimestamp) : undefined,
     value: value as ScalarTypeMap[T],
+    maxValue: attribute.maxValue ?? undefined,
+    minValue: attribute.minValue ?? undefined,
+    getTimeSeries: attribute.getTimeSeries as TimeSeriesItemValue[] ?? undefined,
   };
 }
 
@@ -81,6 +85,7 @@ function parseEquipment(equipment: EquipmentOverviewFragment): IEquipment {
 }
 function parseEquipmentWithMetric(equipment: EquipmentOverviewFragment, key: OEEMetricKey): IEquipmentWithMetric {
   const attribute = equipment.attributes.find((attr) => attr.relativeName === OEEAttributeNames[key]);
+
 
   return {
     ...parseEquipment(equipment),

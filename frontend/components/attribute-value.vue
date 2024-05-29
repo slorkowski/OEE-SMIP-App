@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { ScalarTypeEnum } from "~/generated/graphql/operations";
-import { renderDateTime } from "~/lib/datetime";
 import type { IAttribute } from "~/lib/equipment";
 
 
