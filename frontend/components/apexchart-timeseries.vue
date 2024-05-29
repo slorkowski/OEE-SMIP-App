@@ -19,9 +19,15 @@ interface Props {
   series: typeof VueApexCharts["series"];
 }
 
+const { series } = defineProps<Props>();
+
 const theme = useTheme();
 
-const options: ComputedRef<ApexOptions> = computed(() => ({
+function formatAsPercent(val: number) {
+  return `${val.toFixed(1)}%`;
+}
+
+const options = computed<ApexOptions>(() => ({
   chart: {
     type: "line",
     zoom: {
@@ -41,30 +47,20 @@ const options: ComputedRef<ApexOptions> = computed(() => ({
   },
   xaxis: {
     type: "datetime",
-    min: new Date().setHours(0)
-      .valueOf(),
-    max: new Date().setHours(24)
-      .valueOf(),
   },
   yaxis: {
     labels: {
-      formatter: function (val: number) {
-        return `${val.toFixed(0)}%`;
-      },
+      formatter: formatAsPercent,
     },
     max: function (max: number) { return max > 100 ? max : 100; },
   },
   tooltip: {
     y: {
       shared: false,
-      formatter: function (val: number) {
-        return `${val.toFixed(0)}%`;
-      },
+      formatter: formatAsPercent,
     },
     x: {
-      formatter: function (val: string) {
-        return `${new Date(val).toLocaleTimeString()}`;
-      },
+      formatter: renderDateTime,
     },
   },
   theme: {
@@ -72,6 +68,6 @@ const options: ComputedRef<ApexOptions> = computed(() => ({
   },
 }));
 
-const { series } = defineProps<Props>();
+
 
 </script>

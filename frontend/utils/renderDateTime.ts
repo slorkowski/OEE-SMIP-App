@@ -1,7 +1,4 @@
-
-
-
-export function renderDateTime(date: number | string | Date): string {
+export default function renderDateTime(date: number | string | Date): string {
   if(typeof date === "number" || typeof date === "string") {
     date = new Date(date);
   }

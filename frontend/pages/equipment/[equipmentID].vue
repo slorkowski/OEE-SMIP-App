@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import { useTheme } from "vuetify";
 
-import type { IEquipmentWithMetric } from "~/lib/equipment";
+import type { IEquipmentWithMetric, TimeSeriesItemValue } from "~/lib/equipment";
 
 
 
@@ -117,44 +117,29 @@ const metricTabs = computed(() => [
 
 const activeTabLabel = ref(metricTabs.value[0].label);
 
-function mockTimeseries(metric: IEquipmentWithMetric["metric"]): { x: number; y: number }[] {
-  const mock: { x: number; y: number }[] = [];
-
-  const maxValues = 5;
-
-  for(let index = maxValues; index > 0; index--) {
-    const element = {
-      x: new Date((metric?.updatedTimestamp?.valueOf() || 0) - (index * 5 * 60 * 1000)).valueOf(),
-      y: Math.random() * (metric?.value || 0),
-    };
-
-    mock.push(element);
-  }
-
-  mock.push({ x: new Date(metric?.updatedTimestamp?.valueOf() || 0).valueOf(), y: metric?.value || 0 });
-
-  return mock;
+function timeseriesToChart(getTimeSeries?: TimeSeriesItemValue[]): { x: string; y: number }[] {
+  return getTimeSeries ? getTimeSeries.map((item) => ({ x: item.ts, y: item.floatvalue || 0 })) : [];
 }
 
 const series = computed(() => [
   {
     name: "OEE",
-    data: mockTimeseries(equipment.value?.oee.summary?.metric),
+    data: timeseriesToChart(equipment.value?.oee.summary?.metric?.getTimeSeries),
     color: theme.current.value.colors.success,
   },
   {
     name: "Availability",
-    data: mockTimeseries(equipment.value?.oee.availability?.metric),
+    data: timeseriesToChart(equipment.value?.oee.availability?.metric?.getTimeSeries),
     color: theme.current.value.colors.purple,
   },
   {
     name: "Quality",
-    data: mockTimeseries(equipment.value?.oee.quality?.metric),
+    data: timeseriesToChart(equipment.value?.oee.quality?.metric?.getTimeSeries),
     color: theme.current.value.colors.indigo,
   },
   {
     name: "Performance",
-    data: mockTimeseries(equipment.value?.oee.performance?.metric),
+    data: timeseriesToChart(equipment.value?.oee.performance?.metric?.getTimeSeries),
     color: theme.current.value.colors.teal,
   },
 ]);

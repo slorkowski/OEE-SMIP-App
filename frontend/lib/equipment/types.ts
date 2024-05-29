@@ -18,6 +18,21 @@ export interface ScalarTypeMap {
 }
 export type AttributeValue = string | number | boolean | null | undefined;
 
+export interface TimeSeriesItemValue {
+  id: string;
+  status: string;
+  ts: string;
+
+  boolvalue?: ScalarTypeMap["BOOL"] | null;
+  datetimevalue?: ScalarTypeMap["DATETIME"] | null;
+  floatvalue?: ScalarTypeMap["FLOAT"] | null;
+  intervalvalue?: ScalarTypeMap["INTERVAL"] | null;
+  intvalue?: ScalarTypeMap["INT"] | null;
+  objectvalue?: ScalarTypeMap["OBJECT"] | null;
+  stringvalue?: ScalarTypeMap["STRING"] | null;
+
+}
+
 export interface IAttribute<T extends ScalarTypeEnum = ScalarTypeEnum> {
   id: string;
   displayName?: string;
@@ -26,6 +41,10 @@ export interface IAttribute<T extends ScalarTypeEnum = ScalarTypeEnum> {
   dataType?: T;
 
   value?: ScalarTypeMap[T];
+
+  maxValue?: number;
+  minValue?: number;
+  getTimeSeries?: TimeSeriesItemValue[];
 }
 
 

@@ -50,7 +50,6 @@
 </template>
 
 <script setup lang="ts">
-import { renderDateTime } from "~/lib/datetime";
 import type { IAttribute } from "~/lib/equipment";
 
 
