@@ -14,7 +14,7 @@ export interface IMockEquipment {
 export interface Metric {
   label: string;
   value: number;
-  displayValue: string | undefined;
+  displayValue: string | undefined | null;
   progressValue: number;
 }
 
@@ -23,8 +23,10 @@ export type MetricKey = "availability" | "quality" | "performance" | "oee";
 
 
 export function makePercentMetric(label: string, value: unknown): Metric {
-  if(value === undefined || value === null) {
+  if(value === undefined) {
     return { label, value: 0, displayValue: undefined, progressValue: 0 };
+  } else if(value === null) {
+    return { label, value: 0, displayValue: null, progressValue: 0 };
   }
   if(typeof value !== "number") {
     // Default undefined metric
