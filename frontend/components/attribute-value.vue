@@ -10,6 +10,7 @@
     </span>
     <span v-if="attribute.dataType === ScalarTypeEnum.Float">
       {{ typeof attribute.value === "number" ? attribute.value.toFixed(2) : attribute.value }}
+      {{ attribute.maxValue === 100 ? '%' : ''}}
     </span>
     <span v-else>
       {{ attribute.value }}
