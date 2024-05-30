@@ -1,4 +1,4 @@
-import type { AttributeValue, IAttribute, IEquipment, IEquipmentWithMetric, IEquipmentWithOEE, ScalarTypeMap, TimeSeriesItemValue } from "./types";
+import type { AttributeValue, IAttribute, IEquipment, IEquipmentWithMetric, IEquipmentWithOEE, ScalarTypeMap } from "./types";
 import type { AttributeOverviewFragment, EquipmentOverviewFragment, EquipmentWithOeeFragment, TimeSeriesValueFragment } from "~/generated/graphql/operations";
 import { ScalarTypeEnum } from "~/generated/graphql/operations";
 
@@ -68,10 +68,10 @@ function parseAttribute<T extends ScalarTypeEnum = ScalarTypeEnum>(attribute: At
     relativeName: attribute.relativeName ?? undefined,
     dataType: attribute.dataType as T ?? undefined,
     updatedTimestamp: attribute.updatedTimestamp ? new Date(attribute.updatedTimestamp) : undefined,
+
     value: value as ScalarTypeMap[T],
     maxValue: attribute.maxValue ?? undefined,
     minValue: attribute.minValue ?? undefined,
-    getTimeSeries: attribute.getTimeSeries as TimeSeriesItemValue[] ?? undefined,
   };
 }
 
