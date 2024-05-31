@@ -16,12 +16,8 @@
     </v-chip>
   </template>
 
-  <em v-else-if="attribute.value === null">
-    null
-  </em>
-
-  <em v-else-if="attribute.value === undefined">
-    undefined
+  <em v-else>
+    No Value
   </em>
 
 

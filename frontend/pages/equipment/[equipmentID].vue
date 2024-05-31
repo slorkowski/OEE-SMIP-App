@@ -61,11 +61,11 @@
             <v-card :class="`rounded-ts-0 fill-height border-md border-${tab.color} border-opacity-100`">
               <v-card-text>
                 <em v-if="tab.equipment === undefined">
-                  {{tab.label}} Component is undefined
+                  {{tab.label}} Component Missing
                 </em>
 
                 <em v-else-if="tab.equipment.attributes === undefined">
-                  {{tab.label}} Attributes are undefined
+                  Could Not Retrieve Attributes
                 </em>
 
                 <attribute-table v-else :attributes="tab.equipment.attributes" :loading="pending"/>

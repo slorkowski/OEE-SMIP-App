@@ -22,8 +22,8 @@
           <ContrastLabel v-if="metric.displayValue !== undefined && metric.displayValue !== null">
             {{metric.displayValue}}
           </ContrastLabel>
-          <em v-else-if="metric.displayValue === null">null</em>
-          <em v-else>undefined</em>
+          <em v-else-if="metric.displayValue === null">Invalid Value</em>
+          <em v-else>No Value</em>
         </v-card-title>
       </v-card>
     </v-card-text>
