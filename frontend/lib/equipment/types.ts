@@ -28,6 +28,7 @@ export interface IAttribute<T extends ScalarTypeEnum = ScalarTypeEnum> {
   value?: ScalarTypeMap[T];
   maxValue?: number;
   minValue?: number;
+  description?: string;
 }
 
 

@@ -72,6 +72,7 @@ function parseAttribute<T extends ScalarTypeEnum = ScalarTypeEnum>(attribute: At
     value: value as ScalarTypeMap[T],
     maxValue: attribute.maxValue ?? undefined,
     minValue: attribute.minValue ?? undefined,
+    description: attribute.description ?? undefined,
   };
 }
 

@@ -22,7 +22,19 @@
 
       <tbody>
         <tr v-for="attr in attributes" :key="attr.id">
-          <td>{{attr.displayName}}</td>
+          <td>
+            <v-tooltip v-if="attr.description" :text="attr.description" location="top">
+              <template #activator="{props}">
+                <span v-bind="props">
+                  {{attr.displayName}}
+                </span>
+              </template>
+            </v-tooltip>
+
+            <span v-else>
+              {{attr.displayName}}
+            </span>
+          </td>
           <td>
             <attribute-value :attribute="attr"/>
           </td>
