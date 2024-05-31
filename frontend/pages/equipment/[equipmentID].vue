@@ -128,7 +128,7 @@ const metricAttributeIds = computed<string[]>(() => {
   }
 
   return Object.values(equipment.value.oee)
-    .map((eq) => eq.metric?.id)
+    .map((eq) => eq?.metric?.id)
     .filter(isNonNullish);
 });
 
