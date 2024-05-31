@@ -70,7 +70,7 @@ const options = computed<ApexOptions>(() => ({
       formatter: formatAsPercent,
     },
     min: 0,
-    max: function (max: number) { return max > 100 ? max + 5 : 100; },
+    max: function (max: number) { return max > 100 ? Math.ceil(max + 5) : 100; },
     type: "numeric",
   },
   tooltip: {
@@ -93,7 +93,10 @@ const options = computed<ApexOptions>(() => ({
         label: {
           text: "100%",
           borderColor: theme.global.current.value.colors.success,
-          offsetY: -10,
+          offsetY: 20,
+          offsetX: -10,
+          position: "right",
+          textAnchor: "end",
           style: {
             color: theme.global.current.value.colors["on-surface"],
             background: theme.global.current.value.colors.surface,
