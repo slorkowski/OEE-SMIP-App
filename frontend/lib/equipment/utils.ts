@@ -72,6 +72,7 @@ function parseAttribute<T extends ScalarTypeEnum = ScalarTypeEnum>(attribute: At
     maxValue: attribute.maxValue ?? undefined,
     minValue: attribute.minValue ?? undefined,
     getTimeSeries: attribute.getTimeSeries as TimeSeriesItemValue[] ?? undefined,
+    description: attribute.description ?? undefined,
   };
 }
 

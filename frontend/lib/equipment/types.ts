@@ -45,6 +45,7 @@ export interface IAttribute<T extends ScalarTypeEnum = ScalarTypeEnum> {
   maxValue?: number;
   minValue?: number;
   getTimeSeries?: TimeSeriesItemValue[];
+  description?: string;
 }
 
 

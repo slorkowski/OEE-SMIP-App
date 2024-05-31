@@ -81,6 +81,8 @@ fragment AttributeOverview on Attribute {
   ) {
     ...TimeSeriesValue
   }
+
+  description
 }
 fragment EquipmentOverview on Equipment {
   id
