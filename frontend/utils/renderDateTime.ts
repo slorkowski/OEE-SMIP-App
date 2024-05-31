@@ -1,13 +1,24 @@
-export default function renderDateTime(date: number | string | Date): string {
-  if(typeof date === "number" || typeof date === "string") {
-    date = new Date(date);
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+
+
+export default function renderDateTime(
+  date: number | string | Date, tzoffset?: number,
+): string {
+  let day = dayjs(date);
+  if(tzoffset) {
+    day = day.utcOffset(tzoffset);
   }
 
-  const rawOffset = date.getTimezoneOffset();
-  const offsetHours = Math.abs(Math.floor(rawOffset / 60));
-  const offsetMinutes = Math.abs(rawOffset - offsetHours * 60);
-  const leading = rawOffset < 0 ? "-" : "+";
-  const offsetStr = `${leading}${offsetHours.toString().padStart(2, "0")}:${offsetMinutes.toString().padStart(2, "0")}`;
+  // const offsetStr = timezoneOffsetToString(date.getTimezoneOffset());
 
-  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()} (${offsetStr})`;
+  return day.format("YYYY-MM-DD HH:mm (Z)");
+  // return `${date.toLocaleDateString()} ${date.toLocaleTimeString()} (${offsetStr})`;
 }

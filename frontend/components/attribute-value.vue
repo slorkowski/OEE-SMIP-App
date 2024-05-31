@@ -3,7 +3,7 @@
 <template>
   <template v-if="attribute.value !== null && attribute.value !== undefined">
     <v-chip v-if="attribute.dataType === ScalarTypeEnum.Datetime">
-      {{ renderDateTime(attribute.value as string) }}
+      {{ renderDateTime(attribute.value as string, tzOffset) }}
     </v-chip>
 
     <v-chip v-else-if="attribute.dataType === ScalarTypeEnum.Float">
@@ -31,6 +31,7 @@ import type { IAttribute } from "~/lib/equipment";
 
 interface Props {
   attribute: IAttribute;
+  tzOffset?: number;
 }
-const { attribute } = defineProps<Props>();
+const { attribute, tzOffset } = defineProps<Props>();
 </script>

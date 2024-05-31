@@ -34,7 +34,11 @@
       <v-col cols="12" md="8">
         <v-card class="rounded-ts-0 fill-height">
           <v-card-text>
-            <attribute-table :attributes="equipment?.attributes" :loading="pending"/>
+            <attribute-table
+              :attributes="equipment?.attributes"
+              :loading="pending"
+              :tz-offset="tzOffset"
+            />
           </v-card-text>
         </v-card>
       </v-col>
@@ -68,7 +72,12 @@
                   Could Not Retrieve Attributes
                 </em>
 
-                <attribute-table v-else :attributes="tab.equipment.attributes" :loading="pending"/>
+                <attribute-table
+                  v-else
+                  :attributes="tab.equipment.attributes"
+                  :tz-offset="tzOffset"
+                  :loading="pending"
+                />
 
               </v-card-text>
             </v-card>
@@ -84,11 +93,12 @@
               :series="series"
               :xmin="dayStart.getTime()"
               :xmax="dayEnd.getTime()"
+              :tz-offset="tzOffset"
             />
             <v-alert
               type="info"
             >
-              The chart begins at the machine's start time, but times are shown in <em>your</em> local timezone.
+              The chart begins at the machine's start time and renders times in the <strong>machine's</strong> local timezone.
             </v-alert>
           </v-card-text>
         </v-card>
@@ -133,15 +143,36 @@ const metricAttributeIds = computed<string[]>(() => {
 });
 
 /**
+ * Timezone offset of this equipment, in minutes.
+ * Retrieved from an attribute on the OEE Summary equipment.
+ */
+const tzOffset = computed(() => {
+  if(!equipment.value?.oee.summary) {
+    return undefined;
+  }
+
+  const tzoffsetAttr = equipment.value.oee.summary.attributes.find((attr) => attr.relativeName === "tzoffset");
+
+  if(!tzoffsetAttr) {
+    console.error("Could not find equipment timezone attribute");
+    return undefined;
+  }
+  if(typeof tzoffsetAttr.value !== "number") {
+    console.error(`Malformed timezone offset value. Found ${typeof tzoffsetAttr.value}`);
+    return undefined;
+  }
+
+  return tzoffsetAttr.value;
+});
+/**
  * The start of the machine's day.
  * Used to set the lower bound for the time series chart.
  */
 const dayStart = computed(() => {
   const now = new Date();
 
-  const tzoffsetAttr = equipment.value?.oee.summary?.attributes.find((attr) => attr.relativeName === "tzoffset");
   const daystartAttr = equipment.value?.oee.summary?.attributes.find((attr) => attr.relativeName === "daystart");
-  if(typeof tzoffsetAttr?.value !== "number" || typeof daystartAttr?.value !== "string") {
+  if(tzOffset.value === undefined || typeof daystartAttr?.value !== "string") {
     now.setHours(0, 0, 0, 0);
     // Default to the beginning of the user's day.
     // Okay while data is loading or non-existant.
@@ -151,9 +182,9 @@ const dayStart = computed(() => {
   const nowStr = now.toISOString();
   const nowDate = nowStr.split("T")[0];
 
-  const tzoffset = timezoneOffsetToString(tzoffsetAttr.value);
+  const tzoffset = timezoneOffsetToString(tzOffset.value);
   const dayStartIso = `${nowDate}T${daystartAttr.value}:00.000${tzoffset}`;
-  console.log(dayStartIso);
+
   return new Date(dayStartIso);
 });
 const dayEnd = computed(() => {
