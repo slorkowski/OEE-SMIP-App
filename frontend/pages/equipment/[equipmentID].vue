@@ -184,7 +184,7 @@ const dayStart = computed(() => {
 
   const tzoffset = timezoneOffsetToString(tzOffset.value);
   const dayStartIso = `${nowDate}T${daystartAttr.value}:00.000${tzoffset}`;
-  console.log(dayStartIso);
+
   return new Date(dayStartIso);
 });
 const dayEnd = computed(() => {
