@@ -24,7 +24,12 @@ jobs:
       - name: Install Dependencies
         working-directory: frontend
         run: |
-          bun install
+          bun install --frozen-lockfile
+
+      - name: Code Generation
+        working-directory: frontend
+        run: |
+          bun predev
 
       - name: Run ESLint
         working-directory: frontend
