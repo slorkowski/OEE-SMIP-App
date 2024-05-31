@@ -19,10 +19,11 @@
 
         <v-card-title class="text-subtitle-1 d-flex flex-row justify-space-between align-center h-100" >
           <ContrastLabel class="mr-4" :label="metric.label"/>
-          <ContrastLabel v-if="metric.displayValue !== undefined">
+          <ContrastLabel v-if="metric.displayValue !== undefined && metric.displayValue !== null">
             {{metric.displayValue}}
           </ContrastLabel>
-          <em v-else>no value</em>
+          <em v-else-if="metric.displayValue === null">Invalid Value</em>
+          <em v-else>No Value</em>
         </v-card-title>
       </v-card>
     </v-card-text>

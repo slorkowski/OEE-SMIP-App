@@ -1,21 +1,26 @@
 
 
 <template>
-  <span v-if="attribute.value === undefined || attribute.value === null">
-    <em>no value</em>
-  </span>
-  <v-chip v-else>
-    <span v-if="attribute.dataType === ScalarTypeEnum.Datetime">
+  <template v-if="attribute.value !== null && attribute.value !== undefined">
+    <v-chip v-if="attribute.dataType === ScalarTypeEnum.Datetime">
       {{ renderDateTime(attribute.value as string) }}
-    </span>
-    <span v-if="attribute.dataType === ScalarTypeEnum.Float">
+    </v-chip>
+
+    <v-chip v-else-if="attribute.dataType === ScalarTypeEnum.Float">
       {{ typeof attribute.value === "number" ? attribute.value.toFixed(2) : attribute.value }}
       {{ attribute.maxValue === 100 ? '%' : ''}}
-    </span>
-    <span v-else>
-      {{ attribute.value }}
-    </span>
-  </v-chip>
+    </v-chip>
+
+    <v-chip v-else>
+      {{attribute.value}}
+    </v-chip>
+  </template>
+
+  <em v-else>
+    No Value
+  </em>
+
+
 </template>
 
 <script setup lang="ts">
