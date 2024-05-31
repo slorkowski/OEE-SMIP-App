@@ -38,6 +38,13 @@ export default defineNuxtConfig({
           sameSite: "strict",
           httpOnly: false,
         },
+        inMemoryCacheOptions: {
+          typePolicies: {
+            AttributesGetTimeSeriesRecord: {
+              keyFields: false,
+            },
+          },
+        },
       },
       noauth: {
         httpEndpoint: "https://east.cesmii.net/graphql",

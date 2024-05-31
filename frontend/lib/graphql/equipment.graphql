@@ -50,6 +50,7 @@ fragment Limit on AttributeLimit {
 fragment AttributeOverview on Attribute {
   id
   displayName
+  description
   fqn
   relativeName
   updatedTimestamp
@@ -149,6 +150,17 @@ query GetAttributesTimeSeries(
   $endTime: Datetime,
 ) {
   attributes(filter: $filter) {
+    id
+
+    onEquipment {
+      id
+      type {
+        id
+        # Used to find the metric of the attribute
+        relativeName
+      }
+    }
+
     getTimeSeries(startTime: $startTime, endTime: $endTime) {
       ...TimeSeriesValue
     }
