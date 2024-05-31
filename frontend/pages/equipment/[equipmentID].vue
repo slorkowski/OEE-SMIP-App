@@ -98,7 +98,7 @@
             <v-alert
               type="info"
             >
-              The chart begins at the machine's start time, but times are shown in <em>your</em> local timezone.
+              The chart begins at the machine's start time and renders times in the <strong>machine's</strong> local timezone.
             </v-alert>
           </v-card-text>
         </v-card>

@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import type { ApexOptions } from "apexcharts";
+import dayjs from "dayjs";
 import type VueApexCharts from "vue3-apexcharts";
 import { useTheme } from "vuetify";
 
@@ -35,7 +36,27 @@ function formatAsPercent(val: number) {
   return `${val.toFixed(1)}%`;
 }
 
+const adjustedXMin = computed(() => {
+  return dayjs(xmin).minute(0)
+    .valueOf();
+});
+
+const title = computed(() => {
+  const baseTitle = "OEE and Related Metrics";
+
+  if(xmin && tzOffset) {
+    const dateStr = dayjs(xmin).utcOffset(tzOffset)
+      .format("YYYY-MM-DD");
+
+    return `${baseTitle} (${dateStr})`;
+  }
+  return baseTitle;
+});
+
 const options = computed<ApexOptions>(() => ({
+  title: {
+    text: title.value,
+  },
   chart: {
     type: "line",
     zoom: {
@@ -61,10 +82,15 @@ const options = computed<ApexOptions>(() => ({
   },
   xaxis: {
     type: "datetime",
+    tickAmount: 12,
     labels: {
       datetimeUTC: false,
+      formatter: tzOffset
+        ? (_val, ts) => dayjs(ts).utcOffset(tzOffset)
+            .format("HH:mm")
+        : undefined,
     },
-    min: xmin,
+    min: adjustedXMin.value,
     max: xmax,
   },
   yaxis: {
