@@ -10,6 +10,7 @@
     <div :class="labelClass">
       <h3 class="font-weight-medium">{{ label }}</h3>
       <span v-if="typeof value === 'number'">{{value.toFixed(1)}}%</span>
+      <span v-else-if="typeof value === null || value === undefined">No Value</span>
       <span v-else>??</span>
     </div>
   </v-progress-circular>

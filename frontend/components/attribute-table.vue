@@ -1,7 +1,7 @@
 <template>
   <div v-if="loading" class="d-flex flex-column align-center ga-4">
     <span>Loading Attributes...</span>
-    <v-progress-circular :size="75" color="primary" indeterminate/>
+    <v-progress-circular :size="75" color="primary" indeterminate class="ml-2"/>
   </div>
   <div v-else>
     <v-table>
