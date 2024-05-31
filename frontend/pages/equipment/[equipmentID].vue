@@ -47,8 +47,8 @@
         <v-tabs v-model="activeTabLabel"  hide-slider>
           <v-tab
             v-for="tab in metricTabs"
+            :id="tab.label"
             :key="tab.label"
-
             :value="tab.label"
             class="metric-card"
             :class="activeTabLabel === tab.label ? `bg-${tab.color}` : 'bg-surface'"
