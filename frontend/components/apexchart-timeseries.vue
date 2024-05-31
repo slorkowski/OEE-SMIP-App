@@ -17,9 +17,15 @@ import { useTheme } from "vuetify";
 
 interface Props {
   series: typeof VueApexCharts["series"];
+  xmin?: number;
+  xmax?: number;
 }
 
-const { series } = defineProps<Props>();
+const {
+  series,
+  xmin,
+  xmax,
+} = defineProps<Props>();
 
 const theme = useTheme();
 
@@ -43,16 +49,29 @@ const options = computed<ApexOptions>(() => ({
     enabled: false,
   },
   markers: {
+    // Size of markers.
+    // Currently 0 since there are a lot of data points.
     size: 0,
+  },
+  stroke: {
+    // Width of lines on plot.
+    width: 3,
   },
   xaxis: {
     type: "datetime",
+    labels: {
+      datetimeUTC: false,
+    },
+    min: xmin,
+    max: xmax,
   },
   yaxis: {
     labels: {
       formatter: formatAsPercent,
     },
-    max: function (max: number) { return max > 100 ? max : 100; },
+    min: 0,
+    max: function (max: number) { return max > 100 ? max + 5 : 100; },
+    type: "numeric",
   },
   tooltip: {
     y: {
@@ -65,6 +84,23 @@ const options = computed<ApexOptions>(() => ({
   },
   theme: {
     mode: theme.global.current.value.dark ? "dark" : "light",
+  },
+  annotations: {
+    yaxis: [
+      {
+        y: 100,
+        borderColor: theme.global.current.value.colors.success,
+        label: {
+          text: "100%",
+          borderColor: theme.global.current.value.colors.success,
+          offsetY: -10,
+          style: {
+            color: theme.global.current.value.colors["on-surface"],
+            background: theme.global.current.value.colors.surface,
+          },
+        },
+      },
+    ],
   },
 }));
 
