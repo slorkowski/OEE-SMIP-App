@@ -76,6 +76,11 @@
               :xmin="dayStart.getTime()"
               :xmax="dayEnd.getTime()"
             />
+            <v-alert
+              type="info"
+            >
+              The chart begins at the machine's start time, but times are shown in <em>your</em> local timezone.
+            </v-alert>
           </v-card-text>
         </v-card>
       </v-col>
