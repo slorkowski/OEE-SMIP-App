@@ -19,12 +19,14 @@ interface Props {
   series: typeof VueApexCharts["series"];
   xmin?: number;
   xmax?: number;
+  tzOffset?: number;
 }
 
 const {
   series,
   xmin,
   xmax,
+  tzOffset,
 } = defineProps<Props>();
 
 const theme = useTheme();
@@ -79,7 +81,7 @@ const options = computed<ApexOptions>(() => ({
       formatter: formatAsPercent,
     },
     x: {
-      formatter: renderDateTime,
+      formatter: (val) => renderDateTime(val, tzOffset),
     },
   },
   theme: {

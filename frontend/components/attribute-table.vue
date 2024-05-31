@@ -31,7 +31,7 @@
           </td>
           <td>
             <span v-if="attr.updatedTimestamp">
-              {{ renderDateTime(attr.updatedTimestamp) }}
+              {{ renderDateTime(attr.updatedTimestamp, tzOffset) }}
             </span>
             <em v-else>unknown</em>
           </td>
@@ -56,7 +56,8 @@ import type { IAttribute } from "~/lib/equipment";
 
 interface Props {
   attributes: IAttribute[] | null | undefined;
+  tzOffset?: number;
   loading?: boolean;
 }
-const { attributes, loading } = defineProps<Props>();
+const { attributes, loading, tzOffset } = defineProps<Props>();
 </script>
