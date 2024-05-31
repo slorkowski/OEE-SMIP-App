@@ -4,7 +4,8 @@
         "vscode",
         "devops",
         "docker",
-        "graphql"
+        "graphql",
+        "cicd"
     ],
     "conventionalCommits.gitmoji": false,
     "conventionalCommits.promptFooter": false,
