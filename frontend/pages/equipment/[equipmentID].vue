@@ -177,6 +177,11 @@ const { data: timeSeriesData, pending: timeSeriesPending } = useAsyncQuery({
 const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value?.oee.summary?.metric?.value));
 const metricTabs = computed(() => [
   {
+    label: "OEE",
+    color: "success",
+    equipment: equipment.value?.oee.summary,
+  },
+  {
     label: "Availability",
     color: "purple",
     equipment: equipment.value?.oee.availability,
