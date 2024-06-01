@@ -55,28 +55,36 @@ async function onSubmit() {
           <v-card :loading="loading">
             <v-card-text>
               <v-text-field
+                id="authenticator"
                 v-model="authenticator"
                 label="Authenticator"
+                name="Authenticator"
                 :rules="[required]"
               />
               <!--
-              This _could_ be a dropdown with specific roles, but GraphQL doesn't expose these roles.
-              The roles are ostensibly "constructable" using the instance's ThinkIQ domain name,
-              but we'll just have the user manually type it in here.
-            -->
+                This _could_ be a dropdown with specific roles, but GraphQL doesn't expose these roles.
+                The roles are ostensibly "constructable" using the instance's ThinkIQ domain name,
+                but we'll just have the user manually type it in here.
+              -->
               <v-text-field
+                id="role"
                 v-model="role"
                 label="Role"
+                name="Role"
                 :rules="[required]"
               />
               <v-text-field
+                id="username"
                 v-model="username"
                 label="Username"
+                name="Username"
                 :rules="[required]"
               />
               <v-text-field
+                id="password"
                 v-model="password"
                 label="Password"
+                name="Password"
                 type="password"
                 :rules="[required]"
               />

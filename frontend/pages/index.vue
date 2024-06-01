@@ -1,81 +1,53 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12" class="dashboard-grid">
-        <EquipmentCard
-          v-for="equipment in equipments"
-          :key="equipment.id"
-          :equipment="equipment"
+    <v-row class="ma-0 justify-center">
+      <v-col v-if="status === 'pending'" class="d-flex flex-column align-center ga-4">
+        <span>Loading Equipment...</span>
+        <v-progress-circular :size="75" color="primary" indeterminate/>
+      </v-col>
+      <v-col v-else-if="status === 'error'" class="d-flex flex-column align-center ga-4">
+        <v-alert
+          title="Error Fetching Equipment"
+          type="error"
+          text="There was an unexpected error fetching equipment. Please try again."
         />
+      </v-col>
+      <v-col v-else-if="equipments && equipments.length > 0" cols="12">
+        <v-row>
+          <v-col
+            v-for="equipment in equipments"
+            :key="equipment.id"
+
+            cols="12"
+            md="6"
+            xl="4"
+          >
+            <EquipmentCard
+              :id="equipment.id"
+              :equipment="equipment"
+              @click="navigateTo(`/equipment/${equipment.id}`)"
+            />
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col v-else cols="auto">
+        <v-card class="text-center">
+          <v-card-title>
+            No Equipment Found
+          </v-card-title>
+          <v-card-subtitle>
+            Please try refreshing.
+          </v-card-subtitle>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { range, mapValues } from "remeda";
-
-import type { MockEquipment } from "~/components/equipment-card.vue";
-
-
-
-type MachineState = "success" | "warn" | "error";
-
-/** Seeds used to generate mock data. A variance is added to these beginning metrics. */
-const METRIC_SEEDS = {
-  success: {
-    availability: 90,
-    quality: 93,
-    performance: 93,
-  },
-  warn: {
-    availability: 75,
-    quality: 90,
-    performance: 70,
-  },
-  error: {
-    availability: 40,
-    quality: 50,
-    performance: 80,
-  },
-};
-
-function createMockEquipment(id: number, state: MachineState): MockEquipment {
-  const  varyValue = id;
-
-  return {
-    name: `Equipment ${id}`,
-    id,
-    ...mapValues(METRIC_SEEDS[state], (seed) => seed + varyValue),
-    get oee() {
-      return (this.availability * this.quality * this.performance) / (Math.pow(100, 2));
-    },
-  };
-}
-
-function createMockData(success: number, warn: number, error: number): MockEquipment[] {
-  return [
-    ...range(0, success)
-      .map((i) => createMockEquipment(i + 1, "success")),
-    ...range(success, success + warn)
-      .map((i) => createMockEquipment(i + 1, "warn")),
-    ...range(success + warn, success + warn + error)
-      .map((i) => createMockEquipment(i + 1, "error")),
-  ];
-}
-
-const equipments: MockEquipment[] = createMockData(3, 3, 3);
-
 definePageMeta({
   title: "Dashboard",
 });
 
+const { data: equipments, status } = useAsyncEquipmentWithOEE();
 </script>
-
-<style>
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-}
-</style>
