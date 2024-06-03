@@ -5,7 +5,8 @@
         "devops",
         "docker",
         "graphql",
-        "cicd"
+        "cicd",
+        "scripts"
     ],
     "conventionalCommits.gitmoji": false,
     "conventionalCommits.promptFooter": false,
