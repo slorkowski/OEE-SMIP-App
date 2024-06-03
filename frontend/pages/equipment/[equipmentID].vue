@@ -26,7 +26,8 @@
         <MetricProgressCircular
           label="OEE"
           label-class="text-h4"
-          :value="oeeSummary.value"
+          :value="oeeValue"
+          :pending="pending"
           :size="250"
         />
       </v-col>
@@ -205,7 +206,8 @@ const { data: timeSeriesData, pending: timeSeriesPending } = useAsyncQuery({
 });
 
 
-const oeeSummary = computed(() => makePercentMetric("OEE", equipment.value?.oee.summary?.metric?.value));
+const oeeValue = computed(() => equipment.value?.oee.summary?.metric?.value);
+
 const metricTabs = computed(() => [
   {
     label: "OEE",

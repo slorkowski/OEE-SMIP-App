@@ -6,7 +6,12 @@ import { parseEquipmentWithOEE } from "~/lib/equipment";
 
 
 export default function useAsyncEquipmentWithOEE() {
-  const { data: equipmentIds, refresh: idRefresh, status: idStatus } = useAsyncEquipmentIds();
+  const {
+    data: equipmentIds,
+    refresh: idRefresh,
+    status: idStatus,
+    pending: idPending,
+  } = useAsyncEquipmentIds();
 
   // TODO: Use equipment timezone instead of user timezone.
   const startTime = new Date();
@@ -39,10 +44,12 @@ export default function useAsyncEquipmentWithOEE() {
 
   // Compound status involving both queries.
   const status = computed(() => idStatus.value === "success" ? res.status.value : idStatus.value);
+  const pending = computed(() => idPending.value || res.pending.value);
 
   return {
     ...res,
     status,
+    pending,
     refresh: () => idRefresh().then(() => res.refresh()),
   };
 }

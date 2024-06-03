@@ -75,7 +75,7 @@ fragment AttributeOverview on Attribute {
 
   # Also fetching latest Time Series value, in case "current" value isn't set
   getTimeSeries(
-    first: 1,
+    offset: 1,
     maxSamples: 1,
     startTime: $startTime,
     endTime: $endTime

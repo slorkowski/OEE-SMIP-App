@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="ma-0 justify-center">
-      <v-col v-if="status === 'pending'" class="d-flex flex-column align-center ga-4">
+      <v-col v-if="pending" class="d-flex flex-column align-center ga-4">
         <span>Loading Equipment...</span>
         <v-progress-circular :size="75" color="primary" indeterminate/>
       </v-col>
@@ -63,5 +63,5 @@ definePageMeta({
   title: "Dashboard",
 });
 
-const { data: equipments, status } = useAsyncEquipmentWithOEE();
+const { data: equipments, status, pending } = useAsyncEquipmentWithOEE();
 </script>
