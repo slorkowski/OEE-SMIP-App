@@ -1,10 +1,17 @@
+import type { VariablesOf } from "@graphql-typed-document-node/core";
+
 import { GetEquipmentsDocument } from "~/generated/graphql/operations";
 import { parseEquipmentWithOEE } from "~/lib/equipment";
 
 
 
 export default function useAsyncEquipmentWithOEE() {
-  const { data: equipmentIds, refresh: idRefresh, status: idStatus } = useAsyncEquipmentIds();
+  const {
+    data: equipmentIds,
+    refresh: idRefresh,
+    status: idStatus,
+    pending: idPending,
+  } = useAsyncEquipmentIds();
 
   // TODO: Use equipment timezone instead of user timezone.
   const startTime = new Date();
@@ -12,29 +19,37 @@ export default function useAsyncEquipmentWithOEE() {
   const endTime = new Date(startTime);
   endTime.setDate(startTime.getDate() + 1);
 
-
-  const res = useAsyncQuery(GetEquipmentsDocument, {
+  // Making this `computed` so the query is reactive to changes in `equipmentIds`.
+  const variables = computed<VariablesOf<typeof GetEquipmentsDocument>>(() => ({
     filter: {
       id: { in: equipmentIds.value ?? [] },
     },
     startTime: startTime.toISOString(),
     endTime: endTime.toISOString(),
-  }, "default", {
-    enabled: equipmentIds.value && equipmentIds.value.length > 0,
-    errorPolicy: "ignore",
-  }, {
-    watch: [ equipmentIds ],
-    transform: (eqRes) => {
-      return eqRes.equipments?.map(parseEquipmentWithOEE);
+  }));
+
+  const res = useAsyncQuery(
+    GetEquipmentsDocument,
+    variables,
+    "default",
+    {
+      errorPolicy: "ignore",
     },
-  });
+    {
+      transform: (eqRes) => {
+        return eqRes.equipments?.map(parseEquipmentWithOEE);
+      },
+    },
+  );
 
   // Compound status involving both queries.
   const status = computed(() => idStatus.value === "success" ? res.status.value : idStatus.value);
+  const pending = computed(() => idPending.value || res.pending.value);
 
   return {
     ...res,
     status,
+    pending,
     refresh: () => idRefresh().then(() => res.refresh()),
   };
 }
