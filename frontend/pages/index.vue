@@ -12,6 +12,20 @@
           text="There was an unexpected error fetching equipment. Please try again."
         />
       </v-col>
+      <v-col
+        v-else-if="equipments && equipments.length === 0"
+        cols="12"
+        class="d-flex flex-column align-center ga-4"
+      >
+        <v-card class="text-center">
+          <v-card-title>
+            No Equipment Found
+          </v-card-title>
+          <v-card-subtitle>
+            Please try refreshing.
+          </v-card-subtitle>
+        </v-card>
+      </v-col>
       <v-col v-else-if="equipments && equipments.length > 0" cols="12">
         <v-row>
           <v-col
@@ -30,10 +44,10 @@
           </v-col>
         </v-row>
       </v-col>
-      <v-col v-else cols="auto">
+      <v-col v-else cols="12" class="d-flex flex-column align-center ga-4">
         <v-card class="text-center">
           <v-card-title>
-            No Equipment Found
+            Unable to Fetch Equipment
           </v-card-title>
           <v-card-subtitle>
             Please try refreshing.
