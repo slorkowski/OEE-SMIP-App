@@ -1,16 +1,16 @@
 <template>
   <v-progress-circular
-    :size="size"
-    :width="width"
+    :size="props.size"
+    :width="props.width"
     class="text-center mt-2"
 
     :model-value="progressValue"
-    :color="typeof value === 'number' ? getColorState(value) : 'grey'"
+    :color="typeof props.value === 'number' ? getColorState(props.value) : 'grey'"
   >
-    <div :class="labelClass">
-      <h3 class="font-weight-medium">{{ label }}</h3>
-      <span v-if="typeof value === 'number'">{{value.toFixed(1)}}%</span>
-      <span v-else-if="typeof value === null || value === undefined">No Value</span>
+    <div :class="props.labelClass">
+      <h3 class="font-weight-medium">{{ props.label }}</h3>
+      <span v-if="typeof props.value === 'number'">{{props.value.toFixed(1)}}%</span>
+      <span v-else-if="typeof props.value === null || props.value === undefined">No Value</span>
       <span v-else>??</span>
     </div>
   </v-progress-circular>
@@ -30,17 +30,17 @@ interface Props {
   // Value Props.
   label: string;
   labelClass?: string;
-  value: unknown;
+  value: number | undefined | null;
 }
-const { label, labelClass, value, size, width } = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   size: 150,
   width: 20,
   labelClass: "text-subtitle-1",
 });
 
 const progressValue = computed(
-  () => typeof value === "number"
-    ? clamp(value, { min: 0, max: 100 })
+  () => typeof props.value === "number"
+    ? clamp(props.value, { min: 0, max: 100 })
     : 0,
 );
 </script>
