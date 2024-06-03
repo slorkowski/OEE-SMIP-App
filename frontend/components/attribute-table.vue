@@ -22,11 +22,16 @@
 
       <tbody>
         <tr v-for="attr in attributes" :key="attr.id">
-          <td>
-            {{attr.displayName}}
+          <td class="d-flex align-center ga-2">
+            <span>{{attr.displayName}}</span>
             <v-tooltip v-if="attr.description" :text="attr.description" location="top">
               <template #activator="{props}">
-                <v-btn icon="mdi-information-variant" class="rounded ml-2" size="1.25rem" color="info" v-bind="props"/>
+                <v-icon
+                  icon="mdi-information-outline"
+                  class="cursor-help text-medium-emphasis"
+                  size="1.25rem"
+                  v-bind="props"
+                />
               </template>
             </v-tooltip>
           </td>
