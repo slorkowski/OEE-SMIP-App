@@ -27,6 +27,7 @@
           label="OEE"
           label-class="text-h4"
           :value="oeeValue"
+          :pending="pending"
           :size="250"
         />
       </v-col>

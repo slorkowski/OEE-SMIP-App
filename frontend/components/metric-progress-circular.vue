@@ -5,11 +5,13 @@
     class="text-center mt-2"
 
     :model-value="progressValue"
+    :indeterminate="pending"
     :color="typeof props.value === 'number' ? getColorState(props.value) : 'grey'"
   >
     <div :class="props.labelClass">
       <h3 class="font-weight-medium">{{ props.label }}</h3>
-      <span v-if="typeof props.value === 'number'">{{props.value.toFixed(1)}}%</span>
+      <span v-if="pending">...</span>
+      <span v-else-if="typeof props.value === 'number'">{{props.value.toFixed(1)}}%</span>
       <span v-else-if="typeof props.value === null || props.value === undefined">No Value</span>
       <span v-else>??</span>
     </div>
@@ -31,6 +33,7 @@ interface Props {
   label: string;
   labelClass?: string;
   value: number | undefined | null;
+  pending?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   size: 150,
