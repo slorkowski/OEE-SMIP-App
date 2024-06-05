@@ -56,11 +56,13 @@ function parseTimeSeriesValue(attribute: AttributeOverviewFragment, ts: TimeSeri
   }
 }
 function parseAttribute<T extends ScalarTypeEnum = ScalarTypeEnum>(attribute: AttributeOverviewFragment): IAttribute<T> {
-  let value = parseAttributeValue(attribute);
-  if((value === null || value === undefined) && attribute.getTimeSeries?.[0]) {
+  let value: AttributeValue | undefined = undefined;
+  if(attribute.getTimeSeries?.[0]) {
     value = parseTimeSeriesValue(attribute, attribute.getTimeSeries[0]);
   }
-
+  if(value === undefined || value === null) {
+    value = parseAttributeValue(attribute);
+  }
 
   return {
     id: attribute.id,
