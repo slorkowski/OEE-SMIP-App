@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" LastModified="2024-06-06T17:18:54.9637585Z" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>https://www.cesmii.net/profiles/oee</Uri>
+  </NamespaceUris>
+  <Models>
+    <Model ModelUri="https://www.cesmii.net/profiles/oee" Version="1.0.0" PublicationDate="2024-06-06T00:00:00Z">
+      <RequiredModel ModelUri="http://opcfoundation.org/UA/" Version="1.05.03" PublicationDate="2023-12-15T00:00:00Z" />
+    </Model>
+  </Models>
+  <Aliases>
+    <Alias Alias="Boolean">i=1</Alias>
+    <Alias Alias="Float">i=10</Alias>
+    <Alias Alias="String">i=12</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasProperty">i=46</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="BaseObjectType">i=58</Alias>
+    <Alias Alias="BaseDataVariableType">i=63</Alias>
+    <Alias Alias="PropertyType">i=68</Alias>
+    <Alias Alias="Mandatory">i=78</Alias>
+    <Alias Alias="Optional">i=80</Alias>
+  </Aliases>
+  <UAObjectType NodeId="ns=1;g=08daf791-28a5-48dc-bfa6-06c6f92d3de6" BrowseName="1:OEEPerformanceInterfaceType">
+    <DisplayName>OEEPerformanceInterfaceType</DisplayName>
+    <Description>OEE Performance attributes for the OEE Application</Description>
+    <Category>Base Info Base Types</Category>
+    <References>
+      <Reference ReferenceType="HasComponent">ns=1;g=fd09cf14-3cdc-468a-bbd1-15eb02fa54e0</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;g=11b4a741-9acb-4aaa-bf4b-5ba768972a42" BrowseName="1:tzoffset" ParentNodeId="ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b" DataType="Float">
+    <DisplayName>tzoffset</DisplayName>
+    <Description>Timezone Offset: Configure this value to configure a Timezone Offset for determining when a day starts. Defaults to UTC-0.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">PropertyType</Reference>
+      <Reference ReferenceType="HasModellingRule">Optional</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b</Reference>
+    </References>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b" BrowseName="1:OEESummaryInterfaceType">
+    <DisplayName>OEESummaryInterfaceType</DisplayName>
+    <Description>Configuration and summary attributes for the OEE Application</Description>
+    <Category>Base Info Base Types</Category>
+    <References>
+      <Reference ReferenceType="HasProperty">ns=1;g=2b6cc2a1-0809-47ac-8090-de390707e045</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;g=84a93aa0-8cd3-4c43-a087-26a6a5223ca5</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;g=11b4a741-9acb-4aaa-bf4b-5ba768972a42</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;g=2b99d2f1-1f32-49ad-94f4-3d517aa6e6dc</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+  <UAObjectType NodeId="ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18" BrowseName="1:OEEQualityInterfaceType">
+    <DisplayName>OEEQualityInterfaceType</DisplayName>
+    <Description>OEE Quality attributes for the OEE Application</Description>
+    <Category>Base Info Base Types</Category>
+    <References>
+      <Reference ReferenceType="HasComponent">ns=1;g=ef58198c-c91a-4014-ba3f-6b9cdf7db668</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;g=914a09d3-1991-40f9-98b8-8e6b758edc95</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;g=5c2817b2-c205-4425-8178-185903f1a14d</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;g=91e39192-5525-4eaf-b5d3-b1b1d071a1e9</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;g=2b6cc2a1-0809-47ac-8090-de390707e045" BrowseName="1:daystart" ParentNodeId="ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b" DataType="String">
+    <DisplayName>daystart</DisplayName>
+    <Description>Day Start: Configure this value to set the time to restart accumulators and calculations. Use HH:MM with 24-hour time. Defaults to midnight.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">PropertyType</Reference>
+      <Reference ReferenceType="HasModellingRule">Optional</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=2b99d2f1-1f32-49ad-94f4-3d517aa6e6dc" BrowseName="1:oee_percent" ParentNodeId="ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b" DataType="Float">
+    <DisplayName>oee_percent</DisplayName>
+    <Description>Daily OEE Percent: The calculated Daily OEE Value</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">Optional</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=376fe59d-b722-4767-857d-d6af326455a4" BrowseName="1:daily_availability" ParentNodeId="ns=1;g=679c7502-8878-4c9b-8004-2c0791122c90" DataType="Float">
+    <DisplayName>daily_availability</DisplayName>
+    <Description>Daily Availability: 	Calculated automatically throughout the day. Resets each day.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">Optional</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;g=64040dec-723e-4f61-b7d7-cf38856f0a83</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;g=679c7502-8878-4c9b-8004-2c0791122c90</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=64040dec-723e-4f61-b7d7-cf38856f0a83" BrowseName="EngineeringUnits" ParentNodeId="ns=1;g=376fe59d-b722-4767-857d-d6af326455a4" DataType="i=887">
+    <DisplayName>EngineeringUnits</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">PropertyType</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;g=376fe59d-b722-4767-857d-d6af326455a4</Reference>
+    </References>
+    <Value>
+      <uax:ExtensionObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <uax:TypeId>
+          <uax:Identifier>i=888</uax:Identifier>
+        </uax:TypeId>
+        <uax:Body>
+          <uax:EUInformation>
+            <uax:NamespaceUri>http://www.opcfoundation.org/UA/units/un/cefact</uax:NamespaceUri>
+            <uax:UnitId>20529</uax:UnitId>
+            <uax:DisplayName>
+              <uax:Text>%</uax:Text>
+            </uax:DisplayName>
+            <uax:Description>
+              <uax:Text>percent</uax:Text>
+            </uax:Description>
+          </uax:EUInformation>
+        </uax:Body>
+      </uax:ExtensionObject>
+    </Value>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=5c2817b2-c205-4425-8178-185903f1a14d" BrowseName="1:daily_quality" ParentNodeId="ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18" DataType="Float">
+    <DisplayName>daily_quality</DisplayName>
+    <Description>Daily Quality: 	Calculated automatically throughout the day. Resets each day.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">Optional</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;g=ac83fdba-1e09-4627-bc0b-256055375726</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=ac83fdba-1e09-4627-bc0b-256055375726" BrowseName="EngineeringUnits" ParentNodeId="ns=1;g=5c2817b2-c205-4425-8178-185903f1a14d" DataType="i=887">
+    <DisplayName>EngineeringUnits</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">PropertyType</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;g=5c2817b2-c205-4425-8178-185903f1a14d</Reference>
+    </References>
+    <Value>
+      <uax:ExtensionObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <uax:TypeId>
+          <uax:Identifier>i=888</uax:Identifier>
+        </uax:TypeId>
+        <uax:Body>
+          <uax:EUInformation>
+            <uax:NamespaceUri>http://www.opcfoundation.org/UA/units/un/cefact</uax:NamespaceUri>
+            <uax:UnitId>20529</uax:UnitId>
+            <uax:DisplayName>
+              <uax:Text>%</uax:Text>
+            </uax:DisplayName>
+            <uax:Description>
+              <uax:Text>percent</uax:Text>
+            </uax:Description>
+          </uax:EUInformation>
+        </uax:Body>
+      </uax:ExtensionObject>
+    </Value>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;g=679c7502-8878-4c9b-8004-2c0791122c90" BrowseName="1:OEEAvailabilityInterfaceType">
+    <DisplayName>OEEAvailabilityInterfaceType</DisplayName>
+    <Description>OEE Availability attributes for the OEE Application</Description>
+    <Category>Base Info Base Types</Category>
+    <References>
+      <Reference ReferenceType="HasComponent">ns=1;g=376fe59d-b722-4767-857d-d6af326455a4</Reference>
+      <Reference ReferenceType="HasSubtype" IsForward="false">BaseObjectType</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;g=84a93aa0-8cd3-4c43-a087-26a6a5223ca5" BrowseName="1:simulator_enabled" ParentNodeId="ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b" DataType="Boolean">
+    <DisplayName>simulator_enabled</DisplayName>
+    <Description>Simulator Enabled: If set to True at an instance, and the Simulation script is scheduled, simulated values will be inserted every minute for all OEE Interfaces.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">PropertyType</Reference>
+      <Reference ReferenceType="HasModellingRule">Optional</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;g=12d84760-2f8d-4a49-9be0-4afa97bfee1b</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=914a09d3-1991-40f9-98b8-8e6b758edc95" BrowseName="1:daily_good_product" ParentNodeId="ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18" DataType="Float">
+    <DisplayName>daily_good_product</DisplayName>
+    <Description>Daily Good Product: Bind this value to a machine data point.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">Mandatory</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=91e39192-5525-4eaf-b5d3-b1b1d071a1e9" BrowseName="1:daily_total_product" ParentNodeId="ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18" DataType="Float">
+    <DisplayName>daily_total_product</DisplayName>
+    <Description>Daily Total Product: Calculated by default. Alternatively, bind this value to a machine data point.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">Mandatory</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=ef58198c-c91a-4014-ba3f-6b9cdf7db668" BrowseName="1:daily_bad_product" ParentNodeId="ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18" DataType="Float">
+    <DisplayName>daily_bad_product</DisplayName>
+    <Description>Daily Bad Product: Bind this value to a machine data point.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">Mandatory</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;g=2ad5a08b-c300-457a-b254-9adc457b3c18</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=fd09cf14-3cdc-468a-bbd1-15eb02fa54e0" BrowseName="1:daily_performance" ParentNodeId="ns=1;g=08daf791-28a5-48dc-bfa6-06c6f92d3de6" DataType="Float">
+    <DisplayName>daily_performance</DisplayName>
+    <Description>Daily Performance: Calculated automatically throughout the day. Resets each day.</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">BaseDataVariableType</Reference>
+      <Reference ReferenceType="HasModellingRule">Optional</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;g=8d5baf66-0968-48d0-8397-2c8967a90568</Reference>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;g=08daf791-28a5-48dc-bfa6-06c6f92d3de6</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;g=8d5baf66-0968-48d0-8397-2c8967a90568" BrowseName="EngineeringUnits" ParentNodeId="ns=1;g=fd09cf14-3cdc-468a-bbd1-15eb02fa54e0" DataType="i=887">
+    <DisplayName>EngineeringUnits</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">PropertyType</Reference>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;g=fd09cf14-3cdc-468a-bbd1-15eb02fa54e0</Reference>
+    </References>
+    <Value>
+      <uax:ExtensionObject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd">
+        <uax:TypeId>
+          <uax:Identifier>i=888</uax:Identifier>
+        </uax:TypeId>
+        <uax:Body>
+          <uax:EUInformation>
+            <uax:NamespaceUri>http://www.opcfoundation.org/UA/units/un/cefact</uax:NamespaceUri>
+            <uax:UnitId>20529</uax:UnitId>
+            <uax:DisplayName>
+              <uax:Text>%</uax:Text>
+            </uax:DisplayName>
+            <uax:Description>
+              <uax:Text>percent</uax:Text>
+            </uax:Description>
+          </uax:EUInformation>
+        </uax:Body>
+      </uax:ExtensionObject>
+    </Value>
+  </UAVariable>
+</UANodeSet>
