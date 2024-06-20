@@ -53,7 +53,7 @@ docker build --tag oee-smip-app:<version tag> .
 ./scripts/build-docker.sh
 ```
 
-After words the image can be run using the `docker` command:
+Afterwords the image can be run using the `docker` command:
 
 ```sh
 # Run the application in a container, forwarding host port 3000 to the server running on port 3000.
