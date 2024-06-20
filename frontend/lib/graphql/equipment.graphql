@@ -55,7 +55,6 @@ fragment AttributeOverview on Attribute {
   relativeName
   updatedTimestamp
   dataType
-  attributeType { dataType }
   limits { ...Limit }
 
   # Values
