@@ -6,7 +6,7 @@ This app uses a ThinkIQ Library, including standard Type definitions (available 
 Required
   1. Daily Actual Cycles (Performance)
   2. Daily Good, Bad, Total Product (Quality) Need 2 of the 3 to calculate the other.
-  3. Running & Faulted (Availability) 
+  3. Running & Faulted (Availability)
 Optional (Availability)
    1. Last Fault Code
    2. In Auto
