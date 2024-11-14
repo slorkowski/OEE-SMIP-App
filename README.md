@@ -7,7 +7,8 @@ Required
   1. Daily Actual Cycles (Performance)
   2. Daily Good, Bad, Total Product (Quality) Need 2 of the 3 to calculate the other.
   3. Running & Faulted (Availability)
-Optional (Availability)
+
+Optional 
    1. Last Fault Code
    2. In Auto
    3. Starved & Blocked
