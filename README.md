@@ -1,6 +1,6 @@
 # OEE-SMIP-App
 
-A GraphQL-based web App for the CESMII SM Innovation Platform.
+A GraphQL-based web App for the CESMII SM Innovation Platform. For an Overview and Video, https://marketplace.cesmii.net/library/cesmii-oee-app
 
 This app uses a ThinkIQ Library, including standard Type definitions (available in the CESMII Cloud Library) that computes OEE, and its component functions, for any equipment (given a few key datapoints). Import the Library (in the smip folder) to get started in the SMIP. Then, bind tags to the datpoints shown below.  
 Required
