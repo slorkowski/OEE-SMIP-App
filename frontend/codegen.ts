@@ -3,7 +3,7 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 
 const config: CodegenConfig = {
-  schema: "https://east.cesmii.net/graphql",
+  schema: "https://demo.cesmii.net/graphql",
   documents: [ "lib/graphql/**/*.graphql" ],
   ignoreNoDocuments: true,
   generates: {
